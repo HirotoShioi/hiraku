@@ -17,9 +17,11 @@ function TestComponent(_props: TestProps) {
 describe("useModal", () => {
 	beforeEach(() => {
 		useModalStore.setState({ modals: [] });
+		vi.useFakeTimers();
 	});
 
 	afterEach(() => {
+		vi.useRealTimers();
 		vi.restoreAllMocks();
 	});
 
@@ -97,6 +99,41 @@ describe("useModal", () => {
 
 			const modals = useModalStore.getState().modals;
 			expect(modals[0]?.closing).toBe(true);
+		});
+	});
+
+	describe("data and role state", () => {
+		it("resets data and role on reopen", async () => {
+			const dialog = createDialog(TestComponent).returns<{ value: number }>();
+			const { result } = renderHook(() => useModal(dialog));
+
+			// First open and close with data
+			await act(async () => {
+				void result.current.open({ title: "First" });
+			});
+			await act(async () => {
+				await result.current.close({ data: { value: 42 }, role: "confirm" });
+			});
+
+			// Wait for close to complete
+			vi.advanceTimersByTime(300);
+
+			await act(async () => {
+				// Allow state updates to settle
+				await Promise.resolve();
+			});
+
+			expect(result.current.data).toEqual({ value: 42 });
+			expect(result.current.role).toBe("confirm");
+
+			// Reopen - data and role should be reset to null
+			await act(async () => {
+				void result.current.open({ title: "Second" });
+			});
+
+			expect(result.current.isOpen).toBe(true);
+			expect(result.current.data).toBeNull();
+			expect(result.current.role).toBeNull();
 		});
 	});
 });

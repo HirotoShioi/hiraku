@@ -119,6 +119,24 @@ describe("Factory", () => {
 
 			expect(result).toBe(false);
 		});
+
+		it("returns false when modal is already closing (prevents double-click)", async () => {
+			const dialog = createDialog(TestComponent);
+
+			await dialog.open({ title: "Test" });
+
+			// First close succeeds
+			const result1 = await dialog.close();
+			expect(result1).toBe(true);
+
+			// Modal is now in closing state
+			const modals = useModalStore.getState().modals;
+			expect(modals[0]?.closing).toBe(true);
+
+			// Second close fails (important for button double-click prevention)
+			const result2 = await dialog.close();
+			expect(result2).toBe(false);
+		});
 	});
 
 	describe("isOpen", () => {

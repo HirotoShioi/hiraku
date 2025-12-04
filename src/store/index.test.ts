@@ -239,5 +239,31 @@ describe("useModalStore", () => {
 			vi.advanceTimersByTime(100);
 			expect(useModalStore.getState().modals).toHaveLength(0);
 		});
+
+		it("updateProps does nothing for non-existent id", () => {
+			const modal = createMockModalInstance({ props: { title: "original" } });
+			useModalStore.getState().add(modal);
+
+			// Should not throw and should not affect existing modals
+			useModalStore.getState().updateProps("non-existent-id", { title: "new" });
+
+			const modals = useModalStore.getState().modals;
+			expect(modals).toHaveLength(1);
+			expect(modals[0]?.props).toEqual({ title: "original" });
+		});
+
+		it("close uses 'dismiss' as default role", async () => {
+			const modal = createMockModalInstance({ open: true });
+			useModalStore.getState().add(modal);
+
+			await useModalStore.getState().close(modal.id);
+
+			vi.advanceTimersByTime(300);
+
+			expect(modal.resolveDid).toHaveBeenCalledWith({
+				data: undefined,
+				role: "dismiss",
+			});
+		});
 	});
 });

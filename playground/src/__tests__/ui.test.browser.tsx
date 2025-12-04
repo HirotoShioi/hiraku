@@ -2,7 +2,7 @@
  * Browser integration tests (using shadcn/ui components).
  *
  * Exercises Radix UI-based shadcn/ui components in a real browser environment.
-*/
+ */
 import { beforeEach, describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react";
@@ -14,7 +14,12 @@ import {
 	modalController,
 	useModalStore,
 } from "../../../src";
-import { ConfirmDialog, DeleteAlert, SettingsSheet } from "./test-components";
+import {
+	ConfirmDialog,
+	DeleteAlert,
+	DynamicDialog,
+	SettingsSheet,
+} from "./test-components";
 
 // =============================================================================
 // Test suite
@@ -308,12 +313,8 @@ describe("shadcn/ui Modal Integration", () => {
 			const promise2 = asyncProcess2();
 
 			// Wait for both dialogs to show
-			await expect
-				.element(page.getByText("Process 1"))
-				.toBeInTheDocument();
-			await expect
-				.element(page.getByText("Process 2"))
-				.toBeInTheDocument();
+			await expect.element(page.getByText("Process 1")).toBeInTheDocument();
+			await expect.element(page.getByText("Process 2")).toBeInTheDocument();
 
 			// Two dialogs are open
 			expect(modalController.getCount()).toBe(2);
@@ -421,6 +422,55 @@ describe("shadcn/ui Modal Integration", () => {
 
 			expect(result).toEqual(["Item 1", "Item 2", "Item 3"]);
 			expect(confirmDialog.isOpen()).toBe(false);
+		});
+	});
+
+	describe("updateProps", () => {
+		it("updates modal content while open", async () => {
+			const dynamicDialog = createDialog(DynamicDialog);
+
+			await dynamicDialog.open({ count: 0, message: "Initial message" });
+
+			// Verify initial content
+			await expect
+				.element(page.getByTestId("dynamic-title"))
+				.toHaveTextContent("Count: 0");
+			await expect
+				.element(page.getByTestId("dynamic-message"))
+				.toHaveTextContent("Initial message");
+
+			// Update props while modal is open
+			const handle = modalController.getTop();
+			handle?.updateProps({ count: 5, message: "Updated message" });
+
+			// Verify updated content
+			await expect
+				.element(page.getByTestId("dynamic-title"))
+				.toHaveTextContent("Count: 5");
+			await expect
+				.element(page.getByTestId("dynamic-message"))
+				.toHaveTextContent("Updated message");
+
+			await dynamicDialog.close();
+		});
+
+		it("updates props multiple times in sequence", async () => {
+			const dynamicDialog = createDialog(DynamicDialog);
+
+			await dynamicDialog.open({ count: 0, message: "Start" });
+
+			const handle = modalController.getTop();
+
+			// Simulate progress updates (e.g., form validation, loading states)
+			for (let i = 1; i <= 3; i++) {
+				handle?.updateProps({ count: i, message: `Step ${i}` });
+
+				await expect
+					.element(page.getByTestId("dynamic-title"))
+					.toHaveTextContent(`Count: ${i}`);
+			}
+
+			await dynamicDialog.close();
 		});
 	});
 });

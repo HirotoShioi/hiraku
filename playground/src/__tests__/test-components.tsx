@@ -79,12 +79,8 @@ export function DeleteAlert({ itemName }: DeleteAlertProps) {
 				</AlertDialogDescription>
 			</AlertDialogHeader>
 			<AlertDialogFooter>
-				<AlertDialogCancel data-testid="alert-cancel">
-					Cancel
-				</AlertDialogCancel>
-				<AlertDialogAction data-testid="alert-action">
-					Delete
-				</AlertDialogAction>
+				<AlertDialogCancel data-testid="alert-cancel">Cancel</AlertDialogCancel>
+				<AlertDialogAction data-testid="alert-action">Delete</AlertDialogAction>
 			</AlertDialogFooter>
 		</AlertDialogContent>
 	);
@@ -109,5 +105,34 @@ export function SettingsSheet({ side = "right" }: SettingsSheetProps) {
 				<p>Settings content</p>
 			</div>
 		</SheetContent>
+	);
+}
+
+// =============================================================================
+// Dynamic content dialog (for updateProps testing)
+// =============================================================================
+
+export interface DynamicDialogProps {
+	count: number;
+	message: string;
+}
+
+export function DynamicDialog({ count, message }: DynamicDialogProps) {
+	return (
+		<DialogContent data-testid="dynamic-dialog">
+			<DialogHeader>
+				<DialogTitle data-testid="dynamic-title">Count: {count}</DialogTitle>
+				<DialogDescription data-testid="dynamic-message">
+					{message}
+				</DialogDescription>
+			</DialogHeader>
+			<DialogFooter>
+				<DialogClose asChild>
+					<Button variant="outline" data-testid="dynamic-close">
+						Close
+					</Button>
+				</DialogClose>
+			</DialogFooter>
+		</DialogContent>
 	);
 }
