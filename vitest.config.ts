@@ -12,6 +12,11 @@ export default defineConfig({
 		},
 	},
 	test: {
+		coverage: {
+			provider: "v8",
+			reporter: ["text", "json", "json-summary"],
+			reportsDirectory: "./coverage",
+		},
 		projects: [
 			{
 				extends: "./vitest.config.ts",

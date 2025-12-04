@@ -6,6 +6,10 @@ on:
       - main
   pull_request:
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -31,7 +35,12 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run lint, typecheck, and tests
-        env:
-          CI: true
-        run: npm run ci
+      - name: Run lint and typecheck
+        run: tsc --noEmit && npx biome lint
+
+      - name: Run tests with coverage
+        run: npx vitest --coverage --run
+
+      - name: Coverage Report
+        uses: davelosert/vitest-coverage-report-action@v2
+        if: always() && github.event_name == 'pull_request'

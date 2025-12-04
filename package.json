@@ -35,7 +35,7 @@
 		"typecheck": "tsc --noEmit",
 		"release": "bumpp && npm publish",
 		"prepublishOnly": "npm run build",
-		"ci": "tsc --noEmit && vitest run && biome lint",
+		"ci": "tsc --noEmit && vitest --coverage --run && biome lint",
 		"lint:fix": "biome format --write && biome lint --fix"
 	},
 	"peerDependencies": {
