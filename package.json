@@ -1,16 +1,16 @@
 {
-	"name": "hiraku",
+	"name": "@hirotoshioi/hiraku",
 	"version": "0.0.0",
 	"description": "Modal state management library for radix-ui based components.",
 	"type": "module",
 	"license": "MIT",
-	"homepage": "https://github.com/author/library#readme",
+	"homepage": "https://github.com/hirotoshioi/hiraku#readme",
 	"bugs": {
-		"url": "https://github.com/author/library/issues"
+		"url": "https://github.com/hirotoshioi/hiraku/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/author/library.git"
+		"url": "git+https://github.com/hirotoshioi/hiraku.git"
 	},
 	"author": "Hirot Shioi",
 	"files": [
