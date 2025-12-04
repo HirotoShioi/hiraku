@@ -200,42 +200,68 @@ export const mySheet = createSheet(MySheet);
 
 ## Why hiraku?
 
-With traditional patterns, modal components are often controlled by their parent for open/close state. That tight coupling hurts readability and maintainability.
+In traditional React development, modals often lead to **"state pollution"**. You are forced to declare `useState`, create handlers, and pass props down through your component tree, even if the modal is only relevant to a single user action.
 
-If you’ve built React apps, you’ve probably seen something like this:
+**The Traditional Pain:**
+
+The parent component becomes cluttered with modal logic that doesn't belong there.
 
 ```tsx
 function Parent() {
-  // Tightly coupled example
+  // State management cluttering the parent
   const [isOpen, setIsOpen] = useState(false);
+  
+  const handleConfirm = (result) => {
+    if (result) {
+      // handle logic...
+    }
+    setIsOpen(false);
+  };
+
   return (
     <>
-      <button onClick={() => setIsOpen(true)}>Open Dialog</button>
-      {/* The Dialog has to receive isOpen from the parent */}
-      <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <button onClick={() => setIsOpen(true)}>Delete Item</button>
+      {/* Tightly coupled props */}
+      <ConfirmDialog 
+        isOpen={isOpen} 
+        onClose={() => setIsOpen(false)} 
+        onConfirm={handleConfirm}
+      />
     </>
   );
 }
 ```
 
-The modal wants its open/close state managed by the parent, but doing so makes the parent code cumbersome. Hiraku resolves that dilemma.
-With hiraku, modals can be opened from anywhere in your application without needing to pass down state or handlers through props. This decouples modal logic from your component hierarchy, leading to cleaner and more maintainable code. Additionally, hiraku provides strong typing and seamless integration with Radix UI, making it a robust solution for modal management in React applications.
+**The Hiraku Way:**
+
+Hiraku lets you use modals like **async functions**. You don't need to manage open/close state manually. Just call `open()`, await the user's response, and handle the result in a single flow.
 
 ```tsx
-import { myDialog } from "./modals/my-dialog";
+import { confirmDialog } from "./modals/confirm";
 
 function Parent() {
-  // const [isOpen, setIsOpen] = useState(false); <-- No need for this anymore
-  return (
-    <>
-    {/* No need to pass isOpen or onClose props, just call open() */}
-      <button onClick={() => myDialog.open()}>
-        Open Dialog
-      </button>
-    </>
-  );
+  // Clean, imperative, and type-safe
+  const handleDelete = async () => {
+    // Open the dialog
+    await confirmDialog.open({ 
+      title: "Are you sure?",
+      itemId: 123 
+    });
+    // Wait for the result
+    const result = await confirmDialog.onDidClose();
+    if (result.role === 'confirm') {
+      await deleteItem(123);
+    }
+  };
+
+  return <button onClick={handleDelete}>Delete Item</button>;
 }
 ```
+
+**Key Benefits:**
+- **Decoupled**: Open modals from components, hooks, or even pure functions.
+- **Promise-based**: Handle user input linearly with `await`, avoiding callback hell.
+- **Type-safe**: Arguments for `open()` and the return value are fully inferred from your component.
 
 
 ## License
