@@ -13,7 +13,7 @@ export default defineConfig({
 
 		nav: [
 			{ text: "Guide", link: "/guide/getting-started" },
-			{ text: "API", link: "/api/create-dialog" },
+			{ text: "API", link: "/guide/api/create-dialog" },
 		],
 
 		sidebar: {
@@ -44,27 +44,44 @@ export default defineConfig({
 					text: "Migration",
 					items: [{ text: "Migration Guide", link: "/guide/migration" }],
 				},
-			],
-			"/api/": [
 				{
-					text: "Factory Functions",
+					text: "API",
 					items: [
-						{ text: "createDialog", link: "/api/create-dialog" },
-						{ text: "createSheet", link: "/api/create-sheet" },
-						{ text: "createAlertDialog", link: "/api/create-alert-dialog" },
+						{
+							text: "Factory Functions",
+							collapsed: true,
+							items: [
+								{ text: "createDialog", link: "/guide/api/create-dialog" },
+								{ text: "createSheet", link: "/guide/api/create-sheet" },
+								{
+									text: "createAlertDialog",
+									link: "/guide/api/create-alert-dialog",
+								},
+							],
+						},
+						{
+							text: "Hooks",
+							collapsed: true,
+							items: [{ text: "useModal", link: "/guide/api/use-modal" }],
+						},
+						{
+							text: "Components",
+							collapsed: true,
+							items: [
+								{ text: "ModalProvider", link: "/guide/api/modal-provider" },
+							],
+						},
+						{
+							text: "Utilities",
+							collapsed: true,
+							items: [
+								{
+									text: "modalController",
+									link: "/guide/api/modal-controller",
+								},
+							],
+						},
 					],
-				},
-				{
-					text: "Hooks",
-					items: [{ text: "useModal", link: "/api/use-modal" }],
-				},
-				{
-					text: "Components",
-					items: [{ text: "ModalProvider", link: "/api/modal-provider" }],
-				},
-				{
-					text: "Utilities",
-					items: [{ text: "modalController", link: "/api/modal-controller" }],
 				},
 			],
 		},
