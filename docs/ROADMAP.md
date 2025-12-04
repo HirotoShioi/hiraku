@@ -7,8 +7,8 @@ This document outlines the strategy and milestones to reach 1000 GitHub stars fo
 ### Documentation
 - [x] Write comprehensive README with examples
 - [x] Create logo and branding assets
-- [ ] Translate all code comments to English
-- [ ] Translate playground examples to English
+- [x] Translate all code comments to English
+- [x] Translate playground examples to English
 - [ ] Add live playground (StackBlitz/CodeSandbox embed)
 - [ ] Create documentation site (VitePress/Starlight)
 - [ ] Write API reference docs
