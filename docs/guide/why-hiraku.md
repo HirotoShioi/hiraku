@@ -1,128 +1,71 @@
-# Why hiraku?
+# Philosophy
 
-## The Problem
+In this section, we talk about the concept and philosophy behind hiraku.
 
-Managing modals in React applications often leads to:
+## Motivation
 
-### 1. Scattered State
+Every time I implemented modals in React, I kept running into the same frustration.
+
+The parent component manages the open/close state and passes `isOpen` and `onClose` as props to the modal. It seems like a simple pattern, but as applications grow, problems start to surface.
 
 ```tsx
-// ❌ State scattered across components
-function ParentComponent() {
+function Parent() {
   const [isOpen, setIsOpen] = useState(false);
-  const [modalData, setModalData] = useState(null);
-
   return (
     <>
-      <ChildComponent onOpenModal={(data) => {
-        setModalData(data);
-        setIsOpen(true);
-      }} />
-      <Modal open={isOpen} onClose={() => setIsOpen(false)} data={modalData} />
+      <button onClick={() => setIsOpen(true)}>Open</button>
+      <MyDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 }
 ```
 
-### 2. Prop Drilling
+The problem with this pattern is clear. You just want to open a modal, yet the parent component is burdened with state management responsibilities. When dealing with multiple modals, `useState` calls proliferate and code becomes bloated.
+
+What's even worse is the **tight coupling**. Modals are bound to their parent components, and when you want to open them from somewhere else, prop drilling hell awaits. Opening from outside React components? Impossible.
+
+Why does something as simple as "opening a modal" have to be this complicated?
+
+## The Approach
+
+hiraku solves this problem by delegating state management to a **global modal controller**.
+
+Separate modal state management from React's component tree, and open modals from anywhere by simply calling `modal.open()`. That's hiraku's answer.
 
 ```tsx
-// ❌ Passing modal handlers through multiple layers
-<GrandParent>
-  <Parent onOpenModal={handleOpen}>
-    <Child onOpenModal={handleOpen}>
-      <Button onClick={onOpenModal}>Open</Button>
-    </Child>
-  </Parent>
-</GrandParent>
-```
+import { confirmDialog } from "./modals/confirm-dialog";
 
-### 3. Complex Result Handling
-
-```tsx
-// ❌ Callbacks and complex state for handling results
-const [result, setResult] = useState(null);
-
-<ConfirmDialog
-  onConfirm={() => setResult(true)}
-  onCancel={() => setResult(false)}
-/>
-```
-
-## The Solution
-
-hiraku solves these problems by providing a simple, type-safe API:
-
-### 1. Centralized Controllers
-
-```tsx
-// ✅ Create a modal controller once
-export const confirmDialog = createDialog(ConfirmDialog).returns<boolean>();
-
-// Use it anywhere
-await confirmDialog.open({ title: "Confirm" });
-```
-
-### 2. No Prop Drilling
-
-```tsx
-// ✅ Import and use directly
-import { confirmDialog } from "@/modals/confirm-dialog";
-
-function DeepNestedComponent() {
-  const handleDelete = async () => {
-    await confirmDialog.open({ message: "Delete?" });
-    const result = await confirmDialog.onDidClose();
-    // ...
-  };
+function Parent() {
+  // This is no longer needed
+  // const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <button onClick={() => confirmDialog.open({ message: "Are you sure?" })}>Open</button>
+    </> 
+  );
 }
 ```
 
-### 3. Promise-based Results
+A global store powered by Zustand manages the modal lifecycle. It natively supports Radix UI's Dialog, Sheet, and AlertDialog, integrating seamlessly with shadcn/ui.
 
-```tsx
-// ✅ Async/await for clean flow
-const result = await confirmDialog.onDidClose();
-if (result.role === "confirm") {
-  await deleteItem();
-}
-```
+No compromises on TypeScript either. Props are automatically inferred, and return values are fully type-safe.
 
-## Key Benefits
+## Design Principles
 
-| Feature                 | Traditional | hiraku   |
-| ----------------------- | ----------- | -------- |
-| Open from outside React | ❌           | ✅        |
-| Type-safe props         | Partial     | ✅ Full   |
-| Type-safe return values | ❌           | ✅        |
-| No prop drilling        | ❌           | ✅        |
-| Works with shadcn/ui    | Manual      | ✅ Native |
+hiraku's design is built on three principles.
 
-## When to Use hiraku
+### 1. Loose Coupling
 
-hiraku is ideal for:
+Modals don't depend on parent components. Open what you want, from where you want. That's it.
 
-- ✅ Confirmation dialogs
-- ✅ Form modals with return values
-- ✅ Alert dialogs
-- ✅ Sheet/drawer components
-- ✅ Any modal that needs to be opened from multiple places
+### 2. Type Safety
 
-## Comparison with Alternatives
+Props types, return value types—everything is inferred. No escaping to `any`. An uncompromising type system.
 
-### vs. React Context
+### 3. Leverage Existing Assets
 
-- hiraku: No context provider needed for each modal
-- hiraku: Works outside React components
+Use your Radix UI and shadcn/ui components as-is. Existing modal components can be migrated with minimal changes.
 
-### vs. Global State (Redux, Zustand)
+---
 
-- hiraku: Purpose-built for modals
-- hiraku: Less boilerplate
-- hiraku: Type inference for props and results
-
-### vs. Imperative Libraries
-
-- hiraku: Native Radix UI support
-- hiraku: shadcn/ui compatible
-- hiraku: Full TypeScript support
+hiraku makes modal management in React simple, type-safe, and decoupled. Open modals from anywhere without the boilerplate. Focus on building great user experiences, not wrestling with state or prop drilling.
