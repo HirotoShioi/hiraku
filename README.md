@@ -6,12 +6,12 @@
   <b>hiraku</b> (開く, "to open") - Strongly typed, modal state management system for Radix UI
 </p>
 
-<!-- <p align="center">
+<p align="center">
   <a href="https://www.npmjs.com/package/@hirotoshioi/hiraku"><img src="https://img.shields.io/npm/v/@hirotoshioi/hiraku?style=flat&colorA=18181b&colorB=d946ef" alt="npm version" /></a>
   <a href="https://bundlephobia.com/result?p=@hirotoshioi/hiraku"><img src="https://img.shields.io/bundlephobia/minzip/@hirotoshioi/hiraku?style=flat&colorA=18181b&colorB=d946ef&label=bundle" alt="bundle size" /></a>
   <a href="https://www.npmjs.com/package/@hirotoshioi/hiraku"><img src="https://img.shields.io/npm/dt/@hirotoshioi/hiraku?style=flat&colorA=18181b&colorB=d946ef" alt="downloads" /></a>
   <a href="https://github.com/hirotoshioi/hiraku/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/@hirotoshioi/hiraku?style=flat&colorA=18181b&colorB=d946ef" alt="license" /></a>
-</p> -->
+</p>
 
 <p align="center">
   <a href="#features">Features</a> •
