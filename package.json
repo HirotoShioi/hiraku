@@ -30,6 +30,7 @@
 		"build": "tsdown",
 		"dev": "tsdown --watch",
 		"play": "vite --config playground/vite.config.ts",
+		"check-exports": "attw --pack .",
 		"test": "vitest",
 		"typecheck": "tsc --noEmit",
 		"release": "bumpp && npm publish",
@@ -67,7 +68,8 @@
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.9",
 		"vitest-browser-react": "^2.0.2",
-		"vite": "^7.2.6"
+		"vite": "^7.2.6",
+		"@arethetypeswrong/cli": "^0.15.4"
 	},
 	"dependencies": {
 		"zustand": "^5.0.9"
