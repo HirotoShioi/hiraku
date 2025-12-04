@@ -222,9 +222,9 @@ function Parent() {
 
 The modal wants its open/close state managed by the parent, but doing so makes the parent code cumbersome.
 
-### Hiraku's Approach
+### hiraku's Approach
 
-Hiraku resolves that dilemma. With hiraku, modals can be opened from anywhere in your application without needing to pass down state or handlers through props. This decouples modal logic from your component hierarchy, leading to cleaner and more maintainable code.
+hiraku resolves that dilemma. With hiraku, modals can be opened from anywhere in your application without needing to pass down state or handlers through props. This decouples modal logic from your component hierarchy, leading to cleaner and more maintainable code.
 
 ```tsx
 import { myDialog } from "./modals/my-dialog";

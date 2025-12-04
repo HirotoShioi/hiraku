@@ -4,145 +4,136 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a React modal state management library built on top of Radix UI primitives (@radix-ui/react-dialog and @radix-ui/react-alert-dialog). It provides a type-safe, promise-based API for managing modals with support for sheets, dialogs, and alert dialogs.
+**hiraku** (開く, "to open") is a strongly typed modal state management library for Radix UI. It allows opening modals from anywhere in the application (even outside React components) with full type safety.
 
-**Key Design Philosophy:**
-- "pushmodal" style architecture: The library manages the Radix UI Root component, users implement Content and below
-- Promise-based API: Modal interactions return promises that resolve when the modal closes
-- Type-safe: Component props are automatically inferred from React components
-- Zustand-based state management: All modal state is centralized in a Zustand store
+- **Package**: `@hirotoshioi/hiraku`
+- **Key dependency**: zustand (state management)
+- **Peer dependencies**: @radix-ui/react-dialog, @radix-ui/react-alert-dialog, react, react-dom
 
-## Build and Development Commands
+## Development Commands
 
+### Building & Development
 ```bash
-# Install dependencies
-npm install
+npm run build          # Build the library with tsdown
+npm run dev            # Watch mode for development
+npm run play           # Start Vite playground for testing
+```
 
-# Build the library (uses tsdown)
-npm run build
+### Testing
+```bash
+npm test               # Run all tests (unit + browser)
+npm run typecheck      # TypeScript type checking
+npm run ci             # Full CI check (typecheck + tests + lint)
+```
 
-# Watch mode for development
-npm run dev
+### Code Quality
+```bash
+npm run lint:fix       # Format with Biome and fix linting issues
+biome lint             # Lint only
+biome format --write   # Format only
+```
 
-# Run unit tests (Vitest)
-npm run test
-
-# Type checking
-npm run typecheck
-
-# Run the playground (Vite dev server)
-npm run play
-
-# Publish workflow
-npm run release  # Bumps version and publishes
+### Package Management
+```bash
+npm run check-exports  # Verify package exports with @arethetypeswrong/cli
+npm run release        # Bump version and publish to npm
 ```
 
 ## Architecture
 
-### Core Components
+### Core System Components
 
-**[src/store/index.ts](src/store/index.ts)** - Zustand store managing modal state
-- Maintains array of `ModalInstance` objects
-- Handles modal lifecycle: add, present, close, closeAll
+The library uses a **global store pattern** with Zustand to manage modal state outside the React component tree, enabling modals to be opened from anywhere.
+
+#### 1. Factory Functions ([src/factory/index.ts](src/factory/index.ts))
+- `createDialog()`, `createSheet()`, `createAlertDialog()` - Create modal controllers
+- Each returns a controller object with methods: `open()`, `close()`, `onDidClose()`, `isOpen()`
+- Controllers are **singletons per modal type** - only one instance can be open at a time
+- Use `.returns<T>()` to specify the return type for type-safe results
+
+#### 2. Modal Store ([src/store/index.ts](src/store/index.ts))
+- Zustand store managing array of `ModalInstance` objects
+- Key actions: `add`, `present`, `close`, `closeAll`, `getTop`, `updateProps`
+- Handles modal lifecycle: add → present (open) → close animation → remove
 - Uses 300ms animation duration for close transitions
-- Stores resolve callbacks for promise-based API
 
-**[src/factory/index.ts](src/factory/index.ts)** - Modal controller factories
-- `createDialog()`, `createSheet()`, `createAlertDialog()` - Create modal controllers for components
-- Each factory returns a `Modal` object with: `open()`, `close()`, `onDidClose()`, `isOpen()`, `returns<T>()`
-- Type inference: Automatically extracts component props and makes them required/optional based on TypeScript types
-- Controllers manage their own instance lifecycle
-
-**[src/provider.tsx](src/provider.tsx)** - React Provider component
+#### 3. Provider ([src/provider.tsx](src/provider.tsx))
+- `<ModalProvider />` renders all active modals from the store
 - Must be placed at app root
-- Renders all active modals from Zustand store
-- Maps wrapper type strings ('dialog', 'sheet', 'alert-dialog') to Radix UI Root components
-- Handles Suspense boundaries for lazy-loaded modal components
+- Automatically wraps modal components with appropriate Radix UI Root component
+- Handles `onOpenChange` events and dismissal
 
-**[src/hooks/index.ts](src/hooks/index.ts)** - React hooks
-- `useModal(controller)` - Primary hook for using modals in components
-- Returns: `{ isOpen, open, close, data, role }`
-- Automatically cleans up on unmount
-- Manages result state reactively
+#### 4. Hooks ([src/hooks/index.ts](src/hooks/index.ts))
+- `useModal(controller)` - React hook for using modals within components
+- Returns `{ isOpen, open, close, data, role }` with reactive state
+- Automatically closes modal on component unmount
 
-**[src/modal-controller.ts](src/modal-controller.ts)** - Global utilities
-- `modalController.closeAll()` - Close all open modals
-- `modalController.getTop()` - Get topmost modal handle
-- `modalController.getCount()` - Count open modals
-- `modalController.isOpen()` - Check if any modal is open
+#### 5. Global Controller ([src/modal-controller.ts](src/modal-controller.ts))
+- `modalController` singleton for global modal operations
+- Methods: `closeAll()`, `getTop()`, `getCount()`, `isOpen()`
 
 ### Type System
 
-**[src/shared/types.ts](src/shared/types.ts)** - Core type definitions
-- `ModalRole`: 'confirm' | 'cancel' | 'dismiss' | string
-- `ModalResult<T>`: Contains data and role from modal closure
-- `GetComponentProps<T>`: Extracts props from React component types
-- `OptionalPropsArgs<T>`: Makes props optional if all properties are optional
-- `ModalWrapperType`: 'dialog' | 'sheet' | 'alert-dialog' or custom component
+The library has sophisticated TypeScript types for prop inference:
 
-**[src/utils.ts](src/utils.ts)** - Utility functions
-- `createHandle()` - Converts ModalInstance to ModalHandle for external API
+- **`GetComponentProps<T>`** - Extracts props from component type
+- **`OptionalPropsArgs<T>`** - Makes `open()` args optional if props are empty/optional
+- **`ModalResult<T>`** - Close result with `{ data?: T, role?: ModalRole }`
+- **`ModalRole`** - Discriminated union: `"confirm" | "cancel" | "dismiss" | (string & {})`
 
 ### Modal Lifecycle
 
-1. **Creation**: Factory creates controller with component reference
-2. **Opening**:
-   - Controller creates ModalInstance with unique ID
-   - Instance added to store, marked as open
-   - Creates deferred promise for result
-3. **Rendering**: Provider renders all open modals with their Radix wrappers
-4. **Closing**:
-   - Store marks modal as closing, sets open=false
-   - After 300ms animation, resolves promise and removes from store
-5. **Result**: Promise resolves with `{ data, role }` object
+1. **Creation**: `createDialog(Component).returns<Result>()` creates a controller
+2. **Opening**: `controller.open(props)` adds instance to store and presents it
+3. **Rendering**: `ModalProvider` renders the modal with Radix UI wrapper
+4. **Closing**: User action calls `controller.close({ data, role })`
+5. **Animation**: Modal marked as closing, 300ms delay
+6. **Cleanup**: Modal removed from store, promise resolved with result
 
-## Development Patterns
+## Project Structure
 
-### Creating a Modal
+```
+src/
+├── factory/          # Modal controller factories (createDialog, etc.)
+├── store/            # Zustand store for modal state
+├── hooks/            # React hooks (useModal)
+├── shared/           # Shared TypeScript types
+├── provider.tsx      # ModalProvider component
+├── modal-controller.ts  # Global controller utilities
+└── utils.ts          # Internal utilities
 
-```typescript
-// 1. Define your modal component
-interface MyModalProps {
-  title: string;
-  onConfirm: () => void;
-}
-
-function MyModal(props: MyModalProps) {
-  // Implement using Radix Dialog.Content, etc.
-}
-
-// 2. Create controller (props are auto-inferred)
-const myModal = createDialog(MyModal).returns<MyResult>();
-
-// 3. Use in component
-const modal = useModal(myModal);
-
-// Open with type-safe props
-await modal.open({ title: "Hello", onConfirm: () => {} });
+playground/           # Vite playground for testing
+tests/                # Test setup files
 ```
 
-### Wrapper Types
+## Code Style
 
-- **dialog**: Standard modal dialog (default)
-- **sheet**: Side sheet/drawer
-- **alert-dialog**: Alert dialog with backdrop click disabled
-- Custom: Pass any component accepting `{ open, onOpenChange, children }`
+- **Formatter**: Biome with tab indentation
+- **TypeScript**: Strictest config (`@tsconfig/strictest`)
+- **Linting**: Biome with `noExplicitAny` and `noRedeclare` disabled
+- **Imports**: Auto-organized by Biome
 
-### Testing
+## Testing
 
-Uses Vitest with Happy DOM and React Testing Library. Test setup in [tests/setup.ts](tests/setup.ts).
+The project uses Vitest with two test configurations:
 
-## Dependencies
+1. **Unit tests** (`src/**/*.test.ts`): happy-dom environment
+2. **Browser tests** (`playground/**/*.test.browser.tsx`): Playwright with Chromium
 
-**Peer Dependencies** (required by consuming apps):
-- react, react-dom ^19.2.0
-- @radix-ui/react-dialog ^1.1.15
-- @radix-ui/react-alert-dialog ^1.1.15
+Test files are co-located with source code and in the playground for integration tests.
 
-**Core Dependency**:
-- zustand ^5.0.9 - State management
+## Key Implementation Patterns
 
-**Build Tools**:
-- tsdown - TypeScript bundler
-- vite (rolldown-vite variant) - Dev server for playground
-- vitest - Testing framework
+### Modal Controllers are Singletons
+Each modal controller tracks a single instance. If `open()` is called while a modal is already open and not closing, it's a no-op. This prevents duplicate modals.
+
+### Promise-based API
+- `open()` returns `Promise<void>` when modal is presented
+- `onDidClose()` returns `Promise<ModalResult<T>>` that resolves when modal closes
+- Enables async/await pattern: `await modal.open(); const result = await modal.onDidClose();`
+
+### Deferred Promise Pattern
+Internal `createDeferred()` utility creates a promise with external `resolve` function, stored in `ModalInstance` as `didPromise` and `resolveDid`. This allows the store to resolve the promise when modal closes.
+
+### Type-Safe Prop Inference
+The factory functions automatically infer component props and make the `open()` argument optional if props are empty or all optional, required if any prop is required.
