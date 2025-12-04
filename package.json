@@ -1,6 +1,6 @@
 {
 	"name": "@hirotoshioi/hiraku",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Modal state management library for radix-ui based components.",
 	"type": "module",
 	"license": "MIT",
@@ -32,8 +32,8 @@
 		"play": "vite --config playground/vite.config.ts",
 		"test": "vitest",
 		"typecheck": "tsc --noEmit",
-		"release": "bumpp && pnpm publish",
-		"prepublishOnly": "pnpm run build",
+		"release": "bumpp && npm publish",
+		"prepublishOnly": "npm run build",
 		"ci": "tsc --noEmit && vitest run && biome lint",
 		"lint:fix": "biome format --write && biome lint --fix"
 	},
