@@ -4,36 +4,17 @@ The provider component that renders all active modals.
 
 ## Usage
 
-Wrap your application with `ModalProvider`:
+Place `ModalProvider` at the root of your app:
 
 ```tsx
 import { ModalProvider } from "@hirotoshioi/hiraku";
 
 function App() {
   return (
-    <ModalProvider>
+    <>
       <YourApp />
-    </ModalProvider>
-  );
-}
-```
-
-## Placement
-
-Place `ModalProvider` at the root of your application, inside any other providers you need:
-
-```tsx
-function App() {
-  return (
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <ModalProvider>
-          <Router>
-            <Routes />
-          </Router>
-        </ModalProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
+      <ModalProvider/>
+    </>
   );
 }
 ```
@@ -62,49 +43,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ModalProvider>
           {children}
-        </ModalProvider>
+          <ModalProvider/>
       </body>
     </html>
   );
 }
-```
-
-## With Next.js Pages Router
-
-```tsx
-// pages/_app.tsx
-import { ModalProvider } from "@hirotoshioi/hiraku";
-import type { AppProps } from "next/app";
-
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <ModalProvider>
-      <Component {...pageProps} />
-    </ModalProvider>
-  );
-}
-```
-
-## Multiple Providers
-
-You only need one `ModalProvider`. Adding multiple providers will cause modals to render multiple times.
-
-```tsx
-// ❌ Don't do this
-<ModalProvider>
-  <Layout>
-    <ModalProvider>  {/* Unnecessary! */}
-      <Page />
-    </ModalProvider>
-  </Layout>
-</ModalProvider>
-
-// ✅ Do this
-<ModalProvider>
-  <Layout>
-    <Page />
-  </Layout>
-</ModalProvider>
 ```

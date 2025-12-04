@@ -54,9 +54,10 @@ import { ModalProvider } from "@hirotoshioi/hiraku";
 
 function App() {
   return (
-    <ModalProvider>
+    <>
       <YourApp />
-    </ModalProvider>
+      <ModalProvider/>
+    </>
   );
 }
 ```

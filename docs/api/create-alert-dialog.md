@@ -94,19 +94,3 @@ if (result.role === "confirm") {
   await deleteProject();
 }
 ```
-
-## When to Use AlertDialog
-
-Use `createAlertDialog` for:
-
-- ✅ Destructive actions (delete, remove)
-- ✅ Irreversible operations
-- ✅ Critical confirmations
-- ✅ Data loss warnings
-
-Use `createDialog` for:
-
-- ✅ Forms and inputs
-- ✅ Information display
-- ✅ Non-critical actions
-- ✅ Settings and preferences

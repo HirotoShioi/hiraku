@@ -90,14 +90,3 @@ if (result.data) {
   applyFilters(result.data);
 }
 ```
-
-## Sheet Position
-
-Sheet position is controlled by your `SheetContent` component (e.g., shadcn/ui's `side` prop):
-
-```tsx
-// In your component
-<SheetContent side="right">  {/* or "left", "top", "bottom" */}
-  ...
-</SheetContent>
-```
