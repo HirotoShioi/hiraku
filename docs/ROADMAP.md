@@ -10,7 +10,7 @@ This document outlines the strategy and milestones to reach 1000 GitHub stars fo
 - [x] Translate all code comments to English
 - [x] Translate playground examples to English
 - [ ] Add live playground (StackBlitz/CodeSandbox embed)
-- [ ] Create documentation site (VitePress/Starlight)
+- [x] Create documentation site (VitePress/Starlight)
 - [ ] Write API reference docs
 
 ### Quality
