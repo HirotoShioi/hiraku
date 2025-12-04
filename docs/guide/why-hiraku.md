@@ -1,6 +1,6 @@
 # Philosophy
 
-In this section, we talk about the concept and philosophy behind hiraku.
+In this section, I'll talk about the concept and philosophy behind hiraku.
 
 ## Motivation
 
