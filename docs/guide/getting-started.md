@@ -14,6 +14,10 @@ npm install @hirotoshioi/hiraku
 pnpm add @hirotoshioi/hiraku
 ```
 
+```bash [bun]
+bun add @hirotoshioi/hiraku
+```
+
 ```bash [yarn]
 yarn add @hirotoshioi/hiraku
 ```
@@ -24,10 +28,25 @@ yarn add @hirotoshioi/hiraku
 
 hiraku requires Radix UI dialog primitives:
 
-```bash
+::: code-group
+
+```bash [npm]
 npm install @radix-ui/react-dialog @radix-ui/react-alert-dialog
 ```
 
+```bash [pnpm]
+pnpm add @radix-ui/react-dialog @radix-ui/react-alert-dialog
+```
+
+```bash [bun]
+bun add @radix-ui/react-dialog @radix-ui/react-alert-dialog
+```
+
+```bash [yarn]
+yarn add @radix-ui/react-dialog @radix-ui/react-alert-dialog
+```
+
+:::
 ## Quick Start
 
 ### 1. Add the Provider
