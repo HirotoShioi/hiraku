@@ -176,34 +176,6 @@ modalController.isOpen()      // Check if any modal is open
 modalController.getTop()      // Get the topmost modal
 ```
 
-## Why hiraku?
-
-### vs pushmodal
-
-| Feature                    | hiraku                       | pushmodal                    |
-| -------------------------- | ---------------------------- | ---------------------------- |
-| **Promise-based close**    | ✅ `await modal.onDidClose()` | ❌ Event-based only           |
-| **Type-safe results**      | ✅ `.returns<T>()` for typing | ❌ Untyped / any              |
-| **Individual controllers** | ✅ Each modal is independent  | ❌ Centralized registry       |
-| **No registration**        | ✅ Just import and use        | ❌ Requires `createPushModal` |
-| **React hook**             | ✅ `useModal(controller)`     | ⚠️ Only `useOnPushModal`      |
-| **Bundle size**            | ~3KB                         | ~5KB                         |
-
-**hiraku** gives each modal its own independent controller with Promise-based results:
-
-```tsx
-// hiraku - Simple and type-safe
-const result = await confirmDialog.onDidClose();
-if (result.role === "confirm") {
-  console.log(result.data); // Fully typed!
-}
-
-// pushmodal - Event-based, loses type information
-useOnPushModal("ConfirmDialog", (open, props) => {
-  // props is any, no way to get the result
-});
-```
-
 ## shadcn/ui Integration
 
 hiraku works seamlessly with shadcn/ui components. Just implement `Content` and below — hiraku manages the `Root` for you:
@@ -225,6 +197,46 @@ function MySheet({ title }: { title: string }) {
 
 export const mySheet = createSheet(MySheet);
 ```
+
+## Why hiraku?
+
+With traditional patterns, modal components are often controlled by their parent for open/close state. That tight coupling hurts readability and maintainability.
+
+If you’ve built React apps, you’ve probably seen something like this:
+
+```tsx
+function Parent() {
+  // Tightly coupled example
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Open Dialog</button>
+      {/* The Dialog has to receive isOpen from the parent */}
+      <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    </>
+  );
+}
+```
+
+The modal wants its open/close state managed by the parent, but doing so makes the parent code cumbersome. Hiraku resolves that dilemma.
+With hiraku, modals can be opened from anywhere in your application without needing to pass down state or handlers through props. This decouples modal logic from your component hierarchy, leading to cleaner and more maintainable code. Additionally, hiraku provides strong typing and seamless integration with Radix UI, making it a robust solution for modal management in React applications.
+
+```tsx
+import { myDialog } from "./modals/my-dialog";
+
+function Parent() {
+  // const [isOpen, setIsOpen] = useState(false); <-- No need for this anymore
+  return (
+    <>
+    {/* No need to pass isOpen or onClose props, just call open() */}
+      <button onClick={() => myDialog.open()}>
+        Open Dialog
+      </button>
+    </>
+  );
+}
+```
+
 
 ## License
 
