@@ -123,6 +123,6 @@ if (result.role === "confirm" && result.data) {
 
 ## What's Next?
 
-- Learn [why hiraku](/guide/why-hiraku) might be right for your project
+- Learn [why hiraku](/guide/why-hiraku) was created 
 - Explore [creating different types of modals](/guide/creating-modals)
 - Check out the [API reference](/api/create-dialog)
