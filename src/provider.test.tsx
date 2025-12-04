@@ -4,7 +4,7 @@ import { ModalProvider } from "./provider";
 import { useModalStore } from "./store";
 import type { ModalInstance } from "./store/types";
 
-// テスト用のモックモーダルコンポーネント
+// Mock modal components for tests
 function TestModalContent({ title }: { title: string }) {
 	return <div data-testid="modal-content">{title}</div>;
 }
@@ -13,7 +13,7 @@ function AnotherModalContent({ message }: { message: string }) {
 	return <div data-testid="another-modal-content">{message}</div>;
 }
 
-// テスト用のモックモーダルインスタンスを作成
+// Create a mock modal instance for tests
 function createMockModalInstance(
 	overrides: Partial<ModalInstance> = {},
 ): ModalInstance {
@@ -43,16 +43,16 @@ describe("ModalProvider", () => {
 		vi.useRealTimers();
 	});
 
-	describe("初期レンダリング", () => {
-		it("モーダルがない場合、何もレンダリングされない", () => {
+	describe("initial render", () => {
+		it("renders nothing when there are no modals", () => {
 			const { container } = render(<ModalProvider />);
 
 			expect(container.innerHTML).toBe("");
 		});
 	});
 
-	describe("モーダルのレンダリング", () => {
-		it("モーダルがstoreにある場合、レンダリングされる", () => {
+	describe("modal rendering", () => {
+		it("renders a modal when one exists in the store", () => {
 			const modal = createMockModalInstance({
 				props: { title: "Hello World" },
 			});
@@ -65,7 +65,7 @@ describe("ModalProvider", () => {
 			);
 		});
 
-		it("複数のモーダルが同時にレンダリングされる", () => {
+		it("renders multiple modals simultaneously", () => {
 			const modal1 = createMockModalInstance({
 				component: TestModalContent,
 				props: { title: "First Modal" },

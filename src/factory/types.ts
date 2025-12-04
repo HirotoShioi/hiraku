@@ -6,39 +6,39 @@ import type {
 } from "../shared/types";
 
 /**
- * モーダルハンドル（操作用）
- * @template TResult - dismissした際に返されるデータの型
+ * Modal handle exposed to consumers.
+ * @template TResult - Data returned when dismissed.
  */
 export interface ModalHandle<TResult = unknown> {
-	/** モーダルの一意なID */
+	/** Unique modal ID */
 	id: string;
 	/**
-	 * モーダルを表示する
-	 * @returns モーダルが表示されたら解決するPromise
+	 * Show the modal.
+	 * @returns Promise that resolves once the modal is displayed.
 	 * @example
 	 * await controller.open({ title: "Hello" });
 	 */
 	open: () => Promise<void>;
 	/**
-	 * モーダルを閉じる
-	 * @param data - 閉じる際に返すデータ
-	 * @param role - 閉じた理由（"confirm", "cancel"など）
-	 * @returns closeが成功したかどうか
+	 * Close the modal.
+	 * @param data - Data returned on close.
+	 * @param role - Reason for closing ("confirm", "cancel", etc.).
+	 * @returns Whether close succeeded.
 	 * @example
 	 * await handle.close({ success: true }, "confirm");
 	 */
 	close: (data?: TResult, role?: ModalRole) => Promise<boolean>;
 	/**
-	 * モーダルのpropsを更新する
-	 * @param props - 新しいprops（部分更新）
+	 * Update modal props.
+	 * @param props - New props (partial update).
 	 * @example
 	 * handle.updateProps({ title: "Updated Title" });
 	 */
 	updateProps: (props: unknown) => void;
 	/**
-	 * モーダルが完全に閉じた時に解決するPromise
-	 * アニメーション完了後に呼ばれる
-	 * @returns close時のデータとroleを含むModalResult
+	 * Promise that resolves after the modal is fully closed.
+	 * Called after the close animation finishes.
+	 * @returns ModalResult containing close data and role.
 	 * @example
 	 * const { data, role } = await modal.onDidClose();
 	 * console.log("Modal closed with:", data);
@@ -47,11 +47,11 @@ export interface ModalHandle<TResult = unknown> {
 }
 
 /**
- * 型付きモーダルコントローラー
- * コンポーネントを事前にバインドし、open/close/onDidCloseを型安全に使える
- * コンポーネントの型からPropsを自動推論する
- * @template TComponent - Reactコンポーネントの型
- * @template TResult - closeした際に返されるデータの型
+ * Typed modal controller.
+ * Binds the component ahead of time so open/close/onDidClose are type-safe.
+ * Props are inferred from the component type.
+ * @template TComponent - React component type.
+ * @template TResult - Data returned when closed.
  * @example
  * const mySheet = createSheet(MySheet);
  * await mySheet.open({ title: "Hello" });
@@ -59,26 +59,26 @@ export interface ModalHandle<TResult = unknown> {
  */
 export interface Modal<TComponent, TResult = unknown> {
 	/**
-	 * モーダルを表示する
-	 * Propsが空/全てオプショナルの場合は引数省略可能
+	 * Show the modal.
+	 * If props are empty/all optional, arguments can be omitted.
 	 */
 	open: (
 		...args: OptionalPropsArgs<GetComponentProps<TComponent>>
 	) => Promise<void>;
 	/**
-	 * モーダルを閉じる
+	 * Close the modal.
 	 */
 	close: (options?: { data?: TResult; role?: ModalRole }) => Promise<boolean>;
 	/**
-	 * モーダルが完全に閉じた時に解決するPromise
+	 * Resolves when the modal is fully closed.
 	 */
 	onDidClose: () => Promise<ModalResult<TResult>>;
 	/**
-	 * モーダルが現在開いているかどうかを確認する
+	 * Check whether the modal is currently open.
 	 */
 	isOpen: () => boolean;
 	/**
-	 * closeした際の戻り値の型を指定する
+	 * Specify the return type when closing.
 	 * @example
 	 * const mySheet = createSheet(MySheet).returns<{ accepted: boolean }>();
 	 */

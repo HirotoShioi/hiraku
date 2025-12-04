@@ -10,8 +10,9 @@ export function ImperativeDemo() {
 
 	const openSheet = async () => {
 		await sampleSheetModal.open({
-			title: "どこからでもシート",
-			description: "sheetController.create(...) で好きな場所から開閉できます。",
+			title: "Sheet from anywhere",
+			description:
+				"Open and close from any file with sheetController.create(...).",
 		});
 		const { data, role } = await sampleSheetModal.onDidClose();
 		if (role === "confirm" && data?.accepted) {
@@ -25,8 +26,8 @@ export function ImperativeDemo() {
 
 	const openAlert = async () => {
 		await sampleAlert.open({
-			title: "本当に実行しますか？",
-			message: "この操作は取り消せません。本当に削除してもよろしいですか？",
+			title: "Are you sure?",
+			message: "This action cannot be undone. Do you really want to delete?",
 		});
 		const { data, role } = await sampleAlert.onDidClose();
 		if (role === "confirm" && data?.confirmed) {
@@ -58,19 +59,19 @@ export function ImperativeDemo() {
 	return (
 		<div className="space-y-4">
 			<div className="flex flex-wrap gap-3">
-				<Button onClick={() => void openSheet()}>シートを開く</Button>
+				<Button onClick={() => void openSheet()}>Open sheet</Button>
 				<Button variant="destructive" onClick={() => void openAlert()}>
-					アラートを開く
+					Open alert
 				</Button>
 				<Button onClick={() => void handleOpenTodoListSheet()}>
-					Todoリストを開く
+					Open todo list
 				</Button>
-				<Button onClick={() => void openDialog()}>ダイアログを開く</Button>
+				<Button onClick={() => void openDialog()}>Open dialog</Button>
 			</div>
 
 			{result && (
 				<div className="rounded-md border border-dashed bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
-					結果: {result}
+					Result: {result}
 				</div>
 			)}
 		</div>

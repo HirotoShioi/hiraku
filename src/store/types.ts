@@ -5,7 +5,7 @@ import type { ModalResult, ModalRole, ModalWrapperType } from "../shared/types";
 export interface ModalCreateOptions<TProps = unknown> {
 	component: ComponentType<TProps>;
 	props: TProps | undefined;
-	/** ラッパーコンポーネント（デフォルト: 'dialog'） */
+	/** Wrapper component (default: 'dialog') */
 	wrapper: ModalWrapperType | undefined;
 }
 

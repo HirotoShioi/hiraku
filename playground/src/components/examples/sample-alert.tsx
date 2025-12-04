@@ -32,7 +32,7 @@ export function SampleAlert(props: SampleAlertProps) {
 				<AlertDialogCancel
 					onClick={() => void sampleAlert.close({ role: "cancel" })}
 				>
-					キャンセル
+					Cancel
 				</AlertDialogCancel>
 				<AlertDialogAction
 					onClick={() =>
@@ -42,7 +42,7 @@ export function SampleAlert(props: SampleAlertProps) {
 						})
 					}
 				>
-					続行
+					Continue
 				</AlertDialogAction>
 			</AlertDialogFooter>
 		</AlertDialogContent>

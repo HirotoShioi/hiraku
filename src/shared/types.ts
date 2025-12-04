@@ -2,12 +2,12 @@
 import type { ComponentType } from "react";
 
 /**
- * モーダルを閉じる際のrole
+ * Role describing why a modal was closed.
  */
 export type ModalRole = "confirm" | "cancel" | "dismiss" | (string & {});
 
 /**
- * モーダルを閉じた際の結果
+ * Result returned when a modal is closed.
  */
 export interface ModalResult<T = unknown> {
 	data?: T;
@@ -15,14 +15,14 @@ export interface ModalResult<T = unknown> {
 }
 
 /**
- * オブジェクト型を整形する（IDEでの表示を改善）
+ * Utility to prettify object types for IDE display.
  */
 type Prettify<T> = {
 	[K in keyof T]: T[K];
 } & {};
 
 /**
- * React.ComponentType / React.Component からPropsの型を抽出する
+ * Extract props type from React.ComponentType / React.Component.
  * @example
  * type Props = GetComponentProps<typeof MyComponent>; // { title: string }
  */
@@ -38,10 +38,10 @@ type IsObject<T> =
 type HasKeys<T> = keyof T extends never ? never : T;
 
 /**
- * propsが省略可能かどうかを判定する型
- * - 空オブジェクト（Record<string, never>）の場合: true
- * - 全プロパティがオプショナルの場合: true
- * - 必須プロパティがある場合: false
+ * Determine whether props can be omitted.
+ * - Empty object (Record<string, never>): true
+ * - All properties optional: true
+ * - Has required properties: false
  */
 type IsPropsOptional<T> = keyof T extends never
 	? true
@@ -50,19 +50,18 @@ type IsPropsOptional<T> = keyof T extends never
 		: false;
 
 /**
- * pushmodalスタイル: Propsが空/オプショナルなら引数不要、必須プロパティがあれば必須
- * rest parameters版（可変長引数）
+ * pushmodal style: omit args when props are empty/optional, require when props are mandatory.
+ * Rest-parameter variant.
  */
 export type OptionalPropsArgs<TProps> =
 	HasKeys<IsObject<Prettify<TProps>>> extends never
-		? [] // Propsがない/空の場合は引数不要
+		? [] // No props / empty object -> no args needed
 		: IsPropsOptional<TProps> extends true
-			? [props?: TProps] // 全プロパティがオプショナルなら省略可能
-			: [props: TProps]; // 必須プロパティがあれば必須
+			? [props?: TProps] // All optional -> argument optional
+			: [props: TProps]; // Has required props -> argument required
 
 /**
- * モーダルのラッパーコンポーネントの型
- * Radix UIのDialog.Root, Sheet.Root, AlertDialog.Rootなどに対応
+ * Modal wrapper component type (Dialog.Root, Sheet.Root, AlertDialog.Root, etc.).
  */
 export type ModalWrapperComponent = ComponentType<{
 	open?: boolean;
@@ -71,8 +70,7 @@ export type ModalWrapperComponent = ComponentType<{
 }>;
 
 /**
- * モーダルのラッパータイプ
- * 'dialog' | 'sheet' | 'alert-dialog' またはカスタムコンポーネント
+ * Modal wrapper type: 'dialog' | 'sheet' | 'alert-dialog' or a custom component.
  */
 export type ModalWrapperType =
 	| "dialog"

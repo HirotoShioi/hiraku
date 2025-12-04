@@ -19,7 +19,7 @@ interface SampleSheetResult {
 	accepted: boolean;
 }
 
-// createSheet(Component).returns<T>() で型付きコントローラーを作成
+// Create a typed controller with createSheet(Component).returns<T>()
 export const sampleSheetModal =
 	createSheet(SampleSheet).returns<SampleSheetResult>();
 
@@ -28,7 +28,7 @@ export function SampleSheet(props: SampleSheetProps) {
 
 	const handleConfirm = async () => {
 		setIsLoading(true);
-		// 読み込み中のシミュレーション
+		// Simulate loading
 		await new Promise((resolve) => setTimeout(resolve, 2000));
 		setIsLoading(false);
 		await sampleSheetModal.close({
@@ -44,7 +44,7 @@ export function SampleSheet(props: SampleSheetProps) {
 				<SheetTitle>{props.title}</SheetTitle>
 				<SheetDescription>
 					{isLoading
-						? "読み込み中は閉じることができません..."
+						? "You cannot close while loading..."
 						: props.description}
 				</SheetDescription>
 			</SheetHeader>
@@ -54,10 +54,10 @@ export function SampleSheet(props: SampleSheetProps) {
 					disabled={isLoading}
 					onClick={() => void sampleSheetModal.close()}
 				>
-					キャンセル
+					Cancel
 				</Button>
 				<Button disabled={isLoading} onClick={() => void handleConfirm()}>
-					{isLoading ? "読み込み中..." : "確認"}
+					{isLoading ? "Loading..." : "Confirm"}
 				</Button>
 			</SheetFooter>
 		</SheetContent>

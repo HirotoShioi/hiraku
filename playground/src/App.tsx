@@ -12,7 +12,7 @@ function App() {
 						shadcn/ui + Tailwind CSS v4
 					</p>
 					<h1 className="text-3xl font-semibold tracking-tight">
-						モーダルコンポーネントのサンプル
+						Modal component samples
 					</h1>
 				</div>
 

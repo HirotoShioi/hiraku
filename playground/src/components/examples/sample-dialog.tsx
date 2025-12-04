@@ -25,9 +25,9 @@ function ProfileUpdatedAlert() {
 	return (
 		<AlertDialogContent>
 			<AlertDialogHeader>
-				<AlertDialogTitle>完了</AlertDialogTitle>
+				<AlertDialogTitle>All set</AlertDialogTitle>
 				<AlertDialogDescription>
-					プロフィールを変更しました
+					Your profile has been updated.
 				</AlertDialogDescription>
 			</AlertDialogHeader>
 			<AlertDialogFooter>

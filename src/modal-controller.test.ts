@@ -33,7 +33,7 @@ describe("modalController", () => {
 	});
 
 	describe("closeAll", () => {
-		it("全てのモーダルをcloseする", async () => {
+		it("closes every modal", async () => {
 			const modal1 = createMockModalInstance({ open: true });
 			const modal2 = createMockModalInstance({ open: true });
 			useModalStore.setState({ modals: [modal1, modal2] });
@@ -46,7 +46,7 @@ describe("modalController", () => {
 	});
 
 	describe("getTop", () => {
-		it("最上位のモーダルハンドルを返す", () => {
+		it("returns the topmost modal handle", () => {
 			const modal1 = createMockModalInstance();
 			const modal2 = createMockModalInstance();
 			useModalStore.setState({ modals: [modal1, modal2] });
@@ -57,7 +57,7 @@ describe("modalController", () => {
 			expect(top?.id).toBe(modal2.id);
 		});
 
-		it("モーダルがない場合はundefinedを返す", () => {
+		it("returns undefined when no modals exist", () => {
 			const top = modalController.getTop();
 
 			expect(top).toBeUndefined();
@@ -65,7 +65,7 @@ describe("modalController", () => {
 	});
 
 	describe("getCount", () => {
-		it("開いているモーダルの数を返す（closingは除く）", () => {
+		it("returns the count of open modals (excluding closing)", () => {
 			const modal1 = createMockModalInstance({ open: true, closing: false });
 			const modal2 = createMockModalInstance({ open: true, closing: true });
 			useModalStore.setState({ modals: [modal1, modal2] });
@@ -75,18 +75,18 @@ describe("modalController", () => {
 	});
 
 	describe("isOpen", () => {
-		it("モーダルが開いている場合はtrueを返す", () => {
+		it("returns true when a modal is open", () => {
 			const modal = createMockModalInstance({ open: true });
 			useModalStore.setState({ modals: [modal] });
 
 			expect(modalController.isOpen()).toBe(true);
 		});
 
-		it("モーダルがない場合はfalseを返す", () => {
+		it("returns false when there are no modals", () => {
 			expect(modalController.isOpen()).toBe(false);
 		});
 
-		it("closingのモーダルのみの場合はfalseを返す", () => {
+		it("returns false when only closing modals remain", () => {
 			const modal = createMockModalInstance({ open: true, closing: true });
 			useModalStore.setState({ modals: [modal] });
 

@@ -1,3 +1,5 @@
+"use client";
+
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Suspense } from "react";
@@ -9,7 +11,7 @@ import type {
 import { useModalStore } from "./store";
 
 /**
- * ラッパータイプからRadix UIのRootコンポーネントを取得
+ * Resolve a wrapper type to the corresponding Radix UI Root component.
  */
 function getWrapperComponent(
 	wrapper: ModalWrapperType | undefined,
@@ -28,10 +30,10 @@ function getWrapperComponent(
 }
 
 /**
- * モーダルをレンダリングするプロバイダー
- * アプリのルートに配置して使用する
+ * Provider that renders all active modals.
+ * Place this at the app root.
  *
- * pushmodalスタイル: Rootはライブラリが管理し、Content以下はユーザーが実装
+ * pushmodal style: the library controls the Root, users implement the Content.
  */
 export function ModalProvider() {
 	const modals = useModalStore((state) => state.modals);

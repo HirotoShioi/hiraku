@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useModalStore } from "../store";
 import { createAlertDialog, createDialog, createSheet } from "./index";
 
-// テスト用のモックコンポーネント
+// Mock component for tests
 interface TestProps {
 	title: string;
 	description?: string;
@@ -12,7 +12,7 @@ function TestComponent(_props: TestProps) {
 	return null;
 }
 
-// 必須propsなしのコンポーネント
+// Component with no required props
 interface OptionalProps {
 	title?: string;
 }
@@ -32,7 +32,7 @@ describe("Factory", () => {
 	});
 
 	describe("createDialog", () => {
-		it("open()でモーダルがstoreに追加される", async () => {
+		it("adds a modal to the store on open()", async () => {
 			const dialog = createDialog(TestComponent);
 
 			await dialog.open({ title: "Test" });
@@ -43,7 +43,7 @@ describe("Factory", () => {
 			expect(modals[0]?.open).toBe(true);
 		});
 
-		it("propsが正しく渡される", async () => {
+		it("passes props correctly", async () => {
 			const dialog = createDialog(TestComponent);
 
 			await dialog.open({ title: "Test Title", description: "Test Desc" });
@@ -57,7 +57,7 @@ describe("Factory", () => {
 	});
 
 	describe("createSheet", () => {
-		it("wrapperがsheetになる", async () => {
+		it("sets wrapper to sheet", async () => {
 			const sheet = createSheet(TestComponent);
 
 			await sheet.open({ title: "Test" });
@@ -68,7 +68,7 @@ describe("Factory", () => {
 	});
 
 	describe("createAlertDialog", () => {
-		it("wrapperがalert-dialogになる", async () => {
+		it("sets wrapper to alert-dialog", async () => {
 			const alertDialog = createAlertDialog(TestComponent);
 
 			await alertDialog.open({ title: "Test" });
@@ -79,7 +79,7 @@ describe("Factory", () => {
 	});
 
 	describe("open", () => {
-		it("既に開いている場合は何もしない", async () => {
+		it("does nothing if already open", async () => {
 			const dialog = createDialog(TestComponent);
 
 			await dialog.open({ title: "First" });
@@ -90,7 +90,7 @@ describe("Factory", () => {
 			expect(modals[0]?.props).toEqual({ title: "First" });
 		});
 
-		it("propsが全てオプショナルの場合、引数を省略できる", async () => {
+		it("allows omitting args when all props are optional", async () => {
 			const dialog = createDialog(OptionalPropsComponent);
 
 			await dialog.open();
@@ -101,7 +101,7 @@ describe("Factory", () => {
 	});
 
 	describe("close", () => {
-		it("モーダルをcloseできる", async () => {
+		it("can close a modal", async () => {
 			const dialog = createDialog(TestComponent);
 
 			await dialog.open({ title: "Test" });
@@ -112,7 +112,7 @@ describe("Factory", () => {
 			expect(modals[0]?.closing).toBe(true);
 		});
 
-		it("開いていない場合はfalseを返す", async () => {
+		it("returns false when not open", async () => {
 			const dialog = createDialog(TestComponent);
 
 			const result = await dialog.close();
@@ -122,7 +122,7 @@ describe("Factory", () => {
 	});
 
 	describe("isOpen", () => {
-		it("モーダルが開いている場合trueを返す", async () => {
+		it("returns true when modal is open", async () => {
 			const dialog = createDialog(TestComponent);
 
 			expect(dialog.isOpen()).toBe(false);
@@ -132,7 +132,7 @@ describe("Factory", () => {
 			expect(dialog.isOpen()).toBe(true);
 		});
 
-		it("closingの場合はfalseを返す", async () => {
+		it("returns false when closing", async () => {
 			const dialog = createDialog(TestComponent);
 
 			await dialog.open({ title: "Test" });
@@ -143,7 +143,7 @@ describe("Factory", () => {
 	});
 
 	describe("onDidClose", () => {
-		it("close完了時にresultを返す", async () => {
+		it("returns result when close finishes", async () => {
 			const dialog = createDialog(TestComponent).returns<{ value: number }>();
 
 			await dialog.open({ title: "Test" });
@@ -157,7 +157,7 @@ describe("Factory", () => {
 			expect(result).toEqual({ data: { value: 42 }, role: "confirm" });
 		});
 
-		it("開いていない状態でonDidCloseを呼ぶと空のresultで即resolve", async () => {
+		it("resolves immediately with empty result if not open", async () => {
 			const dialog = createDialog(TestComponent);
 
 			const result = await dialog.onDidClose();
@@ -166,18 +166,18 @@ describe("Factory", () => {
 		});
 	});
 
-	describe("エッジケース", () => {
-		it("close後に再度openできる", async () => {
+	describe("edge cases", () => {
+		it("can open again after close", async () => {
 			const dialog = createDialog(TestComponent);
 
-			// 1回目
+			// First open
 			await dialog.open({ title: "First" });
 			await dialog.close();
 			vi.advanceTimersByTime(300);
 
 			expect(useModalStore.getState().modals).toHaveLength(0);
 
-			// 2回目
+			// Second open
 			await dialog.open({ title: "Second" });
 
 			const modals = useModalStore.getState().modals;
@@ -185,7 +185,7 @@ describe("Factory", () => {
 			expect(modals[0]?.props).toEqual({ title: "Second" });
 		});
 
-		it("closeを複数回呼んでも安全", async () => {
+		it("is safe to call close multiple times", async () => {
 			const dialog = createDialog(TestComponent);
 
 			await dialog.open({ title: "Test" });
@@ -194,30 +194,30 @@ describe("Factory", () => {
 			const result2 = await dialog.close();
 
 			expect(result1).toBe(true);
-			expect(result2).toBe(false); // 既にclosing
+			expect(result2).toBe(false); // already closing
 		});
 
-		it("closing中（アニメーション300ms内）でも新しいインスタンスとして開ける", async () => {
+		it("can open a new instance while the previous one is closing", async () => {
 			const dialog = createDialog(TestComponent);
 
 			await dialog.open({ title: "First" });
 			await dialog.close();
 
-			// まだ300ms経過していない（closing中）
+			// Still within the 300ms closing window
 			vi.advanceTimersByTime(100);
 
-			// closing中でも新しいインスタンスを作成できる
-			// （これにより、素早い再オープンが可能）
+			// A new instance can be created while closing
+			// (allows quick reopen)
 			await dialog.open({ title: "Second" });
 
 			const modals = useModalStore.getState().modals;
-			// 旧インスタンス（closing中）と新インスタンスの2つが存在
+			// Closing instance and new instance coexist
 			expect(modals).toHaveLength(2);
 			expect(modals[0]?.closing).toBe(true);
 			expect(modals[1]?.open).toBe(true);
 		});
 
-		it("異なるコントローラーは独立して動作する", async () => {
+		it("different controllers operate independently", async () => {
 			const dialog1 = createDialog(TestComponent);
 			const dialog2 = createDialog(TestComponent);
 

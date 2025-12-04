@@ -9,19 +9,21 @@ import type {
 import type { UseModalReturn } from "./types";
 
 /**
- * モーダルコントローラーのためのフック
- * @template TComponent - Reactコンポーネントの型
- * @template TResult - closeした際に返されるデータの型
+ * Hook for working with a modal controller.
+ * @template TComponent - React component type.
+ * @template TResult - Data returned when closed.
  * @example
  * const sampleSheetModal = createSheet(SampleSheet).returns<SampleSheetResult>();
  *
- * // フックで使用
+ * // In a component
  * const sheet = useModal(sampleSheetModal);
  *
  * return (
  *   <>
- *     <Button onClick={() => sheet.open({ title: "Hello", description: "World" })}>開く</Button>
- *     <p>結果: {sheet.role} {sheet.data?.accepted}</p>
+ *     <Button onClick={() => sheet.open({ title: "Hello", description: "World" })}>
+ *       Open
+ *     </Button>
+ *     <p>Result: {sheet.role} {sheet.data?.accepted}</p>
  *   </>
  * );
  */
@@ -34,13 +36,13 @@ export function useModal<TComponent, TResult = unknown>(
 	const [isOpen, setIsOpen] = useState(false);
 	const controllerRef = useRef(controller);
 
-	// コントローラーをRefで保持
+	// Keep controller in a ref
 	useEffect(() => {
 		controllerRef.current = controller;
 	});
 
 	const open = useCallback((...args: OptionalPropsArgs<TProps>) => {
-		// 既に開いている場合は何もしない
+		// No-op if already open
 		if (controllerRef.current.isOpen()) {
 			return;
 		}
@@ -50,7 +52,7 @@ export function useModal<TComponent, TResult = unknown>(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(controllerRef.current.open as (...args: any[]) => Promise<void>)(...args);
 
-		// 閉じた時の結果を非同期で取得（openの戻り値は待たない）
+		// Fetch close result asynchronously (do not await open)
 		void controllerRef.current.onDidClose().then((closeResult) => {
 			setResult(closeResult);
 			setIsOpen(false);
@@ -64,7 +66,7 @@ export function useModal<TComponent, TResult = unknown>(
 		[],
 	);
 
-	// コンポーネントのアンマウント時にモーダルを閉じる
+	// Close modal on component unmount
 	useEffect(() => {
 		return () => {
 			if (controllerRef.current.isOpen()) {

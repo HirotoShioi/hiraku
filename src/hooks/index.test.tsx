@@ -4,7 +4,7 @@ import { createDialog } from "../factory";
 import { useModalStore } from "../store";
 import { useModal } from "./index";
 
-// テスト用のモックコンポーネント
+// Mock component for tests
 interface TestProps {
 	title: string;
 	description?: string;
@@ -23,8 +23,8 @@ describe("useModal", () => {
 		vi.restoreAllMocks();
 	});
 
-	describe("初期状態", () => {
-		it("isOpen/data/roleは初期値を持つ", () => {
+	describe("initial state", () => {
+		it("isOpen/data/role have default values", () => {
 			const dialog = createDialog(TestComponent);
 			const { result } = renderHook(() => useModal(dialog));
 
@@ -35,7 +35,7 @@ describe("useModal", () => {
 	});
 
 	describe("open", () => {
-		it("open()でisOpenがtrueになる", async () => {
+		it("sets isOpen true after open()", async () => {
 			const dialog = createDialog(TestComponent);
 			const { result } = renderHook(() => useModal(dialog));
 
@@ -46,7 +46,7 @@ describe("useModal", () => {
 			expect(result.current.isOpen).toBe(true);
 		});
 
-		it("既に開いている場合は何もしない", async () => {
+		it("does nothing when already open", async () => {
 			const dialog = createDialog(TestComponent);
 			const { result } = renderHook(() => useModal(dialog));
 
@@ -64,7 +64,7 @@ describe("useModal", () => {
 	});
 
 	describe("close", () => {
-		it("close()を呼び出すとclosing状態になる", async () => {
+		it("sets closing state when close() is called", async () => {
 			const dialog = createDialog(TestComponent);
 			const { result } = renderHook(() => useModal(dialog));
 
@@ -82,8 +82,8 @@ describe("useModal", () => {
 		});
 	});
 
-	describe("アンマウント時のcleanup", () => {
-		it("アンマウント時にモーダルが閉じる", async () => {
+	describe("cleanup on unmount", () => {
+		it("closes the modal on unmount", async () => {
 			const dialog = createDialog(TestComponent);
 			const { result, unmount } = renderHook(() => useModal(dialog));
 

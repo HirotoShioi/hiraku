@@ -1,5 +1,5 @@
 /**
- * テスト用共通モーダルコンポーネント
+ * Shared modal components for tests.
  */
 import {
 	AlertDialogAction,
@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/sheet";
 
 // =============================================================================
-// 確認ダイアログ
+// Confirmation dialog
 // =============================================================================
 
 export interface ConfirmDialogProps {
@@ -50,11 +50,11 @@ export function ConfirmDialog({
 			<DialogFooter>
 				<DialogClose asChild>
 					<Button variant="outline" data-testid="cancel-btn">
-						キャンセル
+						Cancel
 					</Button>
 				</DialogClose>
 				<Button data-testid="confirm-btn" onClick={onConfirm}>
-					確認
+					Confirm
 				</Button>
 			</DialogFooter>
 		</DialogContent>
@@ -62,7 +62,7 @@ export function ConfirmDialog({
 }
 
 // =============================================================================
-// 削除確認アラート
+// Delete confirmation alert
 // =============================================================================
 
 export interface DeleteAlertProps {
@@ -73,23 +73,25 @@ export function DeleteAlert({ itemName }: DeleteAlertProps) {
 	return (
 		<AlertDialogContent data-testid="delete-alert">
 			<AlertDialogHeader>
-				<AlertDialogTitle>本当に削除しますか？</AlertDialogTitle>
+				<AlertDialogTitle>Are you sure you want to delete?</AlertDialogTitle>
 				<AlertDialogDescription>
-					「{itemName}」を削除します。この操作は取り消せません。
+					Delete "{itemName}". This action cannot be undone.
 				</AlertDialogDescription>
 			</AlertDialogHeader>
 			<AlertDialogFooter>
 				<AlertDialogCancel data-testid="alert-cancel">
-					キャンセル
+					Cancel
 				</AlertDialogCancel>
-				<AlertDialogAction data-testid="alert-action">削除</AlertDialogAction>
+				<AlertDialogAction data-testid="alert-action">
+					Delete
+				</AlertDialogAction>
 			</AlertDialogFooter>
 		</AlertDialogContent>
 	);
 }
 
 // =============================================================================
-// 設定シート
+// Settings sheet
 // =============================================================================
 
 export interface SettingsSheetProps {
@@ -100,11 +102,11 @@ export function SettingsSheet({ side = "right" }: SettingsSheetProps) {
 	return (
 		<SheetContent side={side} data-testid="settings-sheet">
 			<SheetHeader>
-				<SheetTitle>設定</SheetTitle>
-				<SheetDescription>アプリケーションの設定を変更します</SheetDescription>
+				<SheetTitle>Settings</SheetTitle>
+				<SheetDescription>Change application settings.</SheetDescription>
 			</SheetHeader>
 			<div className="p-4" data-testid="sheet-body">
-				<p>設定コンテンツ</p>
+				<p>Settings content</p>
 			</div>
 		</SheetContent>
 	);

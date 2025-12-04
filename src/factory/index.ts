@@ -51,7 +51,7 @@ function createModalInstance<TProps = unknown, TResult = unknown>(
 
 function createController<TResult = unknown, TProps = unknown>(options: {
 	component: ComponentType<TProps>;
-	/** ラッパーコンポーネント（'dialog' | 'sheet' | 'alert-dialog' またはカスタム）@default 'dialog' */
+	/** Wrapper component ('dialog' | 'sheet' | 'alert-dialog' or custom). @default 'dialog' */
 	wrapper?: ModalWrapperType;
 }): {
 	open: (props?: TProps) => Promise<void>;
@@ -62,7 +62,7 @@ function createController<TResult = unknown, TProps = unknown>(options: {
 	let currentHandle: ModalHandle<TResult> | undefined;
 
 	const open = async (props?: TProps): Promise<void> => {
-		// 既に開いている場合は何もしない
+		// No-op if an instance is already open and not closing
 		if (
 			currentHandle &&
 			store().modals.some(
@@ -118,8 +118,8 @@ function createController<TResult = unknown, TProps = unknown>(options: {
 }
 
 /**
- * モーダルコントローラーを作成する内部関数
- * コンポーネントの型からPropsを自動推論
+ * Internal helper to create a modal controller.
+ * Automatically infers Props from the component type.
  */
 function createModal<TComponent extends ComponentType<any>, TResult>(
 	wrapper: ModalWrapperType,
@@ -155,20 +155,20 @@ function createModalStarter(wrapper: ModalWrapperType) {
 }
 
 /**
- * Sheetモーダルコントローラーを作成する
- * @param component - 表示するReactコンポーネント（Propsは自動推論）
+ * Create a Sheet modal controller.
+ * @param component - React component to render (props are inferred)
  * @example
- * // 基本形
+ * // Basic usage
  * const mySheet = createSheet(MySheet);
  *
- * // 戻り値の型を指定
+ * // Specify return type
  * const mySheet = createSheet(MySheet).returns<MyResult>();
  */
 export const createSheet = createModalStarter("sheet");
 
 /**
- * Dialogモーダルコントローラーを作成する
- * @param component - 表示するReactコンポーネント（Propsは自動推論）
+ * Create a Dialog modal controller.
+ * @param component - React component to render (props are inferred)
  * @example
  * const myDialog = createDialog(MyDialog);
  * const myDialog = createDialog(MyDialog).returns<MyResult>();
@@ -176,8 +176,8 @@ export const createSheet = createModalStarter("sheet");
 export const createDialog = createModalStarter("dialog");
 
 /**
- * AlertDialogモーダルコントローラーを作成する
- * @param component - 表示するReactコンポーネント（Propsは自動推論）
+ * Create an AlertDialog modal controller.
+ * @param component - React component to render (props are inferred)
  * @example
  * const myAlert = createAlertDialog(MyAlert);
  * const myAlert = createAlertDialog(MyAlert).returns<MyResult>();

@@ -3,11 +3,11 @@ import { useModalStore } from "./store";
 import type { ModalInstance } from "./store/types";
 
 /**
- * ModalInstanceからModalHandleを生成する
- * @template TResult - closeした際に返されるデータの型
- * @param modal - 対象のModalInstance
- * @param open - モーダルを表示する関数（省略時は即座に解決するPromiseを返す）
- * @returns モーダルを操作するためのModalHandle
+ * Build a ModalHandle from a ModalInstance.
+ * @template TResult - Data returned on close.
+ * @param modal - Target ModalInstance.
+ * @param open - Function that shows the modal (defaults to a resolved promise).
+ * @returns ModalHandle for manipulating the modal.
  * @example
  * const handle = createHandle<MyResultType>(instance, () => {
  *   useModalStore.getState().add(instance);

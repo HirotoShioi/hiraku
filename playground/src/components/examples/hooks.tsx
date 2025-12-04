@@ -7,28 +7,28 @@ export function DeclarativeDemo() {
 
 	return (
 		<div className="space-y-3 border-t pt-6">
-			<h2 className="text-xl font-semibold">useModal版</h2>
+			<h2 className="text-xl font-semibold">useModal version</h2>
 			<div className="flex flex-wrap gap-3">
 				<Button
 					onClick={() =>
 						void sampleSheet.open({
-							title: "useModal版",
-							description: "useSampleSheet フックでシートを開けます。",
+							title: "useModal version",
+							description: "Open the sheet via the useSampleSheet hook.",
 						})
 					}
 				>
-					シートを開く
+					Open sheet
 				</Button>
 				<Button
 					variant="outline"
 					onClick={() =>
 						void sampleSheet.open({
-							title: "上書きタイトル",
-							description: "propsを上書きして開くこともできます",
+							title: "Override title",
+							description: "You can also open with overridden props.",
 						})
 					}
 				>
-					props上書きで開く
+					Open with overridden props
 				</Button>
 			</div>
 			<div className="rounded-md border border-dashed bg-muted/40 px-4 py-3 text-sm text-muted-foreground space-y-1">

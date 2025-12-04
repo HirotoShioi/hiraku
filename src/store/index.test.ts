@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useModalStore } from "./index";
 import type { ModalInstance } from "./types";
 
-// テスト用のモックモーダルインスタンスを作成
+// Create a mock modal instance for tests
 function createMockModalInstance(
 	overrides: Partial<ModalInstance> = {},
 ): ModalInstance {
@@ -24,7 +24,7 @@ function createMockModalInstance(
 
 describe("useModalStore", () => {
 	beforeEach(() => {
-		// 各テスト前にstoreをリセット
+		// Reset store before each test
 		useModalStore.setState({ modals: [] });
 		vi.useFakeTimers();
 	});
@@ -159,32 +159,32 @@ describe("useModalStore", () => {
 		});
 	});
 
-	describe("エッジケース", () => {
-		it("連続したclose呼び出しでも安全に処理される", async () => {
+	describe("Edge cases", () => {
+		it("handles multiple close calls safely", async () => {
 			const modal = createMockModalInstance({ open: true });
 			useModalStore.getState().add(modal);
 
-			// 同時に複数回closeを呼ぶ
+			// Call close several times in parallel
 			const results = await Promise.all([
 				useModalStore.getState().close(modal.id),
 				useModalStore.getState().close(modal.id),
 				useModalStore.getState().close(modal.id),
 			]);
 
-			// 最初の1回だけ成功、残りは失敗
+			// Only the first succeeds; the rest fail
 			expect(results.filter(Boolean)).toHaveLength(1);
 
 			vi.advanceTimersByTime(300);
 			expect(useModalStore.getState().modals).toHaveLength(0);
 		});
 
-		it("closeAllとclose同時呼び出しでも安全", async () => {
+		it("is safe when closeAll and close are called together", async () => {
 			const modal1 = createMockModalInstance({ open: true });
 			const modal2 = createMockModalInstance({ open: true });
 			useModalStore.getState().add(modal1);
 			useModalStore.getState().add(modal2);
 
-			// closeAllと個別closeを同時に呼ぶ
+			// Call closeAll and an individual close concurrently
 			await Promise.all([
 				useModalStore.getState().closeAll(),
 				useModalStore.getState().close(modal1.id),
@@ -204,7 +204,7 @@ describe("useModalStore", () => {
 			expect(useModalStore.getState().modals).toHaveLength(0);
 		});
 
-		it("大量のモーダルを追加・削除しても正常に動作", async () => {
+		it("works when adding and removing many modals", async () => {
 			const modals = Array.from({ length: 10 }, () =>
 				createMockModalInstance({ open: true }),
 			);
@@ -220,22 +220,22 @@ describe("useModalStore", () => {
 			expect(useModalStore.getState().modals).toHaveLength(0);
 		});
 
-		it("closeのタイマー（300ms）前後で状態が正しい", async () => {
+		it("maintains correct state across the 300ms close timer", async () => {
 			const modal = createMockModalInstance({ open: true });
 			useModalStore.getState().add(modal);
 
 			await useModalStore.getState().close(modal.id);
 
-			// 100ms時点: まだ存在（closing状態）
+			// At 100ms: still exists (closing)
 			vi.advanceTimersByTime(100);
 			expect(useModalStore.getState().modals).toHaveLength(1);
 			expect(useModalStore.getState().modals[0]?.closing).toBe(true);
 
-			// 200ms時点: まだ存在
+			// At 200ms: still exists
 			vi.advanceTimersByTime(100);
 			expect(useModalStore.getState().modals).toHaveLength(1);
 
-			// 300ms時点: 削除される
+			// At 300ms: removed
 			vi.advanceTimersByTime(100);
 			expect(useModalStore.getState().modals).toHaveLength(0);
 		});

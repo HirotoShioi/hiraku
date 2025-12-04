@@ -1,5 +1,5 @@
 /**
- * useModal フックのブラウザ統合テスト
+ * Browser integration tests for the useModal hook.
  */
 import React from "react";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -18,15 +18,15 @@ import {
 import { ConfirmDialog, DeleteAlert, SettingsSheet } from "./test-components";
 
 // =============================================================================
-// useModal フック テストスイート
+// useModal hook test suite
 // =============================================================================
 
-describe("useModal フック", () => {
+describe("useModal hook", () => {
 	beforeEach(() => {
 		useModalStore.setState({ modals: [] });
 	});
 
-	// 各テスト用のコンポーネントファクトリー
+	// Component factory used in multiple tests
 	function createUseModalTestComponent() {
 		const controller = createDialog(ConfirmDialog).returns<{
 			accepted: boolean;
@@ -41,12 +41,12 @@ describe("useModal フック", () => {
 						data-testid="open-modal-btn"
 						onClick={() => {
 							modal.open({
-								title: "useModalテスト",
-								message: "フックから開きました",
+								title: "useModal test",
+								message: "Opened from the hook",
 							});
 						}}
 					>
-						モーダルを開く
+						Open modal
 					</Button>
 					<div data-testid="modal-state">
 						<span data-testid="is-open">
@@ -66,7 +66,7 @@ describe("useModal フック", () => {
 		return { controller, Component: UseModalTestComponent };
 	}
 
-	it("useModalでモーダルを開閉できる", async () => {
+	it("opens and closes a modal via useModal", async () => {
 		const { Component } = createUseModalTestComponent();
 		render(
 			<>
@@ -75,27 +75,27 @@ describe("useModal フック", () => {
 			</>,
 		);
 
-		// 初期状態の確認
+		// Verify initial state
 		await expect
 			.element(page.getByTestId("is-open"))
 			.toHaveTextContent("closed");
 
-		// モーダルを開く
+		// Open modal
 		await page.getByTestId("open-modal-btn").click();
 
-		// モーダルが開いた状態を確認
+		// Confirm modal opened
 		await expect.element(page.getByTestId("is-open")).toHaveTextContent("open");
 		await expect
 			.element(page.getByTestId("confirm-dialog"))
 			.toBeInTheDocument();
 		await expect
 			.element(page.getByTestId("dialog-title"))
-			.toHaveTextContent("useModalテスト");
+			.toHaveTextContent("useModal test");
 
-		// キャンセルボタンで閉じる
+		// Close with cancel button
 		await page.getByTestId("cancel-btn").click();
 
-		// 閉じた状態を確認
+		// Confirm closed
 		await expect
 			.element(page.getByTestId("is-open"))
 			.toHaveTextContent("closed");
@@ -104,7 +104,7 @@ describe("useModal フック", () => {
 			.not.toBeInTheDocument();
 	});
 
-	it("useModalでcloseにデータを渡すと結果を取得できる", async () => {
+	it("returns result when closing with data via useModal", async () => {
 		const { controller, Component } = createUseModalTestComponent();
 		render(
 			<>
@@ -113,20 +113,20 @@ describe("useModal フック", () => {
 			</>,
 		);
 
-		// 初期状態の確認
+		// Verify initial state
 		await expect.element(page.getByTestId("data")).toHaveTextContent("none");
 		await expect.element(page.getByTestId("role")).toHaveTextContent("none");
 
-		// モーダルを開く
+		// Open modal
 		await page.getByTestId("open-modal-btn").click();
 		await expect
 			.element(page.getByTestId("confirm-dialog"))
 			.toBeInTheDocument();
 
-		// コントローラー経由でデータ付きで閉じる
+		// Close via controller with data
 		await controller.close({ data: { accepted: true }, role: "confirm" });
 
-		// 結果が反映されていることを確認
+		// Confirm result is reflected
 		await expect
 			.element(page.getByTestId("is-open"))
 			.toHaveTextContent("closed");
@@ -134,7 +134,7 @@ describe("useModal フック", () => {
 		await expect.element(page.getByTestId("data")).toHaveTextContent("true");
 	});
 
-	it("useModalで既に開いている場合は二重に開かない", async () => {
+	it("does not open twice when already open", async () => {
 		const { controller, Component } = createUseModalTestComponent();
 		render(
 			<>
@@ -143,22 +143,22 @@ describe("useModal フック", () => {
 			</>,
 		);
 
-		// モーダルを開く
+		// Open modal
 		await page.getByTestId("open-modal-btn").click();
 		await expect
 			.element(page.getByTestId("confirm-dialog"))
 			.toBeInTheDocument();
 
-		// isOpen()がtrueを返すことを確認
+		// Confirm isOpen() returns true
 		expect(controller.isOpen()).toBe(true);
 
-		// モーダルは1つだけ
+		// Only one modal exists
 		expect(modalController.getCount()).toBe(1);
 
 		await controller.close();
 	});
 
-	// Sheetに対するuseModalテスト
+	// useModal tests for Sheet
 	function createUseModalSheetTestComponent() {
 		const controller = createSheet(SettingsSheet);
 
@@ -173,7 +173,7 @@ describe("useModal フック", () => {
 							sheet.open({ side: "right" });
 						}}
 					>
-						シートを開く
+						Open sheet
 					</Button>
 					<span data-testid="sheet-state">
 						{sheet.isOpen ? "open" : "closed"}
@@ -185,7 +185,7 @@ describe("useModal フック", () => {
 		return { controller, Component: UseModalSheetTestComponent };
 	}
 
-	it("useModalでSheetを開閉できる", async () => {
+	it("opens and closes a Sheet via useModal", async () => {
 		const { Component } = createUseModalSheetTestComponent();
 		render(
 			<>
@@ -194,15 +194,15 @@ describe("useModal フック", () => {
 			</>,
 		);
 
-		// 初期状態
+		// Initial state
 		await expect
 			.element(page.getByTestId("sheet-state"))
 			.toHaveTextContent("closed");
 
-		// シートを開く
+		// Open sheet
 		await page.getByTestId("open-sheet-btn").click();
 
-		// シートが開いた
+		// Sheet opened
 		await expect
 			.element(page.getByTestId("sheet-state"))
 			.toHaveTextContent("open");
@@ -210,10 +210,10 @@ describe("useModal フック", () => {
 			.element(page.getByTestId("settings-sheet"))
 			.toBeInTheDocument();
 
-		// Escapeで閉じる
+		// Close with Escape
 		await userEvent.keyboard("{Escape}");
 
-		// 閉じた
+		// Closed
 		await expect
 			.element(page.getByTestId("sheet-state"))
 			.toHaveTextContent("closed");
@@ -222,7 +222,7 @@ describe("useModal フック", () => {
 			.not.toBeInTheDocument();
 	});
 
-	// AlertDialogに対するuseModalテスト
+	// useModal tests for AlertDialog
 	function createUseModalAlertTestComponent() {
 		const controller = createAlertDialog(DeleteAlert);
 
@@ -234,10 +234,10 @@ describe("useModal フック", () => {
 					<Button
 						data-testid="open-alert-btn"
 						onClick={() => {
-							alert.open({ itemName: "テストアイテム" });
+							alert.open({ itemName: "Test item" });
 						}}
 					>
-						アラートを開く
+						Open alert
 					</Button>
 					<span data-testid="alert-state">
 						{alert.isOpen ? "open" : "closed"}
@@ -249,7 +249,7 @@ describe("useModal フック", () => {
 		return { controller, Component: UseModalAlertTestComponent };
 	}
 
-	it("useModalでAlertDialogを開閉できる", async () => {
+	it("opens and closes an AlertDialog via useModal", async () => {
 		const { Component } = createUseModalAlertTestComponent();
 		render(
 			<>
@@ -258,27 +258,29 @@ describe("useModal フック", () => {
 			</>,
 		);
 
-		// 初期状態
+		// Initial state
 		await expect
 			.element(page.getByTestId("alert-state"))
 			.toHaveTextContent("closed");
 
-		// アラートを開く
+		// Open alert
 		await page.getByTestId("open-alert-btn").click();
 
-		// アラートが開いた
+		// Alert opened
 		await expect
 			.element(page.getByTestId("alert-state"))
 			.toHaveTextContent("open");
 		await expect.element(page.getByTestId("delete-alert")).toBeInTheDocument();
 		await expect
-			.element(page.getByText("「テストアイテム」を削除します"))
+			.element(
+				page.getByText('Delete "Test item". This action cannot be undone.'),
+			)
 			.toBeInTheDocument();
 
-		// アクションボタンで閉じる
+		// Close via action button
 		await page.getByTestId("alert-action").click();
 
-		// 閉じた
+		// Closed
 		await expect
 			.element(page.getByTestId("alert-state"))
 			.toHaveTextContent("closed");
@@ -287,9 +289,9 @@ describe("useModal フック", () => {
 			.not.toBeInTheDocument();
 	});
 
-	// 複数のuseModalを同時に使用するテスト
+	// Test using multiple useModal instances at once
 	function MultipleModalsComponent() {
-		// コンポーネント内でコントローラーを作成（React.useMemoで安定化）
+		// Create controllers inside the component (memoized for stability)
 		const dialogController = React.useMemo(
 			() => createDialog(ConfirmDialog),
 			[],
@@ -303,11 +305,11 @@ describe("useModal フック", () => {
 				<Button
 					data-testid="open-both-btn"
 					onClick={() => {
-						dialog.open({ title: "ダイアログ", message: "テスト" });
+						dialog.open({ title: "Dialog", message: "Test" });
 						sheet.open({ side: "left" });
 					}}
 				>
-					両方開く
+					Open both
 				</Button>
 				<span data-testid="dialog-state">
 					{dialog.isOpen ? "dialog-open" : "dialog-closed"}
@@ -319,7 +321,7 @@ describe("useModal フック", () => {
 		);
 	}
 
-	it("useModalで複数のモーダルを同時に管理できる", async () => {
+	it("manages multiple modals simultaneously via useModal", async () => {
 		render(
 			<>
 				<ModalProvider />
@@ -327,10 +329,10 @@ describe("useModal フック", () => {
 			</>,
 		);
 
-		// 両方開く
+		// Open both
 		await page.getByTestId("open-both-btn").click();
 
-		// 両方開いた状態を確認
+		// Confirm both are open
 		await expect
 			.element(page.getByTestId("dialog-state"))
 			.toHaveTextContent("dialog-open");
@@ -344,7 +346,7 @@ describe("useModal フック", () => {
 			.element(page.getByTestId("settings-sheet"))
 			.toBeInTheDocument();
 
-		// 全て閉じる
+		// Close all
 		await modalController.closeAll();
 
 		await expect

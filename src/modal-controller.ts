@@ -5,11 +5,11 @@ import { createHandle } from "./utils";
 const store = () => useModalStore.getState();
 
 /**
- * モーダル管理用のユーティリティ
+ * Utility helpers for managing modals.
  */
 export const modalController = {
 	/**
-	 * 全てのモーダルを一括でcloseする
+	 * Close every modal at once.
 	 * @example
 	 * await modal.closeAll();
 	 */
@@ -17,7 +17,7 @@ export const modalController = {
 		return store().closeAll();
 	},
 	/**
-	 * 最前面のモーダルを取得する
+	 * Get the topmost modal.
 	 * @example
 	 * const topModal = modal.getTop();
 	 * if (topModal) {
@@ -29,7 +29,7 @@ export const modalController = {
 		return top ? createHandle<TResult>(top) : undefined;
 	},
 	/**
-	 * 現在開いているモーダルの数を取得する
+	 * Count how many modals are open (excluding closing).
 	 * @example
 	 * const count = modal.getCount();
 	 */
@@ -37,10 +37,10 @@ export const modalController = {
 		return store().modals.filter((m) => m.open && !m.closing).length;
 	},
 	/**
-	 * モーダルが開いているかどうかを確認する
+	 * Check whether any modal is open.
 	 * @example
 	 * if (modal.isOpen()) {
-	 *   console.log("モーダルが開いています");
+	 *   console.log("A modal is open");
 	 * }
 	 */
 	isOpen(): boolean {

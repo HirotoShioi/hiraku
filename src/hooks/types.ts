@@ -5,7 +5,7 @@ import type {
 } from "../shared/types";
 
 /**
- * useModalフックの戻り値の型
+ * Return type of the useModal hook.
  */
 export interface UseModalReturn<TComponent, TResult = unknown> {
 	isOpen: boolean;
