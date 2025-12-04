@@ -1,0 +1,77 @@
+{
+	"name": "hiraku",
+	"version": "0.0.0",
+	"description": "Modal state management library for radix-ui based components.",
+	"type": "module",
+	"license": "MIT",
+	"homepage": "https://github.com/author/library#readme",
+	"bugs": {
+		"url": "https://github.com/author/library/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/author/library.git"
+	},
+	"author": "Hirot Shioi",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"play": "vite --config playground/vite.config.ts",
+		"test": "vitest",
+		"typecheck": "tsc --noEmit",
+		"release": "bumpp && pnpm publish",
+		"prepublishOnly": "pnpm run build",
+		"ci": "tsc --noEmit && vitest run && biome lint",
+		"lint:fix": "biome format --write && biome lint --fix"
+	},
+	"peerDependencies": {
+		"@radix-ui/react-alert-dialog": "^1.1.15",
+		"@radix-ui/react-dialog": "^1.1.15",
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.3.8",
+		"@radix-ui/react-label": "^2.1.8",
+		"@tailwindcss/vite": "^4.1.17",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/react": "^16.3.0",
+		"@tsconfig/strictest": "^2.0.8",
+		"@types/node": "^24.10.1",
+		"@types/react": "^19.2.5",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^5.1.1",
+		"@vitest/browser-playwright": "^4.0.15",
+		"bumpp": "^10.3.1",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"happy-dom": "^20.0.10",
+		"lucide-react": "^0.555.0",
+		"tailwind-merge": "^3.4.0",
+		"tailwindcss": "^4.1.17",
+		"tsdown": "^0.16.4",
+		"tw-animate-css": "^1.4.0",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.9",
+		"vitest-browser-react": "^2.0.2"
+	},
+	"dependencies": {
+		"zustand": "^5.0.9"
+	},
+	"overrides": {
+		"vite": "8.0.0-beta.0"
+	}
+}

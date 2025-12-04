@@ -1,0 +1,50 @@
+import {
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { createAlertDialog } from "../../../../src";
+
+export interface SampleAlertProps {
+	title: string;
+	message: string;
+}
+
+interface SampleAlertResult {
+	confirmed: boolean;
+}
+
+export const sampleAlert =
+	createAlertDialog(SampleAlert).returns<SampleAlertResult>();
+
+export function SampleAlert(props: SampleAlertProps) {
+	return (
+		<AlertDialogContent>
+			<AlertDialogHeader>
+				<AlertDialogTitle>{props.title}</AlertDialogTitle>
+				<AlertDialogDescription>{props.message}</AlertDialogDescription>
+			</AlertDialogHeader>
+			<AlertDialogFooter>
+				<AlertDialogCancel
+					onClick={() => void sampleAlert.close({ role: "cancel" })}
+				>
+					キャンセル
+				</AlertDialogCancel>
+				<AlertDialogAction
+					onClick={() =>
+						void sampleAlert.close({
+							data: { confirmed: true },
+							role: "confirm",
+						})
+					}
+				>
+					続行
+				</AlertDialogAction>
+			</AlertDialogFooter>
+		</AlertDialogContent>
+	);
+}
