@@ -11,16 +11,16 @@ This document outlines the strategy and milestones to reach 1000 GitHub stars fo
 - [x] Translate playground examples to English
 - [ ] Add live playground (StackBlitz/CodeSandbox embed)
 - [x] Create documentation site (VitePress/Starlight)
-- [ ] Write API reference docs
+- [x] Write API reference docs
 
 ### Quality
-- [ ] Achieve 90%+ test coverage
-- [ ] Add more edge case tests
+- [x] Achieve 90%+ test coverage
+- [x] Add more edge case tests
 - [ ] Performance benchmarks vs alternatives
-- [ ] Bundle size optimization
+- [x] Bundle size optimization
 
 ### Examples
-- [ ] shadcn/ui integration example
+- [x] shadcn/ui integration example
 - [ ] examples on stackblitz/codesandbox
 
 ---
