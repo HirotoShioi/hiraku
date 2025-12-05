@@ -43,9 +43,7 @@ export function SampleSheet(props: SampleSheetProps) {
 			<SheetHeader>
 				<SheetTitle>{props.title}</SheetTitle>
 				<SheetDescription>
-					{isLoading
-						? "You cannot close while loading..."
-						: props.description}
+					{isLoading ? "You cannot close while loading..." : props.description}
 				</SheetDescription>
 			</SheetHeader>
 			<SheetFooter>
