@@ -1,6 +1,6 @@
 {
 	"name": "@hirotoshioi/hiraku",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Modal state management library for radix-ui based components.",
 	"type": "module",
 	"license": "MIT",
