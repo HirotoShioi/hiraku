@@ -19,9 +19,12 @@ await confirmDialog.open({
 ```tsx
 function DeleteButton({ itemId }: { itemId: string }) {
   const handleClick = async () => {
-    await confirmDialog.open({ message: "Delete this item?" });
+    await confirmDialog.open({
+      title: "Delete item",
+      message: "Delete this item?",
+    });
     const result = await confirmDialog.onDidClose();
-    
+
     if (result.role === "confirm") {
       await deleteItem(itemId);
     }

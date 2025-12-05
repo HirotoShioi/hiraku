@@ -38,7 +38,7 @@ Same as [createDialog](/guide/api/create-dialog):
 | Feature                | Dialog          | AlertDialog             |
 | ---------------------- | --------------- | ----------------------- |
 | Click outside to close | ✅               | ❌                       |
-| Press Escape to close  | ✅               | ✅                       |
+| Press Escape to close  | ✅               | ❌                       |
 | Use case               | General content | Important confirmations |
 
 ## Example
