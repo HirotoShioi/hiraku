@@ -23,6 +23,7 @@ export default defineConfig({
 					items: [
 						{ text: "Getting Started", link: "/guide/getting-started" },
 						{ text: "Why hiraku?", link: "/guide/why-hiraku" },
+						{ text: "Examples", link: "/guide/examples" },
 					],
 				},
 				{
