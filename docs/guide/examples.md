@@ -2,6 +2,15 @@
 aside: false
 ---
 
+<div style="display: flex; gap: 8px; margin-bottom: 16px;">
+  <a href="https://codesandbox.io/p/github/HirotoShioi/hiraku-example/main?import=true&embed=1">
+    <img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Edit HirotoShioi/hiraku-example/main" />
+  </a>
+  <a href="https://stackblitz.com/~/github.com/HirotoShioi/hiraku-example?file=src/App.tsx">
+    <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+  </a>
+</div>
+
 <iframe src="https://codesandbox.io/p/github/HirotoShioi/hiraku-example/main?import=true&embed=1&file=/src/App.tsx"
      style="width:100%; height: calc(100vh - 200px); min-height: 500px; border:0; border-radius: 4px; overflow:hidden;"
      title="HirotoShioi/hiraku-example/main"
@@ -9,7 +18,7 @@ aside: false
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
-[![Edit HirotoShioi/hiraku-example/main](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/github/HirotoShioi/hiraku-example/main?import=true&embed=1)
+
 
 ## What's in the example?
 
