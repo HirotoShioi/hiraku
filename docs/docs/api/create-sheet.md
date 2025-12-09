@@ -26,7 +26,7 @@ const mySheet = createSheet(MySheetComponent).returns<ResultType>();
 
 ## Controller Methods
 
-Same as [createDialog](/guide/api/create-dialog):
+Same as [createDialog](/docs/api/create-dialog):
 
 - `open(props)` - Opens the sheet
 - `close(result?)` - Closes the sheet

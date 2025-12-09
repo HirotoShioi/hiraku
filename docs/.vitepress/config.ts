@@ -11,39 +11,36 @@ export default defineConfig({
 	themeConfig: {
 		logo: "/logo.svg",
 
-		nav: [
-			{ text: "Guide", link: "/guide/getting-started" },
-			{ text: "API", link: "/guide/api/create-dialog" },
-		],
+		nav: [{ text: "Docs", link: "/docs/getting-started" }],
 
 		sidebar: {
-			"/guide/": [
+			"/docs/": [
 				{
 					text: "Introduction",
 					items: [
-						{ text: "Getting Started", link: "/guide/getting-started" },
-						{ text: "Why hiraku?", link: "/guide/why-hiraku" },
-						{ text: "Examples", link: "/guide/examples" },
+						{ text: "Getting Started", link: "/docs/getting-started" },
+						{ text: "Why hiraku?", link: "/docs/why-hiraku" },
+						{ text: "Examples", link: "/docs/examples" },
 					],
 				},
 				{
 					text: "Basics",
 					items: [
-						{ text: "Creating Modals", link: "/guide/creating-modals" },
-						{ text: "Opening & Closing", link: "/guide/opening-closing" },
-						{ text: "Return Values", link: "/guide/return-values" },
+						{ text: "Creating Modals", link: "/docs/creating-modals" },
+						{ text: "Opening & Closing", link: "/docs/opening-closing" },
+						{ text: "Return Values", link: "/docs/return-values" },
 					],
 				},
 				{
 					text: "Advanced",
 					items: [
-						{ text: "Using useModal hook", link: "/guide/using-hooks" },
-						{ text: "Modal Controller", link: "/guide/modal-controller" },
+						{ text: "Using useModal hook", link: "/docs/using-hooks" },
+						{ text: "Modal Controller", link: "/docs/modal-controller" },
 					],
 				},
 				{
 					text: "Migration",
-					items: [{ text: "Migration Guide", link: "/guide/migration" }],
+					items: [{ text: "Migration Guide", link: "/docs/migration" }],
 				},
 				{
 					text: "API",
@@ -52,24 +49,24 @@ export default defineConfig({
 							text: "Factory Functions",
 							collapsed: true,
 							items: [
-								{ text: "createDialog", link: "/guide/api/create-dialog" },
-								{ text: "createSheet", link: "/guide/api/create-sheet" },
+								{ text: "createDialog", link: "/docs/api/create-dialog" },
+								{ text: "createSheet", link: "/docs/api/create-sheet" },
 								{
 									text: "createAlertDialog",
-									link: "/guide/api/create-alert-dialog",
+									link: "/docs/api/create-alert-dialog",
 								},
 							],
 						},
 						{
 							text: "Hooks",
 							collapsed: true,
-							items: [{ text: "useModal", link: "/guide/api/use-modal" }],
+							items: [{ text: "useModal", link: "/docs/api/use-modal" }],
 						},
 						{
 							text: "Components",
 							collapsed: true,
 							items: [
-								{ text: "ModalProvider", link: "/guide/api/modal-provider" },
+								{ text: "ModalProvider", link: "/docs/api/modal-provider" },
 							],
 						},
 						{
@@ -78,11 +75,15 @@ export default defineConfig({
 							items: [
 								{
 									text: "modalController",
-									link: "/guide/api/modal-controller",
+									link: "/docs/api/modal-controller",
 								},
 							],
 						},
 					],
+				},
+				{
+					text: "LLM",
+					items: [{ text: "LLM.txt", link: "/hiraku/llms.txt" }],
 				},
 			],
 		},

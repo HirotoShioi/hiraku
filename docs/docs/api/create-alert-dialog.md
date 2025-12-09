@@ -26,7 +26,7 @@ const myAlertDialog = createAlertDialog(MyAlertDialogComponent).returns<ResultTy
 
 ## Controller Methods
 
-Same as [createDialog](/guide/api/create-dialog):
+Same as [createDialog](/docs/api/create-dialog):
 
 - `open(props)` - Opens the alert dialog
 - `close(result?)` - Closes the alert dialog

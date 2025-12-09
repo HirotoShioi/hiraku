@@ -5,4 +5,5 @@ dist
 coverage
 
 docs/.vitepress/cache
+docs/public/llms.txt
 docs/.vitepress/dist
