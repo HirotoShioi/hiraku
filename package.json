@@ -43,6 +43,7 @@
 		"prepublishOnly": "npm run build",
 		"ci": "tsc --noEmit && vitest --coverage --run && biome lint",
 		"lint:fix": "biome format --write && biome lint --fix",
+		"build:llm-docs": "npx tsx scripts/build-llm-docs.ts",
 		"docs:dev": "vitepress dev docs",
 		"docs:build": "vitepress build docs",
 		"docs:preview": "vitepress preview docs"

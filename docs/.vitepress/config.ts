@@ -84,6 +84,10 @@ export default defineConfig({
 						},
 					],
 				},
+				{
+					text: "LLM",
+					items: [{ text: "LLM.txt", link: "/hiraku/llms.txt" }],
+				},
 			],
 		},
 
