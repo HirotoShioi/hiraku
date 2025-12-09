@@ -142,6 +142,6 @@ if (result.role === "confirm" && result.data) {
 
 ## What's Next?
 
-- Learn [why hiraku](/guide/why-hiraku) was created 
-- Explore [creating different types of modals](/guide/creating-modals)
-- Check out the [API reference](/guide/api/create-dialog)
+- Learn [why hiraku](/docs/why-hiraku) was created 
+- Explore [creating different types of modals](/docs/creating-modals)
+- Check out the [API reference](/docs/api/create-dialog)
