@@ -36,7 +36,8 @@
 	"scripts": {
 		"build": "tsdown",
 		"dev": "tsdown --watch",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint"
 	},
 	"peerDependencies": {
 		"@base-ui/react": "^1.0.0",

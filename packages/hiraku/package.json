@@ -36,7 +36,8 @@
 	"scripts": {
 		"build": "tsdown",
 		"dev": "tsdown --watch",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint"
 	},
 	"peerDependencies": {
 		"@radix-ui/react-alert-dialog": "^1.0.0",

@@ -5,6 +5,7 @@
 	"type": "module",
 	"private": true,
 	"license": "MIT",
+	"packageManager": "npm@11.1.0",
 	"workspaces": [
 		"packages/*",
 		"examples/*"
@@ -25,16 +26,17 @@
 		"modal"
 	],
 	"scripts": {
-		"build": "tsdown",
-		"dev": "tsdown --watch",
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"test": "turbo run test",
+		"typecheck": "turbo run typecheck",
+		"lint": "turbo run lint",
+		"lint:fix": "biome format --write && biome lint --fix",
+		"ci": "turbo run typecheck test lint",
 		"play": "vite --config playground/vite.config.ts",
 		"check-exports": "attw --pack .",
-		"test": "vitest",
-		"typecheck": "tsc --noEmit",
 		"release": "bumpp && npm publish",
 		"prepublishOnly": "npm run build",
-		"ci": "tsc --noEmit && vitest --coverage --run && biome lint",
-		"lint:fix": "biome format --write && biome lint --fix",
 		"build:llm-docs": "npx tsx scripts/build-llm-docs.ts",
 		"docs:dev": "vitepress dev docs",
 		"docs:build": "vitepress build docs",
