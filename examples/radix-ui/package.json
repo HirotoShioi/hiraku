@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"test": "vitest"
 	},
 	"dependencies": {
 		"@hirotoshioi/hiraku": "*",
@@ -22,12 +23,18 @@
 	},
 	"devDependencies": {
 		"@tailwindcss/vite": "^4.1.17",
+		"@testing-library/jest-dom": "^6.6.3",
 		"@types/node": "^24.10.1",
 		"@types/react": "^19.2.5",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^5.1.1",
+		"@vitest/browser": "^4.0.9",
+		"@vitest/browser-playwright": "^4.0.15",
+		"playwright": "^1.51.2",
 		"tailwindcss": "^4.1.17",
 		"typescript": "^5.9.3",
-		"vite": "^7.2.6"
+		"vite": "^7.2.6",
+		"vitest": "^4.0.9",
+		"vitest-browser-react": "^2.0.2"
 	}
 }
