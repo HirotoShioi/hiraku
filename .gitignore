@@ -4,6 +4,10 @@ dist
 .DS_Store
 coverage
 
+# Turbo
+.turbo
+
+# Docs
 docs/.vitepress/cache
 docs/public/llms.txt
 docs/.vitepress/dist
