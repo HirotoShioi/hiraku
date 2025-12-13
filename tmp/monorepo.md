@@ -16,6 +16,20 @@ packagesディレクトリを作成し、その中に以下の3つのパッケ�
 - `radix-ui` : shadcnのradix-uiコンポーネントの使用例
 
 
+### パッケージごとの概要
+
+- `@hirotoshioi/hiraku-base-ui`
+  - base-uiライブラリをpeerDependencyとして持つ
+  - coreパッケージに依存
+- `@hirotoshioi/hiraku-core`
+  - 共通のユーティリティ関数や型定義を提供
+  - 他の2つのパッケージから依存される
+  - zustandのみに依存
+- `@hirotoshioi/hiraku`
+  - shadcnのradix-uiコンポーネントを提供
+  - coreパッケージに依存
+  - peerDependencyとしてradix-uiを持つ
+
 ## 実装方針
 
 - npm workspacesを使用してmonorepoを構成する。
@@ -25,8 +39,10 @@ packagesディレクトリを作成し、その中に以下の3つのパッケ�
 - biomeの設定をmonorepo全体で共有する。
 - ほとんとのロジックをcoreパッケージに移動する
 - shadcn、base-uiはcoreに依存する形にする。providerのみをそれぞれ実装する。coreを再エクスポートする形にする。
+- バージョンは一括して管理する
 
 ## 参考資料
 
 - [biome](https://biomejs.dev/guides/big-projects/#monorepo)
+- [base-ui](https://base-ui.com/react/overview/quick-start)
 - [npm workspaces](https://docs.npmjs.com/cli/v11/using-npm/workspaces)
