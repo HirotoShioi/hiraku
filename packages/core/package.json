@@ -45,7 +45,8 @@
 		"react-dom": "^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0"
 	},
 	"dependencies": {
-		"zustand": "^5.0.9"
+		"zustand": "^5.0.9",
+		"@hirotoshioi/hiraku-core": "0.0.4"
 	},
 	"devDependencies": {
 		"@vitest/coverage-v8": "^4.0.15",

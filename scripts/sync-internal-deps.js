@@ -3,8 +3,8 @@ import { readFile, writeFile } from "node:fs/promises";
 const ROOT_PACKAGE_JSON = new URL("../package.json", import.meta.url);
 
 const PACKAGE_PATHS = [
-	new URL("../packages/hiraku/package.json", import.meta.url),
-	new URL("../packages/hiraku-base-ui/package.json", import.meta.url),
+	new URL("../packages/core/package.json", import.meta.url),
+	new URL("../packages/base-ui/package.json", import.meta.url),
 ];
 
 const CORE_PKG_NAME = "@hirotoshioi/hiraku-core";
