@@ -46,7 +46,3 @@ jobs:
 
       - name: Run tests with coverage
         run: npm run test
-
-      - name: Coverage Report
-        uses: davelosert/vitest-coverage-report-action@v2
-        if: always() && github.event_name == 'pull_request'
