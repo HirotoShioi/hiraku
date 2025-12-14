@@ -45,7 +45,7 @@ jobs:
         run: npm run typecheck && npm run lint 
 
       - name: Run tests with coverage
-        run: npx vitest --coverage --run
+        run: npm run test
 
       - name: Coverage Report
         uses: davelosert/vitest-coverage-report-action@v2

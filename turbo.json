@@ -11,7 +11,8 @@
 		},
 		"test": {
 			"dependsOn": ["build"],
-			"outputs": ["coverage/**"]
+			"outputs": [],
+			"cache": false
 		},
 		"typecheck": {
 			"dependsOn": ["^build"],

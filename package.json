@@ -28,7 +28,7 @@
 	"scripts": {
 		"build": "turbo run build",
 		"dev": "turbo run dev",
-		"test": "turbo run test",
+		"test": "turbo run test -- --run",
 		"typecheck": "turbo run typecheck",
 		"lint": "turbo run lint",
 		"lint:fix": "biome format --write && biome lint --fix",
