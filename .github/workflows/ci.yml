@@ -46,3 +46,5 @@ jobs:
 
       - name: Run tests with coverage
         run: npm run test
+        env:
+          CI: true
