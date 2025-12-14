@@ -2,7 +2,6 @@
  * Shared modal components for tests.
  */
 import {
-	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
@@ -48,11 +47,7 @@ export function ConfirmDialog({
 				<DialogDescription>{message}</DialogDescription>
 			</DialogHeader>
 			<DialogFooter>
-				<DialogClose>
-					<Button variant="outline" data-testid="cancel-btn">
-						Cancel
-					</Button>
-				</DialogClose>
+				<DialogClose data-testid="cancel-btn">Cancel</DialogClose>
 				<Button data-testid="confirm-btn" onClick={onConfirm}>
 					Confirm
 				</Button>
@@ -80,7 +75,9 @@ export function DeleteAlert({ itemName }: DeleteAlertProps) {
 			</AlertDialogHeader>
 			<AlertDialogFooter>
 				<AlertDialogCancel data-testid="alert-cancel">Cancel</AlertDialogCancel>
-				<AlertDialogAction data-testid="alert-action">Delete</AlertDialogAction>
+				<AlertDialogCancel variant="default" data-testid="alert-action">
+					Delete
+				</AlertDialogCancel>
 			</AlertDialogFooter>
 		</AlertDialogContent>
 	);
