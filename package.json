@@ -34,7 +34,7 @@
 		"lint:fix": "biome format --write && biome lint --fix",
 		"ci": "turbo run typecheck test lint",
 		"play": "vite --config playground/vite.config.ts",
-		"release": "bumpp package.json packages/*/package.json && node scripts/sync-internal-deps.js && npm run build && npm publish -w @hirotoshioi/hiraku-core -w @hirotoshioi/hiraku-base-ui -w @hirotoshioi/hiraku --access public",
+		"bumpp": "bumpp",
 		"prepublishOnly": "npm run build",
 		"build:llm-docs": "npx tsx scripts/build-llm-docs.ts",
 		"docs:dev": "vitepress dev docs",
