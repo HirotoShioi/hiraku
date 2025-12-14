@@ -34,7 +34,7 @@
 		"lint:fix": "biome format --write && biome lint --fix",
 		"ci": "turbo run typecheck test lint",
 		"play": "vite --config playground/vite.config.ts",
-		"bumpp": "bumpp",
+		"release": "bumpp -r",
 		"prepublishOnly": "npm run build",
 		"build:llm-docs": "npx tsx scripts/build-llm-docs.ts",
 		"docs:dev": "vitepress dev docs",
