@@ -3,4 +3,4 @@
  * Loads Tailwind CSS and testing library matchers.
  */
 import "@testing-library/jest-dom";
-import "./src/style.css";
+import "./src/index.css";

@@ -1,6 +1,6 @@
 import { DeclarativeDemo } from "./components/examples/hooks";
 import { ImperativeDemo } from "./components/examples/modal";
-import "./style.css";
+import "./index.css";
 import { ModalProvider } from "@hirotoshioi/hiraku";
 
 function App() {

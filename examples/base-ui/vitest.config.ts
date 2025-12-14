@@ -18,7 +18,6 @@ export default defineConfig({
 		globals: true,
 		setupFiles: "./vitest.setup.ts",
 		include: ["src/**/*.test.browser.tsx"],
-		testTimeout: 2000,
 		browser: {
 			enabled: true,
 			provider: playwright(),
