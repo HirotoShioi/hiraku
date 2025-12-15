@@ -5,12 +5,30 @@ on:
     branches:
       - main
     paths:
-      - "src/**"
-      - "playground/**"
+      - "packages/**"
+      - "examples/**"
+      - "scripts/**"
+      - ".github/workflows/ci.yml"
+      - "package.json"
+      - "package-lock.json"
+      - "turbo.json"
+      - "tsconfig.json"
+      - "tsconfig.base.json"
+      - "vitest.config.ts"
+      - "biome.json"
   pull_request:
     paths:
-      - "src/**"
-      - "playground/**"
+      - "packages/**"
+      - "examples/**"
+      - "scripts/**"
+      - ".github/workflows/ci.yml"
+      - "package.json"
+      - "package-lock.json"
+      - "turbo.json"
+      - "tsconfig.json"
+      - "tsconfig.base.json"
+      - "vitest.config.ts"
+      - "biome.json"
 
 permissions:
   contents: read
