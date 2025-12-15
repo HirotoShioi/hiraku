@@ -3,9 +3,7 @@
  *
  * Exercises Radix UI-based shadcn/ui components in a real browser environment.
  */
-import { beforeEach, describe, expect, it } from "vitest";
-import { page, userEvent } from "vitest/browser";
-import { render } from "vitest-browser-react";
+
 import {
 	createAlertDialog,
 	createDialog,
@@ -13,7 +11,10 @@ import {
 	ModalProvider,
 	modalController,
 	useModalStore,
-} from "@hirotoshioi/hiraku";
+} from "@hirotoshioi/hiraku-radix-ui";
+import { beforeEach, describe, expect, it } from "vitest";
+import { page, userEvent } from "vitest/browser";
+import { render } from "vitest-browser-react";
 import {
 	ConfirmDialog,
 	DeleteAlert,

@@ -1,11 +1,7 @@
 /**
  * Browser integration tests for the useModal hook.
  */
-import React from "react";
-import { beforeEach, describe, expect, it } from "vitest";
-import { page, userEvent } from "vitest/browser";
-import { render } from "vitest-browser-react";
-import { Button } from "@/components/ui/button";
+
 import {
 	createAlertDialog,
 	createDialog,
@@ -14,7 +10,12 @@ import {
 	modalController,
 	useModal,
 	useModalStore,
-} from "@hirotoshioi/hiraku";
+} from "@hirotoshioi/hiraku-radix-ui";
+import React from "react";
+import { beforeEach, describe, expect, it } from "vitest";
+import { page, userEvent } from "vitest/browser";
+import { render } from "vitest-browser-react";
+import { Button } from "@/components/ui/button";
 import { ConfirmDialog, DeleteAlert, SettingsSheet } from "./test-components";
 
 // =============================================================================
