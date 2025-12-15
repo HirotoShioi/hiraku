@@ -1,5 +1,5 @@
 {
-	"name": "@hirotoshioi/hiraku",
+	"name": "@hirotoshioi/hiraku-radix-ui",
 	"version": "0.0.4",
 	"description": "Modal state management library for Radix UI based components",
 	"type": "module",

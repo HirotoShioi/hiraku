@@ -1,3 +1,4 @@
+import { createAlertDialog } from "@hirotoshioi/hiraku-radix-ui";
 import {
 	AlertDialogAction,
 	AlertDialogCancel,
@@ -7,7 +8,6 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { createAlertDialog } from "@hirotoshioi/hiraku";
 
 export interface SampleAlertProps {
 	title: string;

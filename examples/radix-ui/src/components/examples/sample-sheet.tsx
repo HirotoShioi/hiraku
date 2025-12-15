@@ -1,3 +1,4 @@
+import { createSheet } from "@hirotoshioi/hiraku-radix-ui";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,7 +9,6 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "@/components/ui/sheet";
-import { createSheet } from "@hirotoshioi/hiraku";
 
 export interface SampleSheetProps {
 	title: string;

@@ -1,7 +1,7 @@
 import { DeclarativeDemo } from "./components/examples/hooks";
 import { ImperativeDemo } from "./components/examples/modal";
 import "./index.css";
-import { ModalProvider } from "@hirotoshioi/hiraku";
+import { ModalProvider } from "@hirotoshioi/hiraku-radix-ui";
 
 function App() {
 	return (

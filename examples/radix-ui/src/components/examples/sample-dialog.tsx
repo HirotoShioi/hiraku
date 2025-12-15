@@ -1,3 +1,4 @@
+import { createAlertDialog, createDialog } from "@hirotoshioi/hiraku-radix-ui";
 import {
 	AlertDialogAction,
 	AlertDialogContent,
@@ -17,7 +18,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createAlertDialog, createDialog } from "@hirotoshioi/hiraku";
 
 const profileUpdatedAlert = createAlertDialog(ProfileUpdatedAlert);
 

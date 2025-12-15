@@ -1,6 +1,6 @@
+import { useModal } from "@hirotoshioi/hiraku-radix-ui";
 import { sampleSheetModal } from "@/components/examples/sample-sheet";
 import { Button } from "@/components/ui/button";
-import { useModal } from "@hirotoshioi/hiraku";
 
 export function DeclarativeDemo() {
 	const sampleSheet = useModal(sampleSheetModal);

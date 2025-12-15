@@ -1,4 +1,4 @@
-import { useModal } from "@hirotoshioi/hiraku";
+import { useModal } from "@hirotoshioi/hiraku-base-ui";
 import { sampleSheetModal } from "@/components/examples/sample-sheet";
 import { Button } from "@/components/ui/button";
 

@@ -1,4 +1,4 @@
-import { createAlertDialog } from "@hirotoshioi/hiraku";
+import { createAlertDialog } from "@hirotoshioi/hiraku-base-ui";
 import {
 	AlertDialogAction,
 	AlertDialogCancel,

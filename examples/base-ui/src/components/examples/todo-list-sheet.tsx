@@ -1,4 +1,4 @@
-import { createSheet } from "@hirotoshioi/hiraku";
+import { createSheet } from "@hirotoshioi/hiraku-base-ui";
 import { Button } from "@/components/ui/button";
 import {
 	SheetClose,
