@@ -42,11 +42,9 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run lint and typecheck
-        run: tsc --noEmit && npx biome lint
+        run: npm run typecheck && npm run lint 
 
       - name: Run tests with coverage
-        run: npx vitest --coverage --run
-
-      - name: Coverage Report
-        uses: davelosert/vitest-coverage-report-action@v2
-        if: always() && github.event_name == 'pull_request'
+        run: npm run test
+        env:
+          CI: true

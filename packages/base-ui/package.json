@@ -1,0 +1,50 @@
+{
+	"name": "@hirotoshioi/hiraku-base-ui",
+	"version": "0.0.4",
+	"description": "Modal state management library for Base UI based components",
+	"type": "module",
+	"license": "MIT",
+	"homepage": "https://hirotoshioi.github.io/hiraku/",
+	"bugs": {
+		"url": "https://github.com/hirotoshioi/hiraku/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/hirotoshioi/hiraku.git",
+		"directory": "packages/hiraku-base-ui"
+	},
+	"author": "Hirot Shioi",
+	"files": [
+		"dist"
+	],
+	"keywords": [
+		"react",
+		"base-ui",
+		"mui",
+		"modal"
+	],
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint"
+	},
+	"peerDependencies": {
+		"@base-ui/react": "^1.0.0",
+		"react": "^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0",
+		"react-dom": "^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0"
+	},
+	"dependencies": {
+		"@hirotoshioi/hiraku-core": "0.0.4"
+	}
+}
