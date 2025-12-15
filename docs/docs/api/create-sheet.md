@@ -13,7 +13,7 @@ function createSheet<T extends ComponentType<any>>(
 ## Usage
 
 ```tsx
-import { createSheet } from "@hirotoshioi/hiraku";
+import { createSheet } from "@hirotoshioi/hiraku-radix-ui";
 
 const mySheet = createSheet(MySheetComponent);
 ```
@@ -36,7 +36,7 @@ Same as [createDialog](/docs/api/create-dialog):
 ## Example
 
 ```tsx
-import { createSheet } from "@hirotoshioi/hiraku";
+import { createSheet } from "@hirotoshioi/hiraku-radix-ui";
 import {
   SheetContent,
   SheetHeader,

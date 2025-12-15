@@ -11,7 +11,7 @@ function useModal<T>(controller: ModalController<T>): UseModalReturn<T>;
 ## Usage
 
 ```tsx
-import { useModal } from "@hirotoshioi/hiraku";
+import { useModal } from "@hirotoshioi/hiraku-radix-ui";
 import { confirmDialog } from "@/modals/confirm-dialog";
 
 function MyComponent() {

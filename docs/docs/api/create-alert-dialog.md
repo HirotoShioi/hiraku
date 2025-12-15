@@ -13,7 +13,7 @@ function createAlertDialog<T extends ComponentType<any>>(
 ## Usage
 
 ```tsx
-import { createAlertDialog } from "@hirotoshioi/hiraku";
+import { createAlertDialog } from "@hirotoshioi/hiraku-radix-ui";
 
 const myAlertDialog = createAlertDialog(MyAlertDialogComponent);
 ```
@@ -44,7 +44,7 @@ Same as [createDialog](/docs/api/create-dialog):
 ## Example
 
 ```tsx
-import { createAlertDialog } from "@hirotoshioi/hiraku";
+import { createAlertDialog } from "@hirotoshioi/hiraku-radix-ui";
 import {
   AlertDialogContent,
   AlertDialogHeader,

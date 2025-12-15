@@ -5,7 +5,7 @@ Global utilities for managing all modals.
 ## Import
 
 ```tsx
-import { modalController } from "@hirotoshioi/hiraku";
+import { modalController } from "@hirotoshioi/hiraku-radix-ui";
 ```
 
 ## Methods

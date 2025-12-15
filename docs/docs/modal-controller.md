@@ -5,7 +5,7 @@ The `modalController` provides global utilities for managing all modals.
 ## Import
 
 ```tsx
-import { modalController } from "@hirotoshioi/hiraku";
+import { modalController } from "@hirotoshioi/hiraku-radix-ui";
 ```
 
 ## Methods
@@ -62,4 +62,3 @@ if (topModal) {
   console.log("Top modal ID:", topModal.id);
 }
 ```
-

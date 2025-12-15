@@ -91,7 +91,7 @@ myDialog.close({ data: someValue, role: "confirm" });
 ### Close All Modals
 
 ```tsx
-import { modalController } from "@hirotoshioi/hiraku";
+import { modalController } from "@hirotoshioi/hiraku-radix-ui";
 
 // Close all open modals
 modalController.closeAll();
@@ -133,7 +133,7 @@ if (confirmDialog.isOpen()) {
 }
 
 // Check if any modal is open
-import { modalController } from "@hirotoshioi/hiraku";
+import { modalController } from "@hirotoshioi/hiraku-radix-ui";
 
 if (modalController.isOpen()) {
   console.log("Some modal is open");

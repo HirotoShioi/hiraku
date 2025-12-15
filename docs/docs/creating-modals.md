@@ -7,7 +7,7 @@ hiraku supports three types of modals: **Dialog**, **Sheet**, and **AlertDialog*
 The most common modal type. Use for forms, confirmations, and general content.
 
 ```tsx
-import { createDialog } from "@hirotoshioi/hiraku";
+import { createDialog } from "@hirotoshioi/hiraku-radix-ui";
 import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface EditUserProps {
@@ -39,7 +39,7 @@ export const editUserDialog = createDialog(EditUserDialog).returns<string>();
 A slide-out panel from the edge of the screen. Great for navigation, filters, or detailed views.
 
 ```tsx
-import { createSheet } from "@hirotoshioi/hiraku";
+import { createSheet } from "@hirotoshioi/hiraku-radix-ui";
 import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 interface FilterSheetProps {
@@ -76,7 +76,7 @@ export const filterSheet = createSheet(FilterSheet).returns<string[]>();
 For important confirmations that require user attention. Cannot be dismissed by clicking outside.
 
 ```tsx
-import { createAlertDialog } from "@hirotoshioi/hiraku";
+import { createAlertDialog } from "@hirotoshioi/hiraku-radix-ui";
 import {
   AlertDialogContent,
   AlertDialogHeader,
