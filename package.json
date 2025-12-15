@@ -18,7 +18,7 @@
 		"type": "git",
 		"url": "git+https://github.com/hirotoshioi/hiraku.git"
 	},
-	"author": "Hirot Shioi",
+	"author": "Hiroto Shioi",
 	"keywords": [
 		"react",
 		"radix-ui",

@@ -1,7 +1,7 @@
 {
-	"name": "@hirotoshioi/hiraku-radix-ui",
+	"name": "@hirotoshioi/hiraku",
 	"version": "0.0.4",
-	"description": "Modal state management library for Radix UI based components",
+	"description": "[DEPRECATED] This package has been renamed to @hirotoshioi/hiraku-radix-ui",
 	"type": "module",
 	"license": "MIT",
 	"homepage": "https://hirotoshioi.github.io/hiraku/",
@@ -21,7 +21,8 @@
 		"react",
 		"radix-ui",
 		"shadcn-ui",
-		"modal"
+		"modal",
+		"deprecated"
 	],
 	"main": "./dist/index.js",
 	"module": "./dist/index.js",
@@ -46,6 +47,6 @@
 		"react-dom": "^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0"
 	},
 	"dependencies": {
-		"@hirotoshioi/hiraku-core": "0.0.4"
+		"@hirotoshioi/hiraku-radix-ui": "^0.0.4"
 	}
 }

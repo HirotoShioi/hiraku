@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/hiraku-logo.svg" alt="hiraku" width="400" />
+  <img src="../../assets/hiraku-logo.svg" alt="hiraku" width="400" />
 </p>
 
 <p align="center">
@@ -7,10 +7,10 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@hirotoshioi/hiraku"><img src="https://img.shields.io/npm/v/@hirotoshioi/hiraku?style=flat&colorA=18181b&colorB=d946ef" alt="npm version" /></a>
-  <a href="https://bundlephobia.com/result?p=@hirotoshioi/hiraku"><img src="https://img.shields.io/bundlephobia/minzip/@hirotoshioi/hiraku?style=flat&colorA=18181b&colorB=d946ef&label=bundle" alt="bundle size" /></a>
-  <a href="https://www.npmjs.com/package/@hirotoshioi/hiraku"><img src="https://img.shields.io/npm/dt/@hirotoshioi/hiraku?style=flat&colorA=18181b&colorB=d946ef" alt="downloads" /></a>
-  <a href="https://github.com/hirotoshioi/hiraku/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/@hirotoshioi/hiraku?style=flat&colorA=18181b&colorB=d946ef" alt="license" /></a>
+  <a href="https://www.npmjs.com/package/@hirotoshioi/hiraku-radix-ui"><img src="https://img.shields.io/npm/v/@hirotoshioi/hiraku-radix-ui?style=flat&colorA=18181b&colorB=d946ef" alt="npm version" /></a>
+  <a href="https://bundlephobia.com/result?p=@hirotoshioi/hiraku-radix-ui"><img src="https://img.shields.io/bundlephobia/minzip/@hirotoshioi/hiraku-radix-ui?style=flat&colorA=18181b&colorB=d946ef&label=bundle" alt="bundle size" /></a>
+  <a href="https://www.npmjs.com/package/@hirotoshioi/hiraku-radix-ui"><img src="https://img.shields.io/npm/dt/@hirotoshioi/hiraku-radix-ui?style=flat&colorA=18181b&colorB=d946ef" alt="downloads" /></a>
+  <a href="https://github.com/hirotoshioi/hiraku/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/@hirotoshioi/hiraku-radix-ui?style=flat&colorA=18181b&colorB=d946ef" alt="license" /></a>
   <a href="https://deepwiki.com/HirotoShioi/hiraku"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 </p>
 
@@ -24,9 +24,20 @@
 
 ---
 
+## 📦 Migrating from @hirotoshioi/hiraku?
+
+If you're using the old package name `@hirotoshioi/hiraku`, please see the [Migration Guide](../../MIGRATION.md).
+
+**Quick summary:**
+1. `npm install @hirotoshioi/hiraku-radix-ui`
+2. Update imports: `from '@hirotoshioi/hiraku'` → `from '@hirotoshioi/hiraku-radix-ui'`
+3. Done! (No API changes)
+
+---
+
 ## Features
 
-- ⚡ **Open from anywhere** - Call `modal.open()` from any file, even outside React components 
+- ⚡ **Open from anywhere** - Call `modal.open()` from any file, even outside React components
 - 🔒 **Type-safe** - Strongly typed
 - 🎯 **Radix UI native** - First-class support for Dialog, Sheet, and AlertDialog
 - 🪶 **Lightweight** - ~3KB gzipped, only zustand as dependency
@@ -36,7 +47,7 @@
 ## Installation
 
 ```bash
-npm install @hirotoshioi/hiraku
+npm install @hirotoshioi/hiraku-radix-ui
 ```
 
 Radix UI dialog primitives are required as peer dependencies:
@@ -51,7 +62,7 @@ npm install @radix-ui/react-dialog @radix-ui/react-alert-dialog
 
 ```tsx
 // app.tsx
-import { ModalProvider } from "@hirotoshioi/hiraku";
+import { ModalProvider } from "@hirotoshioi/hiraku-radix-ui";
 
 function App() {
   return (
@@ -69,7 +80,7 @@ function App() {
 // modals/confirm-dialog.tsx
 import { DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { createDialog } from "@hirotoshioi/hiraku";
+import { createDialog } from "@hirotoshioi/hiraku-radix-ui";
 
 interface ConfirmDialogProps {
   title: string;
@@ -158,7 +169,7 @@ myModal.isOpen()               // Check if modal is open
 React hook for using modals within components:
 
 ```tsx
-import { useModal } from "@hirotoshioi/hiraku";
+import { useModal } from "@hirotoshioi/hiraku-radix-ui";
 
 function MyComponent() {
   const modal = useModal(confirmDialog);
@@ -179,7 +190,7 @@ function MyComponent() {
 ### Global Controller
 
 ```tsx
-import { modalController } from "@hirotoshioi/hiraku";
+import { modalController } from "@hirotoshioi/hiraku-radix-ui";
 
 modalController.closeAll()    // Close all open modals
 modalController.getCount()    // Get count of open modals
@@ -193,7 +204,7 @@ hiraku works seamlessly with shadcn/ui components. Just implement `Content` and 
 
 ```tsx
 import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { createSheet } from "@hirotoshioi/hiraku";
+import { createSheet } from "@hirotoshioi/hiraku-radix-ui";
 
 function MySheet({ title }: { title: string }) {
   return (
@@ -214,7 +225,7 @@ export const mySheet = createSheet(MySheet);
 
 With traditional patterns, modal components are often controlled by their parent for open/close state. That tight coupling hurts readability and maintainability.
 
-If you’ve built React apps, you’ve probably seen something like this:
+If you've built React apps, you've probably seen something like this:
 
 ```tsx
 import { MyDialog } from "./MyDialog";
@@ -252,6 +263,13 @@ function Parent() {
 }
 ```
 
+## Other UI Frameworks
+
+hiraku is part of a monorepo supporting multiple UI frameworks:
+
+- **[@hirotoshioi/hiraku-radix-ui](../radix-ui/)** - Radix UI implementation (this package)
+- **[@hirotoshioi/hiraku-base-ui](../base-ui/)** - Base UI (MUI) implementation
+- **[@hirotoshioi/hiraku-core](../core/)** - Framework-agnostic core for building custom implementations
 
 ## License
 
