@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <b>hiraku core</b> - Framework-agnostic, strongly typed modal state management (no UI primitives included)
+  <b>hiraku core</b> - Shared logic & types for hiraku integrations (no UI primitives included)
 </p>
 
 <p align="center">
@@ -16,10 +16,9 @@
 
 <p align="center">
   <a href="#features">Features</a> •
-  <a href="#when-to-use-hiraku-core">When to use</a> •
+  <a href="#recommended-usage">Recommended usage</a> •
   <a href="#installation">Installation</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="#api">API</a>
+  <a href="#exports">Exports</a>
 </p>
 
 ---
@@ -28,20 +27,18 @@
 
 - ⚡ **Open from anywhere** - Call `modal.open()` from any file, even outside React components
 - 🔒 **Type-safe** - Strongly typed props + close results
-- 🧩 **Framework-agnostic** - No Radix/Base UI dependency, bring your own primitives
-- 🪶 **Lightweight** - Depends only on zustand (React is a peer dependency)
+- 🧩 **Framework-agnostic** - No Radix/Base UI dependency
+- 🪶 **Lightweight** - Depends only on zustand
+- 🧱 **Integration-first** - This package is typically used via an integration package
 
-## When to use hiraku-core
+## Recommended usage
 
-Use `@hirotoshioi/hiraku-core` if you want to:
-
-- build a custom integration for your own modal primitives/design system
-- control how modal instances are rendered (portals, animations, stacking, etc.)
-
-If you just want a ready-to-use provider, install an integration package instead:
+Most apps should install an integration package:
 
 - **Radix UI**: `@hirotoshioi/hiraku-radix-ui` (see `packages/radix-ui/`)
 - **Base UI**: `@hirotoshioi/hiraku-base-ui` (see `packages/base-ui/`)
+
+`@hirotoshioi/hiraku-core` is the shared implementation used by those packages (and for building custom integrations).
 
 ## Installation
 
@@ -49,70 +46,14 @@ If you just want a ready-to-use provider, install an integration package instead
 npm install @hirotoshioi/hiraku-core
 ```
 
-## Quick Start
+## Exports
 
-`hiraku-core` does not ship a `ModalProvider`. To render modals, create a provider that:
+- Factories: `createDialog`, `createSheet`, `createAlertDialog`
+- Hooks: `useModal`, `useModalStore`
+- Global: `modalController`
+- Types: `ModalRole`, `ModalResult`, `ModalWrapperType`, etc.
 
-1. reads `useModalStore((s) => s.modals)`
-2. maps `modal.wrapper` (`"dialog" | "sheet" | "alert-dialog" | Component`) to your UI framework root component
-3. renders `modal.component` with `modal.props`
-4. calls `useModalStore((s) => s.close)` when `onOpenChange(false)` happens
-
-For a complete reference implementation, see:
+If you’re implementing a custom provider, the reference providers live in:
 
 - `packages/radix-ui/src/provider.tsx`
 - `packages/base-ui/src/provider.tsx`
-
-## API
-
-### Factory Functions
-
-| Function                       | Description                                          |
-| ------------------------------ | ---------------------------------------------------- |
-| `createDialog(Component)`      | Create a modal controller (default wrapper: dialog)  |
-| `createSheet(Component)`       | Create a modal controller (wrapper: sheet)           |
-| `createAlertDialog(Component)` | Create a modal controller (wrapper: alert-dialog)    |
-
-### Modal Controller
-
-API for controllers created by `createDialog` and other factories:
-
-```tsx
-import { createDialog } from "@hirotoshioi/hiraku-core";
-
-const myModal = createDialog(MyComponent).returns<ResultType>();
-
-myModal.open(props)            // Open the modal (returns Promise)
-myModal.close({ data, role })  // Close the modal with result
-myModal.onDidClose()           // Get Promise that resolves when closed
-myModal.isOpen()               // Check if modal is open
-```
-
-### useModal Hook
-
-```tsx
-import { useModal } from "@hirotoshioi/hiraku-core";
-
-function MyComponent() {
-  const modal = useModal(myModal);
-  return (
-    <>
-      <button onClick={() => modal.open()}>Open</button>
-      <p>isOpen: {modal.isOpen}</p>
-      <p>role: {modal.role}</p>
-      <p>data: {JSON.stringify(modal.data)}</p>
-    </>
-  );
-}
-```
-
-### Store / Global Controller
-
-```tsx
-import { modalController, useModalStore } from "@hirotoshioi/hiraku-core";
-
-modalController.closeAll() // Close all open modals
-modalController.getTop()   // Get the topmost modal instance
-
-const modals = useModalStore((s) => s.modals);
-```
