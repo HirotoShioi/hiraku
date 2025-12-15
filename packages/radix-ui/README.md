@@ -273,4 +273,4 @@ hiraku is part of a monorepo supporting multiple UI frameworks:
 
 ## License
 
-MIT © [Hirot Shioi](https://github.com/hirotoshioi)
+MIT © [Hiroto Shioi](https://github.com/hirotoshioi)

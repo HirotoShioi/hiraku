@@ -13,7 +13,7 @@
 		"url": "git+https://github.com/hirotoshioi/hiraku.git",
 		"directory": "packages/hiraku"
 	},
-	"author": "Hirot Shioi",
+	"author": "Hiroto Shioi",
 	"files": [
 		"dist"
 	],

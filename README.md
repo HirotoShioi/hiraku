@@ -255,4 +255,4 @@ function Parent() {
 
 ## License
 
-MIT © [Hirot Shioi](https://github.com/hirotoshioi)
+MIT © [Hiroto Shioi](https://github.com/hirotoshioi)

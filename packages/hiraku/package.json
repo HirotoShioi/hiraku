@@ -1,6 +1,6 @@
 {
 	"name": "@hirotoshioi/hiraku",
-	"version": "1.0.0",
+	"version": "0.0.4",
 	"description": "[DEPRECATED] This package has been renamed to @hirotoshioi/hiraku-radix-ui",
 	"type": "module",
 	"license": "MIT",
@@ -13,7 +13,7 @@
 		"url": "git+https://github.com/hirotoshioi/hiraku.git",
 		"directory": "packages/hiraku"
 	},
-	"author": "Hirot Shioi",
+	"author": "Hiroto Shioi",
 	"files": [
 		"dist"
 	],
