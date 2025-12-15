@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/a11y/noLabelWithoutControl: <explanation> */
+/** biome-ignore-all lint/a11y/noLabelWithoutControl: This is a thin wrapper; control association is handled by consumers. */
 "use client";
 
 import type * as React from "react";

@@ -1,5 +1,5 @@
-/** biome-ignore-all lint/a11y/useSemanticElements: <explanation> */
-/** biome-ignore-all lint/a11y/useKeyWithClickEvents: <explanation> */
+/** biome-ignore-all lint/a11y/useSemanticElements: This component is a generic wrapper with ARIA roles for grouping. */
+/** biome-ignore-all lint/a11y/useKeyWithClickEvents: This file contains non-interactive wrappers styled to look interactive. */
 "use client";
 
 import { cva, type VariantProps } from "class-variance-authority";
