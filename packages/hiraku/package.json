@@ -1,0 +1,52 @@
+{
+	"name": "@hirotoshioi/hiraku",
+	"version": "1.0.0",
+	"description": "[DEPRECATED] This package has been renamed to @hirotoshioi/hiraku-radix-ui",
+	"type": "module",
+	"license": "MIT",
+	"homepage": "https://hirotoshioi.github.io/hiraku/",
+	"bugs": {
+		"url": "https://github.com/hirotoshioi/hiraku/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/hirotoshioi/hiraku.git",
+		"directory": "packages/hiraku"
+	},
+	"author": "Hirot Shioi",
+	"files": [
+		"dist"
+	],
+	"keywords": [
+		"react",
+		"radix-ui",
+		"shadcn-ui",
+		"modal",
+		"deprecated"
+	],
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint"
+	},
+	"peerDependencies": {
+		"@radix-ui/react-alert-dialog": "^1.0.0",
+		"@radix-ui/react-dialog": "^1.0.0",
+		"react": "^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0",
+		"react-dom": "^16.12.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0"
+	},
+	"dependencies": {
+		"@hirotoshioi/hiraku-radix-ui": "^0.0.4"
+	}
+}
