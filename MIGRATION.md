@@ -66,7 +66,7 @@ The old package `@hirotoshioi/hiraku` will continue to work temporarily as it no
 
 ## Timeline
 
-- **v1.0.0** - `@hirotoshioi/hiraku` is deprecated and re-exports `@hirotoshioi/hiraku-radix-ui`
+- **v0.0.4** - `@hirotoshioi/hiraku` is deprecated and re-exports `@hirotoshioi/hiraku-radix-ui`
 - **Future** - The old package may be unpublished after sufficient migration period
 
 Thank you for using hiraku!
