@@ -1,6 +1,6 @@
 {
 	"name": "@hirotoshioi/hiraku-core",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Core modal state management library for React",
 	"type": "module",
 	"license": "MIT",

@@ -1,6 +1,6 @@
 {
 	"name": "@hirotoshioi/hiraku-base-ui",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Modal state management library for Base UI based components",
 	"type": "module",
 	"license": "MIT",

@@ -1,6 +1,6 @@
 {
 	"name": "@hirotoshioi/hiraku-monorepo",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Modal state management library for radix-ui and base-ui based components.",
 	"type": "module",
 	"private": true,
@@ -34,7 +34,7 @@
 		"lint:fix": "biome format --write && biome lint --fix",
 		"ci": "turbo run typecheck test lint",
 		"play": "vite --config playground/vite.config.ts",
-		"release": "bumpp",
+		"release": "bumpp && npm publish --workspaces --access public",
 		"prepublishOnly": "npm run build",
 		"build:llm-docs": "npx tsx scripts/build-llm-docs.ts",
 		"docs:dev": "vitepress dev docs",
