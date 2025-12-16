@@ -31,7 +31,7 @@ function ConfirmDialog({ isOpen, onClose, onConfirm, message }) {
 Simply remove `Dialog.Root` and create a controller:
 
 ```tsx
-import { createDialog } from "@hirotoshioi/hiraku";
+import { createDialog } from "@hirotoshioi/hiraku-radix-ui";
 
 function ConfirmDialog({ message }: { message: string }) {
   return (
@@ -54,6 +54,10 @@ function ConfirmDialog({ message }: { message: string }) {
 
 export const confirmDialog = createDialog(ConfirmDialog).returns<boolean>();
 ```
+
+::: tip
+If you were using `@hirotoshioi/hiraku`, migrate to `@hirotoshioi/hiraku-radix-ui` (the old package name is deprecated).
+:::
 
 ## Updating Usage Sites
 

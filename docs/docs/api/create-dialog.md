@@ -13,7 +13,7 @@ function createDialog<T extends ComponentType<any>>(
 ## Usage
 
 ```tsx
-import { createDialog } from "@hirotoshioi/hiraku";
+import { createDialog } from "@hirotoshioi/hiraku-radix-ui";
 
 const myDialog = createDialog(MyDialogComponent);
 ```
@@ -79,7 +79,7 @@ if (myDialog.isOpen()) {
 ## Example
 
 ```tsx
-import { createDialog } from "@hirotoshioi/hiraku";
+import { createDialog } from "@hirotoshioi/hiraku-radix-ui";
 import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface Props {

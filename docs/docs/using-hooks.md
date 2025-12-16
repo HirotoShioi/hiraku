@@ -5,7 +5,7 @@ The `useModal` hook provides a React-friendly way to interact with modals, with 
 ## Basic Usage
 
 ```tsx
-import { useModal } from "@hirotoshioi/hiraku";
+import { useModal } from "@hirotoshioi/hiraku-radix-ui";
 import { confirmDialog } from "@/modals/confirm-dialog";
 
 function MyComponent() {

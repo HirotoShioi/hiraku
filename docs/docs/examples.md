@@ -2,44 +2,9 @@
 aside: false
 ---
 
-<div style="display: flex; gap: 8px; margin-bottom: 16px;">
-  <a href="https://codesandbox.io/p/github/HirotoShioi/hiraku-example/main?import=true&embed=1">
-    <img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Edit HirotoShioi/hiraku-example/main" />
-  </a>
-  <a href="https://stackblitz.com/~/github.com/HirotoShioi/hiraku-example?file=src/App.tsx">
-    <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
-  </a>
-</div>
+## Online playground (Radix UI)
 
-<iframe src="https://codesandbox.io/p/github/HirotoShioi/hiraku-example/main?import=true&embed=1&file=/src/App.tsx"
-     style="width:100%; height: calc(100vh - 200px); min-height: 500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="HirotoShioi/hiraku-example/main"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+If you want a lightweight online sandbox, use the separate example repo:
 
-
-
-## What's in the example?
-
-This example demonstrates the core features of hiraku:
-
-- **Dialog**: A simple confirmation dialog with return values
-- **Sheet**: A slide-out panel for forms and content
-- **AlertDialog**: A confirmation dialog for destructive actions
-- **Type-safe props**: Full TypeScript support for modal props
-- **Opening from anywhere**: Call modals from event handlers, utility functions, etc.
-
-## Running locally
-
-```bash
-# Clone the example repository
-git clone https://github.com/HirotoShioi/hiraku-example.git
-cd hiraku-example
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
-```
+- CodeSandbox: https://codesandbox.io/p/github/HirotoShioi/hiraku-example/main?import=true&embed=1
+- StackBlitz: https://stackblitz.com/~/github.com/HirotoShioi/hiraku-example?file=src/App.tsx

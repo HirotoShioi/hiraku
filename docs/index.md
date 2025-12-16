@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "hiraku"
   text: "開く"
-  tagline: Strongly typed, modal state management for Radix UI
+  tagline: Strongly typed, modal state management for React (Radix UI + Base UI)
   image:
     src: /logo.svg
     alt: hiraku
@@ -23,12 +23,12 @@ features:
   - icon: 🔒
     title: Type-safe
     details: Full TypeScript support with strongly typed props and return values
-  - icon: 🎯
-    title: Radix UI native
-    details: First-class support for Dialog, Sheet, and AlertDialog
+  - icon: 🧩
+    title: Multiple UI frameworks
+    details: Radix UI and Base UI providers (same core API)
   - icon: 🪶
     title: Lightweight
-    details: ~3KB gzipped, only zustand as dependency
+    details: zustand-based core, minimal overhead
   - icon: 🎨
     title: shadcn/ui ready
     details: Works seamlessly with your existing components

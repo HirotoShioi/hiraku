@@ -3,7 +3,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
 	title: "hiraku",
 	description:
-		"Strongly typed, modal state management system for Radix UI based applications.",
+		"Strongly typed, modal state management system for React (Radix UI + Base UI).",
 	base: "/hiraku/",
 
 	head: [["link", { rel: "icon", href: "/hiraku/favicon.ico" }]],
@@ -19,6 +19,7 @@ export default defineConfig({
 					text: "Introduction",
 					items: [
 						{ text: "Getting Started", link: "/docs/getting-started" },
+						{ text: "Packages", link: "/docs/packages" },
 						{ text: "Why hiraku?", link: "/docs/why-hiraku" },
 						{ text: "Examples", link: "/docs/examples" },
 					],

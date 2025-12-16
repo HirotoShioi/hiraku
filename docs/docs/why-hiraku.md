@@ -46,7 +46,7 @@ function Parent() {
 }
 ```
 
-A global store powered by Zustand manages the modal lifecycle. It natively supports Radix UI's Dialog, Sheet, and AlertDialog, integrating seamlessly with shadcn/ui.
+A global store powered by Zustand manages the modal lifecycle. It supports multiple UI frameworks via integration packages (Radix UI and Base UI), while keeping the same core API.
 
 No compromises on TypeScript either. Props are automatically inferred, and return values are fully type-safe.
 
