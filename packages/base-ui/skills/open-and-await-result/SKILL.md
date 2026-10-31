@@ -3,7 +3,7 @@ name: open-and-await-result
 description: >
   Use when building a dialog, sheet, or alert dialog with hiraku (@hirotoshioi/hiraku-base-ui) and opening it from any code, including event handlers, services, or other modals outside React; when closing it with returned data and a role such as confirm or cancel; or when awaiting a typed result, for example "ask the user to confirm before deleting" or "return the form values from a dialog". For reactive open state inside a component, unmount cleanup, or closing every modal, use modal-state-in-components.
 metadata:
-  purpose: Create typed hiraku modal controllers and use their promise-based open, close, and onDidClose API to get a typed result and close reason back from a modal.
+  purpose: Create typed hiraku modal controllers and use their promise-based openAsync, open, close, and onDidClose API to get a typed result and close reason back from a modal.
   type: core
   library: '@hirotoshioi/hiraku-base-ui'
   library_version: '0.0.6'
@@ -12,6 +12,7 @@ sources:
   - 'hirotoshioi/hiraku:packages/core/src/factory/types.ts'
   - 'hirotoshioi/hiraku:packages/core/src/store/index.ts'
   - 'hirotoshioi/hiraku:packages/core/src/shared/types.ts'
+  - 'hirotoshioi/hiraku:packages/core/src/context/index.ts'
   - 'hirotoshioi/hiraku:packages/base-ui/src/provider.tsx'
   - 'hirotoshioi/hiraku:docs/docs/opening-closing.md'
   - 'hirotoshioi/hiraku:docs/docs/return-values.md'
@@ -61,20 +62,31 @@ Choose `createDialog` for general content, `createSheet` for side panels, and `c
 
 ## Core Patterns
 
-### Open, then await the close
+### Open and await the result
 
 ```ts
 import { confirmDelete } from "./modals/confirm-delete";
 
 export async function deleteItem(id: string, name: string) {
-	await confirmDelete.open({ itemName: name });
-	const { data, role } = await confirmDelete.onDidClose();
+	const { data, role } = await confirmDelete.openAsync({ itemName: name });
 	if (role !== "confirm" || data !== true) return;
 	await fetch(`/api/items/${id}`, { method: "DELETE" });
 }
 ```
 
-`open()` resolves as soon as the modal is added to the store, not when the user answers. `onDidClose()` resolves with `{ data, role }` after the modal closes and its 300 ms close delay ends. This works in any module; no hook or component is required.
+`openAsync()` resolves with `{ data, role }` after the modal closes and Base UI reports that its close animation has ended. This works in any module; no hook or component is required.
+
+### Keep a reference to the opened modal
+
+`open()` resolves with a ref to the modal it opened, as soon as the modal is added to the store:
+
+```ts
+const ref = await uploadDialog.open({ progress: 0 });
+ref.update({ progress: 50 }); // merges into the current props
+const { data, role } = await ref.result;
+```
+
+`ref.result` belongs to that one modal, so reopening the controller does not change it. `controller.onDidClose()` after `open()` also works and resolves with the result of the modal the controller currently tracks.
 
 ### Close with data and a role
 
@@ -83,6 +95,22 @@ Call `close` on the same controller from inside the modal or from anywhere else:
 ```ts
 await confirmDelete.close({ data: true, role: "confirm" });
 ```
+
+Inside the modal component, `useModalContext<T>()` closes the modal it is rendered in without importing the controller, so one component can serve several controllers:
+
+```tsx
+import { useModalContext } from "@hirotoshioi/hiraku-base-ui";
+
+function ConfirmDelete({ itemName }: ConfirmDeleteProps) {
+	const modal = useModalContext<boolean>();
+	// ...
+	<button type="button" onClick={() => modal.close({ data: true, role: "confirm" })}>
+		Delete
+	</button>;
+}
+```
+
+It also returns `isClosing`, and throws when called outside a modal rendered by `ModalProvider`.
 
 - `role` is `"confirm" | "cancel" | "dismiss"` or any custom string. When omitted, it is `"dismiss"`.
 - Escape, an outside click, or a Base UI `Close` part closes the modal with `{ role: "dismiss" }` and no data.
@@ -117,8 +145,7 @@ A modal can open another modal and await it before closing itself; the second on
 
 ```tsx
 const handleSubmit = async (profile: Profile) => {
-	await savedAlert.open();
-	await savedAlert.onDidClose();
+	await savedAlert.openAsync();
 	await editProfileDialog.close({ data: profile, role: "confirm" });
 };
 ```
@@ -133,11 +160,11 @@ const resultPromise = confirmDelete.onDidClose();
 await confirmDelete.open({ itemName: "Report" });
 ```
 
-Before `open()`, the controller has no instance, so `onDidClose()` resolves `{}` right away and the code proceeds as if the user had answered. Call `open()` first, then `onDidClose()`. Source: `onDidClose` in `packages/core/src/factory/index.ts`.
+Before `open()`, the controller has no instance, so `onDidClose()` resolves `{}` right away and the code proceeds as if the user had answered. Use `openAsync()`, or call `open()` first and then `onDidClose()`. Source: `onDidClose` in `packages/core/src/factory/index.ts`.
 
 ### HIGH: Treating the resolved open() as the answer
 
-`await modal.open(...)` only means the modal is shown. Code that acts after `open()` without awaiting `onDidClose()` runs before the user responds. Source: `createModalInstance` in `packages/core/src/factory/index.ts`.
+`await modal.open(...)` only means the modal is shown; it resolves with a ref, not with the answer. Code that acts after `open()` without awaiting `ref.result` or `onDidClose()` runs before the user responds. Use `openAsync()` when you only need the answer. Source: `open` in `packages/core/src/factory/index.ts`.
 
 ### HIGH: Creating the controller inside a component
 
@@ -157,11 +184,11 @@ Each controller tracks only the instance it opened. After a re-render, `close()`
 
 ### MEDIUM: Expecting a second open() to replace props
 
-Each controller holds one modal. While it is open, another `open()` call resolves without changing props or adding a modal, and its caller's `onDidClose()` receives the first modal's result. Close the modal first, or use a separate controller for a modal that must appear twice. During the 300 ms close delay, `open()` creates a new instance. Source: `open` in `packages/core/src/factory/index.ts`.
+Each controller holds one modal. While it is open, another `open()` call resolves with the open modal's ref without changing props or adding a modal, and `openAsync()` resolves with the first modal's result. Use `ref.update()` to change the props of the open modal. Close the modal first, or use a separate controller for a modal that must appear twice. While the close animation is still running, `open()` creates a new instance. Source: `open` in `packages/core/src/factory/index.ts`.
 
 ## Completion
 
-- `open()` shows the modal and `onDidClose()` resolves with the `role` and `data` passed to `close()`.
+- `openAsync()` (or `open()` then `onDidClose()`) resolves with the `role` and `data` passed to `close()`.
 - Escape on a dialog resolves `{ role: "dismiss" }` with `data` undefined.
 - TypeScript rejects `open()` when a required prop is missing.
 - If `onDidClose()` resolves immediately with `{}`, check that `open()` was called first on the same module-level controller.

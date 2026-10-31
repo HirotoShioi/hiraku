@@ -93,7 +93,8 @@ This is a **three-layer architecture**:
 
 #### 1. Factory Functions ([packages/core/src/factory/index.ts](packages/core/src/factory/index.ts))
 - `createDialog()`, `createSheet()`, `createAlertDialog()` - Create modal controllers
-- Each returns a controller object with methods: `open()`, `close()`, `onDidClose()`, `isOpen()`
+- Each returns a controller object with methods: `open()` (returns a `ModalRef` with `update` / `close` / `isOpen` / `result`), `openAsync()`, `close()`, `onDidClose()`, `isOpen()`
+- Optional second argument `{ exitDuration }` overrides the close animation wait for that modal
 - Controllers are **singletons per modal type** - only one instance can be open at a time
 - Use `.returns<T>()` to specify the return type for type-safe results
 
@@ -101,7 +102,7 @@ This is a **three-layer architecture**:
 - Zustand store managing array of `ModalInstance` objects
 - Key actions: `add`, `present`, `close`, `closeAll`, `getTop`, `updateProps`
 - Handles modal lifecycle: add → present (open) → close animation → remove
-- Uses 300ms animation duration for close transitions
+- Close completes after `exitDuration` (default 300ms, settable per modal or via `ModalProvider`), or when the Base UI provider reports the close animation ended (`manageExit` + `completeClose`)
 
 #### 3. Provider Components
 - **Radix UI**: [packages/radix-ui/src/provider.tsx](packages/radix-ui/src/provider.tsx)
@@ -116,7 +117,11 @@ This is a **three-layer architecture**:
 - Returns `{ isOpen, open, close, data, role }` with reactive state
 - Automatically closes modal on component unmount
 
-#### 5. Global Controller ([packages/core/src/modal-controller.ts](packages/core/src/modal-controller.ts))
+#### 5. Modal Context ([packages/core/src/context/index.ts](packages/core/src/context/index.ts))
+- `useModalContext()` lets a modal component close itself; providers wrap each modal in `ModalContextProvider`
+- The context is created lazily so importing the package from a React Server Component never calls `createContext`
+
+#### 6. Global Controller ([packages/core/src/modal-controller.ts](packages/core/src/modal-controller.ts))
 - `modalController` singleton for global modal operations
 - Methods: `closeAll()`, `getTop()`, `getCount()`, `isOpen()`
 
@@ -137,7 +142,7 @@ All types are defined in [packages/core/src/shared/types.ts](packages/core/src/s
 2. **Opening**: `controller.open(props)` adds instance to store and presents it
 3. **Rendering**: `ModalProvider` renders the modal with UI framework wrapper
 4. **Closing**: User action calls `controller.close({ data, role })`
-5. **Animation**: Modal marked as closing, 300ms delay
+5. **Animation**: Modal marked as closing; waits for `exitDuration` or the Base UI close-complete event
 6. **Cleanup**: Modal removed from store, promise resolved with result
 
 ## Testing

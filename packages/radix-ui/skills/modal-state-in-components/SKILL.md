@@ -29,7 +29,8 @@ Read open-and-await-result first: this skill builds on a module-level controller
 | --- | --- |
 | Re-render when the modal opens or closes, or show the last result | `useModal(controller)` |
 | Close the modal when the component that opened it unmounts | `useModal(controller)` |
-| Open from a handler and act on the answer in the same function | the controller: `open()` then `onDidClose()` |
+| Open from a handler and act on the answer in the same function | the controller: `openAsync()` |
+| Close the modal from inside its own component | `useModalContext()` |
 | Close, count, or inspect all modals | `modalController` |
 
 ## Core Patterns
@@ -62,7 +63,7 @@ export function DeleteButton() {
 ```
 
 - `modal.open(props)` takes the same props as the controller and returns nothing; it ignores calls while the modal is open.
-- `modal.isOpen` becomes `true` when this hook's `open()` runs and `false` when the close finishes (after the 300 ms close delay).
+- `modal.isOpen` becomes `true` when this hook's `open()` runs and `false` when the close finishes (after the close delay, `exitDuration`, 300 ms by default).
 - `modal.data` and `modal.role` are `null` until a close finishes, and reset to `null` on the next `open()`.
 - `modal.close({ data, role })` is the controller's `close`.
 
@@ -72,8 +73,7 @@ The hook's `open()` returns no promise. To await the answer in the same handler,
 
 ```tsx
 const handleDelete = async () => {
-	await confirmDelete.open({ itemName: "Report" });
-	const { role } = await confirmDelete.onDidClose();
+	const { role } = await confirmDelete.openAsync({ itemName: "Report" });
 	if (role === "confirm") await removeReport();
 };
 ```
@@ -140,7 +140,7 @@ Source: `ModalHandle` in `packages/core/src/factory/types.ts`.
 
 ### MEDIUM: Awaiting closeAll() as if modals were gone
 
-`closeAll()` resolves once every close has started. Modals stay in the store, marked as closing, for 300 ms, and `getTop()` can still return one. Use `isOpen()` or `getCount()`, which exclude closing modals, or await each controller's `onDidClose()`. Source: `close` and `closeAll` in `packages/core/src/store/index.ts`.
+`closeAll()` resolves once every close has started. Modals stay in the store, marked as closing, until the close delay (`exitDuration`, 300 ms by default) ends, and `getTop()` can still return one. Use `isOpen()` or `getCount()`, which exclude closing modals, or await each modal's `ref.result` or controller's `onDidClose()`. Source: `close` and `closeAll` in `packages/core/src/store/index.ts`.
 
 ## Completion
 

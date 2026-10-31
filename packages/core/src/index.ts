@@ -1,5 +1,12 @@
+export { ModalContextProvider, useModalContext } from "./context";
+export type { ModalContextValue } from "./context/types";
 export { createAlertDialog, createDialog, createSheet } from "./factory";
-export type { Modal as ModalController, ModalHandle } from "./factory/types";
+export type {
+	Modal as ModalController,
+	ModalHandle,
+	ModalOptions,
+	ModalRef,
+} from "./factory/types";
 export { useModal } from "./hooks";
 export type { UseModalReturn } from "./hooks/types";
 export { modalController } from "./modal-controller";

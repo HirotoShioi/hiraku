@@ -159,6 +159,47 @@ describe("useModalStore", () => {
 		});
 	});
 
+	describe("manageExit / completeClose", () => {
+		it("does not use the timer for a modal whose exit is managed", async () => {
+			const modal = createMockModalInstance({ open: true });
+			useModalStore.getState().add(modal);
+			useModalStore.getState().manageExit(modal.id);
+
+			await useModalStore.getState().close(modal.id, "data", "confirm");
+			vi.advanceTimersByTime(10_000);
+			expect(useModalStore.getState().modals).toHaveLength(1);
+			expect(modal.resolveDid).not.toHaveBeenCalled();
+
+			useModalStore.getState().completeClose(modal.id);
+			expect(useModalStore.getState().modals).toHaveLength(0);
+			expect(modal.resolveDid).toHaveBeenCalledWith({
+				data: "data",
+				role: "confirm",
+			});
+		});
+
+		it("completeClose ignores a modal that is not closing", () => {
+			const modal = createMockModalInstance({ open: true });
+			useModalStore.getState().add(modal);
+
+			useModalStore.getState().completeClose(modal.id);
+
+			expect(useModalStore.getState().modals).toHaveLength(1);
+			expect(modal.resolveDid).not.toHaveBeenCalled();
+		});
+
+		it("resolves only once when completeClose runs before the timer", async () => {
+			const modal = createMockModalInstance({ open: true });
+			useModalStore.getState().add(modal);
+
+			await useModalStore.getState().close(modal.id);
+			useModalStore.getState().completeClose(modal.id);
+			vi.advanceTimersByTime(300);
+
+			expect(modal.resolveDid).toHaveBeenCalledTimes(1);
+		});
+	});
+
 	describe("Edge cases", () => {
 		it("handles multiple close calls safely", async () => {
 			const modal = createMockModalInstance({ open: true });
