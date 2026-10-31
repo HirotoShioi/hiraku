@@ -154,6 +154,25 @@ The project uses Vitest with two test configurations:
    - Integration tests for UI framework implementations
    - Run with: `npm test -w examples/radix-ui` or `npm test -w examples/base-ui`
 
+## Intent Skill Reviews
+
+The radix-ui / base-ui packages ship TanStack Intent skills (`packages/*/skills/`), and the **Check Skills** workflow (`.github/workflows/check-skills.yml`) fails a PR when any file the skills depend on changed without a recorded review — including source, tests, docs, and workflow files. See the `intent-maintainer` block in `AGENTS.md` for the full procedure.
+
+Before pushing any change, run the same check CI runs:
+
+```bash
+npm exec --no -- intent maintainer check --base origin/main --artifacts _artifacts
+```
+
+If it lists pending review items, read the affected `SKILL.md` files and either update them or record that they are still correct:
+
+```bash
+npm exec --no -- intent maintainer review --base origin/main --unchanged "<why the guidance is still correct>"
+npm exec --no -- intent maintainer review --base origin/main --updated "<what changed in the guidance>"
+```
+
+Recording writes `.intent/review-state.json`; commit it with the change. The review also picks up untracked files (e.g. notes in `tmp/`), so remove any entry for a file that won't be committed.
+
 ## Code Style
 
 - **Formatter**: Biome with tab indentation, double quotes
