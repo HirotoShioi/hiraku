@@ -30,16 +30,16 @@ function MyComponent() {
 ```tsx
 interface UseModalReturn<T> {
   isOpen: boolean;              // Reactive open state
-  open: (props: Props) => Promise<void>;  // Open the modal
-  close: (result?: ModalResult<T>) => void;  // Close the modal
-  data: Props | undefined;      // Current props
-  role: ModalRole | undefined;  // Last close role
+  open: (props: Props) => void;  // Open the modal
+  close: (result?: ModalResult<T>) => Promise<boolean>;  // Close the modal
+  data: T | null;               // Data from the last close
+  role: ModalRole | null;       // Role from the last close
 }
 ```
 
 ### isOpen
 
-Reactive boolean that updates when the modal opens or closes.
+Reactive boolean that becomes `true` when this hook's `open()` runs and `false` after the modal finishes closing. Opens made outside this hook (for example `controller.open()`) are not tracked.
 
 ```tsx
 const { isOpen } = useModal(myDialog);
@@ -53,17 +53,17 @@ return (
 
 ### open(props)
 
-Opens the modal with the given props. Same as `controller.open()`.
+Opens the modal with the given props and tracks it in this hook's state. It does nothing while the modal is open and does not return a promise; use `controller.onDidClose()` to await the result.
 
 ```tsx
 const { open } = useModal(myDialog);
 
-await open({ title: "Hello" });
+open({ title: "Hello" });
 ```
 
 ### close(result?)
 
-Closes the modal with an optional result. Same as `controller.close()`.
+Closes the modal with an optional result and resolves `false` when nothing is open. Same as `controller.close()`.
 
 ```tsx
 const { close } = useModal(myDialog);
@@ -73,13 +73,13 @@ close({ role: "cancel" });
 
 ### data
 
-The current props passed to the modal (if open).
+The `data` passed to `close()` when the modal last closed. `null` until then, and reset to `null` on the next `open()`.
 
 ```tsx
 const { data } = useModal(myDialog);
 
 if (data) {
-  console.log("Modal opened with:", data);
+  console.log("Modal returned:", data);
 }
 ```
 
@@ -99,7 +99,7 @@ useEffect(() => {
 
 ## Auto-Cleanup
 
-The modal is automatically closed when the component unmounts:
+A modal opened through this hook is closed automatically when the component unmounts. A modal opened elsewhere (by the controller or another component) stays open:
 
 ```tsx
 function TemporaryEditor() {
@@ -121,8 +121,8 @@ function EditProfileButton({ userId }: { userId: string }) {
   const editModal = useModal(editProfileDialog);
 
   const handleEdit = async () => {
-    await editModal.open({ userId });
-    
+    editModal.open({ userId });
+
     const result = await editProfileDialog.onDidClose();
     
     if (result.role === "confirm" && result.data) {

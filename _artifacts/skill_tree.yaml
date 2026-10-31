@@ -1,0 +1,180 @@
+library:
+  name: "@hirotoshioi/hiraku-monorepo"
+  version: 0.0.6
+generated_from:
+  domain_map: _artifacts/domain_map.yaml
+  skill_spec: _artifacts/skill_spec.md
+skills:
+  [
+    {
+        name: getting-started,
+        slug: getting-started,
+        domain: setup,
+        package: packages/radix-ui,
+        path: skills/getting-started/SKILL.md,
+        description: "Use when adding hiraku (@hirotoshioi/hiraku-radix-ui) to a React
+          app that uses Radix UI or shadcn/ui dialogs: installing the package
+          and its Radix peer dependencies, mounting ModalProvider, and writing
+          the first modal component so it renders. Also use when a hiraku modal
+          opens but nothing appears, or when a modal component throws a Radix
+          context error. For opening modals and reading their results, use
+          open-and-await-result.\n",
+        sources:
+          [
+            hirotoshioi/hiraku:packages/radix-ui/src/provider.tsx,
+            hirotoshioi/hiraku:packages/radix-ui/package.json,
+            hirotoshioi/hiraku:packages/radix-ui/tsdown.config.ts,
+            hirotoshioi/hiraku:docs/docs/getting-started.md,
+            hirotoshioi/hiraku:examples/radix-ui/src/App.tsx
+          ],
+        requires: [],
+        purpose: "Set up hiraku's Radix UI integration so that modals created with
+          hiraku render, including the provider placement and the content-only
+          component shape that hiraku requires."
+      },
+    {
+        name: getting-started,
+        slug: getting-started,
+        domain: setup,
+        package: packages/base-ui,
+        path: skills/getting-started/SKILL.md,
+        description: "Use when adding hiraku (@hirotoshioi/hiraku-base-ui) to a React
+          app that uses Base UI (@base-ui/react) or shadcn/ui on Base UI:
+          installing the package and its peer dependency, mounting
+          ModalProvider, and writing the first modal component so it renders.
+          Also use when a hiraku modal opens but nothing appears, or when Escape
+          and outside clicks do not close it. For opening modals and reading
+          their results, use open-and-await-result.\n",
+        sources:
+          [
+            hirotoshioi/hiraku:packages/base-ui/src/provider.tsx,
+            hirotoshioi/hiraku:packages/base-ui/package.json,
+            hirotoshioi/hiraku:packages/base-ui/tsdown.config.ts,
+            hirotoshioi/hiraku:docs/docs/getting-started.md,
+            hirotoshioi/hiraku:examples/base-ui/src/App.tsx,
+            hirotoshioi/hiraku:examples/base-ui/src/components/examples/sample-dialog.tsx
+          ],
+        requires: [],
+        purpose: "Set up hiraku's Base UI integration so that modals created with hiraku
+          render, including the provider placement and the content-only
+          component shape that hiraku requires."
+      },
+    {
+        name: open-and-await-result,
+        slug: open-and-await-result,
+        domain: modals,
+        package: packages/radix-ui,
+        path: skills/open-and-await-result/SKILL.md,
+        description: 'Use when building a dialog, sheet, or alert dialog with hiraku
+          (@hirotoshioi/hiraku-radix-ui) and opening it from any code, including
+          event handlers, services, or other modals outside React; when closing
+          it with returned data and a role such as confirm or cancel; or when
+          awaiting a typed result, for example "ask the user to confirm before
+          deleting" or "return the form values from a dialog". For reactive open
+          state inside a component, unmount cleanup, or closing every modal, use
+          modal-state-in-components.
+
+          ',
+        sources:
+          [
+            hirotoshioi/hiraku:packages/core/src/factory/index.ts,
+            hirotoshioi/hiraku:packages/core/src/factory/types.ts,
+            hirotoshioi/hiraku:packages/core/src/store/index.ts,
+            hirotoshioi/hiraku:packages/core/src/shared/types.ts,
+            hirotoshioi/hiraku:packages/radix-ui/src/provider.tsx,
+            hirotoshioi/hiraku:docs/docs/opening-closing.md,
+            hirotoshioi/hiraku:docs/docs/return-values.md
+          ],
+        requires: [ getting-started ],
+        purpose: "Create typed hiraku modal controllers and use their promise-based
+          open, close, and onDidClose API to get a typed result and close reason
+          back from a modal."
+      },
+    {
+        name: modal-state-in-components,
+        slug: modal-state-in-components,
+        domain: modals,
+        package: packages/radix-ui,
+        path: skills/modal-state-in-components/SKILL.md,
+        description: "Use when a React component needs a hiraku
+          (@hirotoshioi/hiraku-radix-ui) modal's open state or last result for
+          rendering, such as disabling a button while a dialog is open or
+          showing what the user chose; when a modal must close automatically as
+          its component unmounts; or when closing, counting, or inspecting every
+          open modal at once, for example on route change, logout, or in test
+          setup. To create a modal or await its result from plain async code,
+          use open-and-await-result.\n",
+        sources:
+          [
+            hirotoshioi/hiraku:packages/core/src/hooks/index.ts,
+            hirotoshioi/hiraku:packages/core/src/hooks/types.ts,
+            hirotoshioi/hiraku:packages/core/src/modal-controller.ts,
+            hirotoshioi/hiraku:packages/core/src/store/index.ts,
+            hirotoshioi/hiraku:docs/docs/using-hooks.md,
+            hirotoshioi/hiraku:docs/docs/modal-controller.md
+          ],
+        requires: [ open-and-await-result ],
+        purpose: "Choose between the useModal hook, a modal controller, and the global
+          modalController, and use each for reactive component state, unmount
+          cleanup, and app-wide modal control."
+      },
+    {
+        name: open-and-await-result,
+        slug: open-and-await-result,
+        domain: modals,
+        package: packages/base-ui,
+        path: skills/open-and-await-result/SKILL.md,
+        description: 'Use when building a dialog, sheet, or alert dialog with hiraku
+          (@hirotoshioi/hiraku-base-ui) and opening it from any code, including
+          event handlers, services, or other modals outside React; when closing
+          it with returned data and a role such as confirm or cancel; or when
+          awaiting a typed result, for example "ask the user to confirm before
+          deleting" or "return the form values from a dialog". For reactive open
+          state inside a component, unmount cleanup, or closing every modal, use
+          modal-state-in-components.
+
+          ',
+        sources:
+          [
+            hirotoshioi/hiraku:packages/core/src/factory/index.ts,
+            hirotoshioi/hiraku:packages/core/src/factory/types.ts,
+            hirotoshioi/hiraku:packages/core/src/store/index.ts,
+            hirotoshioi/hiraku:packages/core/src/shared/types.ts,
+            hirotoshioi/hiraku:packages/base-ui/src/provider.tsx,
+            hirotoshioi/hiraku:docs/docs/opening-closing.md,
+            hirotoshioi/hiraku:docs/docs/return-values.md
+          ],
+        requires: [ getting-started ],
+        purpose: "Create typed hiraku modal controllers and use their promise-based
+          open, close, and onDidClose API to get a typed result and close reason
+          back from a modal."
+      },
+    {
+        name: modal-state-in-components,
+        slug: modal-state-in-components,
+        domain: modals,
+        package: packages/base-ui,
+        path: skills/modal-state-in-components/SKILL.md,
+        description: "Use when a React component needs a hiraku
+          (@hirotoshioi/hiraku-base-ui) modal's open state or last result for
+          rendering, such as disabling a button while a dialog is open or
+          showing what the user chose; when a modal must close automatically as
+          its component unmounts; or when closing, counting, or inspecting every
+          open modal at once, for example on route change, logout, or in test
+          setup. To create a modal or await its result from plain async code,
+          use open-and-await-result.\n",
+        sources:
+          [
+            hirotoshioi/hiraku:packages/core/src/hooks/index.ts,
+            hirotoshioi/hiraku:packages/core/src/hooks/types.ts,
+            hirotoshioi/hiraku:packages/core/src/modal-controller.ts,
+            hirotoshioi/hiraku:packages/core/src/store/index.ts,
+            hirotoshioi/hiraku:docs/docs/using-hooks.md,
+            hirotoshioi/hiraku:docs/docs/modal-controller.md
+          ],
+        requires: [ open-and-await-result ],
+        purpose: "Choose between the useModal hook, a modal controller, and the global
+          modalController, and use each for reactive component state, unmount
+          cleanup, and app-wide modal control."
+      }
+  ]

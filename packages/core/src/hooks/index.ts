@@ -35,6 +35,8 @@ export function useModal<TComponent, TResult = unknown>(
 	const [result, setResult] = useState<ModalResult<TResult> | null>(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const controllerRef = useRef(controller);
+	// Whether the modal currently open was opened through this hook
+	const openedHereRef = useRef(false);
 
 	// Keep controller in a ref
 	useEffect(() => {
@@ -49,11 +51,13 @@ export function useModal<TComponent, TResult = unknown>(
 
 		setResult(null);
 		setIsOpen(true);
+		openedHereRef.current = true;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(controllerRef.current.open as (...args: any[]) => Promise<void>)(...args);
 
 		// Fetch close result asynchronously (do not await open)
 		void controllerRef.current.onDidClose().then((closeResult) => {
+			openedHereRef.current = false;
 			setResult(closeResult);
 			setIsOpen(false);
 		});
@@ -66,10 +70,10 @@ export function useModal<TComponent, TResult = unknown>(
 		[],
 	);
 
-	// Close modal on component unmount
+	// Close the modal this hook opened when the component unmounts
 	useEffect(() => {
 		return () => {
-			if (controllerRef.current.isOpen()) {
+			if (openedHereRef.current && controllerRef.current.isOpen()) {
 				void controllerRef.current.close();
 			}
 		};

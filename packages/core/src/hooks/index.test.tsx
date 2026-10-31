@@ -102,6 +102,39 @@ describe("useModal", () => {
 		});
 	});
 
+	describe("cleanup on unmount when opened elsewhere", () => {
+		it("keeps a modal opened outside this hook open on unmount", async () => {
+			const dialog = createDialog(TestComponent);
+			const { unmount } = renderHook(() => useModal(dialog));
+
+			await act(async () => {
+				await dialog.open({ title: "Elsewhere" });
+			});
+
+			unmount();
+
+			const modals = useModalStore.getState().modals;
+			expect(modals).toHaveLength(1);
+			expect(modals[0]?.closing).toBe(false);
+		});
+
+		it("keeps a modal opened by another hook open on unmount", async () => {
+			const dialog = createDialog(TestComponent);
+			const owner = renderHook(() => useModal(dialog));
+			const other = renderHook(() => useModal(dialog));
+
+			await act(async () => {
+				owner.result.current.open({ title: "Owner" });
+			});
+
+			other.unmount();
+			expect(useModalStore.getState().modals[0]?.closing).toBe(false);
+
+			owner.unmount();
+			expect(useModalStore.getState().modals[0]?.closing).toBe(true);
+		});
+	});
+
 	describe("data and role state", () => {
 		it("resets data and role on reopen", async () => {
 			const dialog = createDialog(TestComponent).returns<{ value: number }>();
