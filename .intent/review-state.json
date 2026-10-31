@@ -230,6 +230,30 @@
       "evidence": [
         "scripts/assert-use-client.js reviewed in this change"
       ]
+    },
+    "source:.github/workflows/ci.yml": {
+      "fingerprint": "006fa154bdc5adef7b59972482f591780ed501632259b659d9d73a0172b4af01",
+      "snapshot": {
+        ".github/workflows/ci.yml": "6b300008cb58c8d3de751df7f4dbbf004fd012639008f6b3b143b927bf291b3f"
+      },
+      "head": "1deba00bb332aa91e20be84d671bbcd1ba3a3ad2",
+      "outcome": "no-change",
+      "reason": "CI ワークフローの Actions / Node.js バージョン更新のみで、スキルの内容には影響しない",
+      "evidence": [
+        "Changed: .github/workflows/ci.yml at 1deba00bb332aa91e20be84d671bbcd1ba3a3ad2"
+      ]
+    },
+    "source:.github/workflows/docs.yml": {
+      "fingerprint": "a21c005538b4c645b079db8e585663e8cfb09de606458aa2794458787364a0e2",
+      "snapshot": {
+        ".github/workflows/docs.yml": "827880967632ddb78169f6f1b8c3bd4ed3861e615aabbcdb70cb77ccd17fc0eb"
+      },
+      "head": "1deba00bb332aa91e20be84d671bbcd1ba3a3ad2",
+      "outcome": "no-change",
+      "reason": "CI ワークフローの Actions / Node.js バージョン更新のみで、スキルの内容には影響しない",
+      "evidence": [
+        "Changed: .github/workflows/docs.yml at 1deba00bb332aa91e20be84d671bbcd1ba3a3ad2"
+      ]
     }
   }
 }
