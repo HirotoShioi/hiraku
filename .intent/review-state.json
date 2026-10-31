@@ -41,23 +41,22 @@
       ]
     },
     "skill:packages/base-ui/skills/open-and-await-result/SKILL.md": {
-      "fingerprint": "8b66d2dc87d06d76e767ed9f4ff302833855a92cbfa745c084009a58bd7914c6",
+      "fingerprint": "3eb0c022502bf845e94082528e46d9253ca6826fbb2b7a3029cb0fa1b32ff862",
       "snapshot": {
         "docs/docs/opening-closing.md": "cf15bfeb5f5c346315b1beffea3842dc38648ff49ae88fb72dbd4c4c10286c69",
         "docs/docs/return-values.md": "6727f44b2269ecbb4a0b751b78825a2feb004683d2b51d8159ffa11f1f4cf36a",
         "packages/base-ui/skills/open-and-await-result/SKILL.md": "8a37917cb70a2b1d5544a5df37ec41e7461bd70f61c3f9a7c434f5c10840e267",
         "packages/base-ui/src/provider.tsx": "2169f659445688b689c61d357f41ce0927caac8e185b8bf5ab4ea209d98b2279",
-        "packages/core/src/factory/index.ts": "71bfeee386f0adefefa570df6721cc0060577dcb921fdfdc1d30fbbe166fbfeb",
+        "packages/core/src/factory/index.ts": "f676bcd83ed0318d8e990157441b47a1b85dd559b32a93b00645e03e0516f948",
         "packages/core/src/factory/types.ts": "6df2365d65046a5e3e2a16bf1b914b7333417552cb0a253c129b1d926aaa179f",
         "packages/core/src/shared/types.ts": "981e55ea8028e0400104abbe944987b2421c26a1ff4529b89bbf2ddfd713fb43",
         "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946"
       },
-      "head": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
-      "outcome": "updated",
-      "reason": "New skill authored in batch 1 from hiraku 0.0.6 source; package.json change is the skills files allowlist and tanstack-intent keyword added by maintainer sync.",
+      "head": "3dbc35b501bf06e62f10d3c5a4c85571e9347336",
+      "outcome": "no-change",
+      "reason": "onDidClose が閉じている途中で開き直したモーダルの参照を消すバグの修正のみ。スキルの記述（300ms の間の open() は新しいインスタンスを作る等）は修正後もそのまま正しい",
       "evidence": [
-        "npm exec --no -- intent validate packages/base-ui/skills: 3 skill files passed",
-        "examples/base-ui/src/__tests__/skills.test.browser.tsx: 16/16 passed in Chromium (vitest run)"
+        "Changed: packages/core/src/factory/index.ts at 3dbc35b501bf06e62f10d3c5a4c85571e9347336"
       ]
     },
     "skill:packages/radix-ui/skills/getting-started/SKILL.md": {
@@ -98,27 +97,26 @@
       ]
     },
     "skill:packages/radix-ui/skills/open-and-await-result/SKILL.md": {
-      "fingerprint": "4ed33286532239621407fe95459e6da5973bf05fc70a98cd55b6ef6ede236a4b",
+      "fingerprint": "e2af9a70f9f620cdd36ee46178faaa96d58adf56a45377ae48b97b48db63cba2",
       "snapshot": {
         "docs/docs/opening-closing.md": "cf15bfeb5f5c346315b1beffea3842dc38648ff49ae88fb72dbd4c4c10286c69",
         "docs/docs/return-values.md": "6727f44b2269ecbb4a0b751b78825a2feb004683d2b51d8159ffa11f1f4cf36a",
-        "packages/core/src/factory/index.ts": "71bfeee386f0adefefa570df6721cc0060577dcb921fdfdc1d30fbbe166fbfeb",
+        "packages/core/src/factory/index.ts": "f676bcd83ed0318d8e990157441b47a1b85dd559b32a93b00645e03e0516f948",
         "packages/core/src/factory/types.ts": "6df2365d65046a5e3e2a16bf1b914b7333417552cb0a253c129b1d926aaa179f",
         "packages/core/src/shared/types.ts": "981e55ea8028e0400104abbe944987b2421c26a1ff4529b89bbf2ddfd713fb43",
         "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946",
         "packages/radix-ui/skills/open-and-await-result/SKILL.md": "f9da16cbd2da65e38a7087e218f439ad3d13b24f3652f38bb5ae88be45cb1588",
         "packages/radix-ui/src/provider.tsx": "de22f6c2703a6d35ae87100ea18a154f752a11fa7d6e2b3af3eb920e33aa6528"
       },
-      "head": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
-      "outcome": "updated",
-      "reason": "New skill authored in batch 1 from hiraku 0.0.6 source; package.json change is the skills files allowlist and tanstack-intent keyword added by maintainer sync.",
+      "head": "3dbc35b501bf06e62f10d3c5a4c85571e9347336",
+      "outcome": "no-change",
+      "reason": "onDidClose が閉じている途中で開き直したモーダルの参照を消すバグの修正のみ。スキルの記述（300ms の間の open() は新しいインスタンスを作る等）は修正後もそのまま正しい",
       "evidence": [
-        "npm exec --no -- intent validate packages/radix-ui/skills: 3 skill files passed",
-        "examples/radix-ui/src/__tests__/skills.test.browser.tsx: 16/16 passed in Chromium (vitest run)"
+        "Changed: packages/core/src/factory/index.ts at 3dbc35b501bf06e62f10d3c5a4c85571e9347336"
       ]
     },
     "planning:_artifacts": {
-      "fingerprint": "a6734cc1c7c3192d036174d87a12a2fc8c4809a81ea77d8510a22761d849b512",
+      "fingerprint": "90757327cec76334c913bb431a2cdc0a5e9d0264eb39579d2ef062611f4fd8cc",
       "snapshot": {
         "_artifacts/domain_map.yaml": "2fa81a89415f7274d4f5585403aa2daef77c1f55251c724163cdf960124bcf0a",
         "_artifacts/skill_spec.md": "649b2d8a2def8660832b5787001b55ac191f18b603a33fb182debe32710cb3de",
@@ -137,7 +135,7 @@
         "packages/base-ui/skills/open-and-await-result/SKILL.md": "8a37917cb70a2b1d5544a5df37ec41e7461bd70f61c3f9a7c434f5c10840e267",
         "packages/base-ui/src/provider.tsx": "2169f659445688b689c61d357f41ce0927caac8e185b8bf5ab4ea209d98b2279",
         "packages/base-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b",
-        "packages/core/src/factory/index.ts": "71bfeee386f0adefefa570df6721cc0060577dcb921fdfdc1d30fbbe166fbfeb",
+        "packages/core/src/factory/index.ts": "f676bcd83ed0318d8e990157441b47a1b85dd559b32a93b00645e03e0516f948",
         "packages/core/src/factory/types.ts": "6df2365d65046a5e3e2a16bf1b914b7333417552cb0a253c129b1d926aaa179f",
         "packages/core/src/hooks/index.ts": "0ecd89e49244354682158a7f5cc83d8b9be5275a83c1d9cdd1628ef0b4d5d86e",
         "packages/core/src/hooks/types.ts": "e9ef53e653909bfa34b21b3cb1370d40a830dfb88a521a8b164033493bcc3fd4",
@@ -151,12 +149,11 @@
         "packages/radix-ui/src/provider.tsx": "de22f6c2703a6d35ae87100ea18a154f752a11fa7d6e2b3af3eb920e33aa6528",
         "packages/radix-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b"
       },
-      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
-      "outcome": "updated",
-      "reason": "Recorded batch 2: two failure modes marked removed with version context, both gaps resolved, inventory counts and batch history updated.",
+      "head": "3dbc35b501bf06e62f10d3c5a4c85571e9347336",
+      "outcome": "no-change",
+      "reason": "onDidClose が閉じている途中で開き直したモーダルの参照を消すバグの修正のみ。スキルの記述（300ms の間の open() は新しいインスタンスを作る等）は修正後もそのまま正しい",
       "evidence": [
-        "_artifacts YAML parses",
-        "intent maintainer sync run"
+        "Changed: packages/core/src/factory/index.ts at 3dbc35b501bf06e62f10d3c5a4c85571e9347336"
       ]
     },
     "source:examples/base-ui/src/__tests__/skills.test.browser.tsx": {
@@ -253,6 +250,18 @@
       "reason": "CI ワークフローの Actions / Node.js バージョン更新のみで、スキルの内容には影響しない",
       "evidence": [
         "Changed: .github/workflows/docs.yml at 1deba00bb332aa91e20be84d671bbcd1ba3a3ad2"
+      ]
+    },
+    "source:packages/core/src/factory/index.test.ts": {
+      "fingerprint": "59630b1bb24e41234d8c9fa6dda008eba0e21c80c6d302fcaefe5fd896071cee",
+      "snapshot": {
+        "packages/core/src/factory/index.test.ts": "24f025e79302f7263e53e8667016f1e4df1f955e1b0ca88781a46c25ab0502fc"
+      },
+      "head": "3dbc35b501bf06e62f10d3c5a4c85571e9347336",
+      "outcome": "no-change",
+      "reason": "onDidClose が閉じている途中で開き直したモーダルの参照を消すバグの修正のみ。スキルの記述（300ms の間の open() は新しいインスタンスを作る等）は修正後もそのまま正しい",
+      "evidence": [
+        "Changed: packages/core/src/factory/index.test.ts at 3dbc35b501bf06e62f10d3c5a4c85571e9347336"
       ]
     }
   }
