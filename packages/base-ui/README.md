@@ -100,12 +100,11 @@ export const confirmDialog = createDialog(ConfirmDialog).returns<boolean>();
 import { confirmDialog } from "./modals/confirm-dialog";
 
 async function handleDelete() {
-  await confirmDialog.open({
+  // Open the modal and wait for the result
+  const { data, role } = await confirmDialog.openAsync({
     title: "Delete item?",
     message: "This action cannot be undone.",
   });
-
-  const { data, role } = await confirmDialog.onDidClose();
 
   if (role === "confirm" && data) {
     // Perform delete
@@ -127,15 +126,23 @@ See the example app in this repository: `examples/base-ui/`.
 | `createSheet(Component)`       | Create a modal using Base UI (Dialog.Root)|
 | `createAlertDialog(Component)` | Create a modal using Base UI AlertDialog  |
 
+Built-in wrappers finish closing when Base UI reports the end of the exit animation, so `onDidClose()` resolves exactly when the animation ends. `exitDuration` (`<ModalProvider exitDuration={...} />` or `createDialog(Component, { exitDuration })`, default 300ms) only applies to custom wrapper components.
+
 ### Modal Controller
 
 ```tsx
 const myModal = createDialog(MyComponent).returns<ResultType>();
 
-myModal.open(props)            // Open the modal (returns Promise)
+myModal.openAsync(props)       // Open and wait for { data, role } when it closes
+myModal.open(props)            // Open the modal (returns Promise<ModalRef>)
 myModal.close({ data, role })  // Close the modal with result
 myModal.onDidClose()           // Get Promise that resolves when closed
 myModal.isOpen()               // Check if modal is open
+
+// The ref returned by open()
+const ref = await myModal.open(props);
+ref.update(partialProps)       // Merge new props into the open modal
+ref.result                     // Promise that resolves when this modal closes
 ```
 
 ### useModal Hook
@@ -155,6 +162,24 @@ function MyComponent() {
       <p>result: {JSON.stringify(modal.data)}</p>
       <p>role: {modal.role}</p>
     </>
+  );
+}
+```
+
+### useModalContext Hook
+
+Inside a modal component, close the modal it is rendered in without importing its controller:
+
+```tsx
+import { useModalContext } from "@hirotoshioi/hiraku-base-ui";
+
+function ConfirmDialog() {
+  const modal = useModalContext<boolean>();
+
+  return (
+    <button onClick={() => modal.close({ data: true, role: "confirm" })}>
+      Confirm
+    </button>
   );
 }
 ```

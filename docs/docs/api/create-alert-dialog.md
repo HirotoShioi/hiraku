@@ -6,7 +6,8 @@ Creates an alert dialog modal controller. Alert dialogs are used for important c
 
 ```tsx
 function createAlertDialog<T extends ComponentType<any>>(
-  component: T
+  component: T,
+  options?: ModalOptions
 ): ModalController<T>;
 ```
 
@@ -24,11 +25,20 @@ const myAlertDialog = createAlertDialog(MyAlertDialogComponent);
 const myAlertDialog = createAlertDialog(MyAlertDialogComponent).returns<ResultType>();
 ```
 
+## With Options
+
+`options` is the same as for [createDialog](/docs/api/create-dialog#with-options):
+
+```tsx
+const myAlertDialog = createAlertDialog(MyAlertDialogComponent, { exitDuration: 200 });
+```
+
 ## Controller Methods
 
 Same as [createDialog](/docs/api/create-dialog):
 
-- `open(props)` - Opens the alert dialog
+- `openAsync(props)` - Opens the alert dialog and resolves with `{ data, role }` when it closes
+- `open(props)` - Opens the alert dialog and returns a `ModalRef`
 - `close(result?)` - Closes the alert dialog
 - `onDidClose()` - Promise that resolves on close
 - `isOpen()` - Check if alert dialog is open
@@ -87,8 +97,7 @@ function DeleteConfirmDialog({ itemName }: DeleteConfirmProps) {
 export const deleteConfirm = createAlertDialog(DeleteConfirmDialog);
 
 // Usage
-await deleteConfirm.open({ itemName: "Project Alpha" });
-const result = await deleteConfirm.onDidClose();
+const result = await deleteConfirm.openAsync({ itemName: "Project Alpha" });
 
 if (result.role === "confirm") {
   await deleteProject();

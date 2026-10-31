@@ -36,13 +36,11 @@ export const userFormDialog = createDialog(UserFormDialog).returns<FormData>();
 
 ## Receiving Return Values
 
-Use `onDidClose()` to receive the result:
+Use `openAsync()` to open the modal and wait for the result:
 
 ```tsx
 async function handleCreateUser() {
-  await userFormDialog.open();
-  
-  const result = await userFormDialog.onDidClose();
+  const result = await userFormDialog.openAsync();
   // result: { data?: FormData, role?: ModalRole }
 
   if (result.role === "confirm" && result.data) {
@@ -51,9 +49,25 @@ async function handleCreateUser() {
 }
 ```
 
+### Using open()
+
+`open()` returns a reference to the opened modal. Its `result` resolves with the same value when that modal closes:
+
+```tsx
+const ref = await userFormDialog.open();
+const result = await ref.result;
+```
+
+`onDidClose()` on the controller also works. Unlike `ref.result`, which is bound to one modal, it waits for the modal the controller opened most recently:
+
+```tsx
+await userFormDialog.open();
+const result = await userFormDialog.onDidClose();
+```
+
 ## Result Structure
 
-The `onDidClose()` promise resolves with:
+`openAsync()`, `ref.result` and `onDidClose()` resolve with:
 
 ```tsx
 interface ModalResult<T> {
@@ -72,7 +86,7 @@ type ModalRole = "confirm" | "cancel" | "dismiss" | (string & {});
 export const confirmDialog = createDialog(ConfirmDialog).returns<boolean>();
 
 // Usage
-const { data, role } = await confirmDialog.onDidClose();
+const { data, role } = await confirmDialog.openAsync();
 if (role === "confirm" && data === true) {
   // Confirmed
 }
@@ -90,7 +104,7 @@ interface ContactForm {
 export const contactDialog = createDialog(ContactDialog).returns<ContactForm>();
 
 // Usage
-const { data } = await contactDialog.onDidClose();
+const { data } = await contactDialog.openAsync();
 if (data) {
   await sendMessage(data);
 }
@@ -102,7 +116,7 @@ if (data) {
 export const colorPicker = createDialog(ColorPickerDialog).returns<string>();
 
 // Usage
-const { data: selectedColor } = await colorPicker.onDidClose();
+const { data: selectedColor } = await colorPicker.openAsync();
 if (selectedColor) {
   applyColor(selectedColor);
 }
@@ -128,7 +142,7 @@ If you don't need a return value, simply omit `.returns()`:
 export const infoDialog = createDialog(InfoDialog);
 
 // Still get the role
-const { role } = await infoDialog.onDidClose();
+const { role } = await infoDialog.openAsync();
 if (role === "dismiss") {
   // User dismissed the dialog
 }

@@ -91,8 +91,9 @@ import { confirmDialog } from "./modals/confirm-dialog";
 
 function App() {
   const handleClick = async () => {
-    await confirmDialog.open({ message: "Are you sure you want to delete?" });
-    const result = await confirmDialog.onDidClose();
+    const result = await confirmDialog.openAsync({
+      message: "Are you sure you want to delete?",
+    });
 
     if (result.role === "confirm") {
       console.log("Confirmed");

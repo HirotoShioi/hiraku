@@ -107,14 +107,11 @@ Now you can open the modal from anywhere:
 ```tsx
 import { confirmDialog } from "./modals/confirm-dialog";
 
-// Open the modal
-await confirmDialog.open({
+// Open the modal and wait for the result
+const result = await confirmDialog.openAsync({
   title: "Delete Item",
   message: "Are you sure you want to delete this item?",
 });
-
-// Wait for the result
-const result = await confirmDialog.onDidClose();
 
 if (result.role === "confirm" && result.data) {
   // User confirmed
