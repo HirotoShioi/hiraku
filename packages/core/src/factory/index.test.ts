@@ -235,6 +235,25 @@ describe("Factory", () => {
 			expect(modals[1]?.open).toBe(true);
 		});
 
+		it("keeps tracking the new instance when a pending onDidClose resolves after reopen", async () => {
+			const dialog = createDialog(TestComponent);
+
+			await dialog.open({ title: "First" });
+			const firstDidClose = dialog.onDidClose();
+			await dialog.close();
+
+			// Reopen within the closing window
+			vi.advanceTimersByTime(100);
+			await dialog.open({ title: "Second" });
+
+			// The first instance finishes closing
+			vi.advanceTimersByTime(200);
+			await firstDidClose;
+
+			expect(dialog.isOpen()).toBe(true);
+			expect(await dialog.close()).toBe(true);
+		});
+
 		it("different controllers operate independently", async () => {
 			const dialog1 = createDialog(TestComponent);
 			const dialog2 = createDialog(TestComponent);
