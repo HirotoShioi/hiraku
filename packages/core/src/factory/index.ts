@@ -95,8 +95,12 @@ function createController<TResult = unknown, TProps = unknown>(options: {
 		if (!currentHandle) {
 			return {};
 		}
-		const result = await currentHandle.onDidClose();
-		currentHandle = undefined;
+		const handle = currentHandle;
+		const result = await handle.onDidClose();
+		// Keep the reference if the modal was reopened while we were waiting
+		if (currentHandle === handle) {
+			currentHandle = undefined;
+		}
 		return result;
 	};
 
