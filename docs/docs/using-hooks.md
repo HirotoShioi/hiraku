@@ -27,11 +27,16 @@ function MyComponent() {
 ```tsx
 const {
   isOpen,  // boolean - reactive open state
-  open,    // (props) => Promise<void>
-  close,   // (result?) => void
-  data,    // T | undefined - current props
-  role,    // ModalRole | undefined - close role
-} = useModal(modalController);
+  open,    // (props) => void
+  close,   // (result?) => Promise<boolean>
+  data,    // T | null - data from the last close
+  role,    // ModalRole | null - role from the last close
+} = useModal(confirmDialog);
+```
+
+`isOpen`, `data`, and `role` track opens made through this hook's `open()`. If the same modal is opened with `confirmDialog.open()` or from another component, this hook's state does not change.
+
+`data` and `role` are `null` until the modal closes, and reset to `null` on the next `open()`.
 ```
 
 ## Reactive State
@@ -57,23 +62,20 @@ function StatusIndicator() {
 function DeleteButton({ itemId }: { itemId: string }) {
   const confirmModal = useModal(confirmDialog);
 
-  const handleDelete = async () => {
-    await confirmModal.open({
-      title: "Delete Item",
-      message: "Are you sure?",
-    });
-
-    // Wait for close
-    const result = await confirmDialog.onDidClose();
-    
-    if (result.role === "confirm") {
-      await deleteItem(itemId);
+  useEffect(() => {
+    if (confirmModal.role === "confirm") {
+      void deleteItem(itemId);
     }
-  };
+  }, [confirmModal.role, itemId]);
 
   return (
-    <Button 
-      onClick={handleDelete}
+    <Button
+      onClick={() =>
+        confirmModal.open({
+          title: "Delete Item",
+          message: "Are you sure?",
+        })
+      }
       disabled={confirmModal.isOpen}
     >
       Delete
@@ -82,9 +84,22 @@ function DeleteButton({ itemId }: { itemId: string }) {
 }
 ```
 
+The hook's `open()` does not return a promise. To await the result in the same handler, call the controller instead:
+
+```tsx
+const handleDelete = async () => {
+  await confirmDialog.open({ title: "Delete Item", message: "Are you sure?" });
+  const result = await confirmDialog.onDidClose();
+
+  if (result.role === "confirm") {
+    await deleteItem(itemId);
+  }
+};
+```
+
 ## Automatic Cleanup
 
-When the component unmounts, any open modal from that hook instance will be automatically closed:
+When the component unmounts, a modal opened through that hook instance is closed automatically. Modals opened elsewhere stay open:
 
 ```tsx
 function TemporaryComponent() {

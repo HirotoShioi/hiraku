@@ -23,6 +23,7 @@ skills:
           [
             hirotoshioi/hiraku:packages/radix-ui/src/provider.tsx,
             hirotoshioi/hiraku:packages/radix-ui/package.json,
+            hirotoshioi/hiraku:packages/radix-ui/tsdown.config.ts,
             hirotoshioi/hiraku:docs/docs/getting-started.md,
             hirotoshioi/hiraku:examples/radix-ui/src/App.tsx
           ],
@@ -48,13 +49,14 @@ skills:
           [
             hirotoshioi/hiraku:packages/base-ui/src/provider.tsx,
             hirotoshioi/hiraku:packages/base-ui/package.json,
+            hirotoshioi/hiraku:packages/base-ui/tsdown.config.ts,
             hirotoshioi/hiraku:docs/docs/getting-started.md,
             hirotoshioi/hiraku:examples/base-ui/src/App.tsx,
             hirotoshioi/hiraku:examples/base-ui/src/components/examples/sample-dialog.tsx
           ],
         requires: [],
-        purpose: "Set up hiraku's Base UI integration so that modals created with
-          hiraku render, including the provider placement and the content-only
+        purpose: "Set up hiraku's Base UI integration so that modals created with hiraku
+          render, including the provider placement and the content-only
           component shape that hiraku requires."
       },
     {

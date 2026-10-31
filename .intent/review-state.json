@@ -3,40 +3,41 @@
   "baseline": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
   "items": {
     "skill:packages/base-ui/skills/getting-started/SKILL.md": {
-      "fingerprint": "185d1ff31d15f75b91ccdac14ed83f24ffee66b28fcb45fcc631a5040fa2a748",
+      "fingerprint": "96016ccbd9faa069dc616d77b237fb7a4ed7d1165e49c56e2ba4ff7661a644b1",
       "snapshot": {
         "docs/docs/getting-started.md": "9796b6b427a79a2079f9eb0aa3bdbf4057b5aa12e642869e18daed3ad2163da0",
         "examples/base-ui/src/App.tsx": "b904fc80a18579a8a5e2bb0c6afb8252a236a8fc9f8e39fffea00c595be1d083",
         "examples/base-ui/src/components/examples/sample-dialog.tsx": "b94521fe0cfdfa94deded2e9e83221ef4014595dbb1c15871e1fe9118e938b4f",
-        "packages/base-ui/package.json": "7554471d86846b8f90026b8e0e4baa9fd552e88493c530a1c15cb888e7de899a",
-        "packages/base-ui/skills/getting-started/SKILL.md": "01166bb656d56299c1b550165cb636c0faead73d4b1f9b9eadc4089455e6b825",
-        "packages/base-ui/src/provider.tsx": "2169f659445688b689c61d357f41ce0927caac8e185b8bf5ab4ea209d98b2279"
+        "packages/base-ui/package.json": "873e19fd95422805081a2b9b3633bc561d9bef33b2bbe804615b8259bbb07dd9",
+        "packages/base-ui/skills/getting-started/SKILL.md": "2ee3e04bf8e4b0514935f5c364e627d5bebbcd62e4ae980a5101737b9c62448b",
+        "packages/base-ui/src/provider.tsx": "2169f659445688b689c61d357f41ce0927caac8e185b8bf5ab4ea209d98b2279",
+        "packages/base-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b"
       },
-      "head": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
       "outcome": "updated",
-      "reason": "New skill authored in batch 1 from hiraku 0.0.6 source; package.json change is the skills files allowlist and tanstack-intent keyword added by maintainer sync.",
+      "reason": "Build now keeps \"use client\" on dist/provider.js (tsdown unbundle + assert script), so the Next.js wrapper workaround was replaced by rendering ModalProvider directly in app/layout.tsx.",
       "evidence": [
-        "npm exec --no -- intent validate packages/base-ui/skills: 3 skill files passed",
-        "examples/base-ui/src/__tests__/skills.test.browser.tsx: 16/16 passed in Chromium (vitest run)"
+        "head -1 packages/*/dist/provider.js prints \"use client\"",
+        "node scripts/assert-use-client.js packages/radix-ui/dist/index.js exits 1; provider.js exits 0"
       ]
     },
     "skill:packages/base-ui/skills/modal-state-in-components/SKILL.md": {
-      "fingerprint": "6c8aea3d975b9db84d8bea009ca87e92f6365229ec574341511703474e4e59a3",
+      "fingerprint": "70ba4c29629db5fb679c524ab8f3f2daf1c1ffd10cd5cd1992753679905df39a",
       "snapshot": {
         "docs/docs/modal-controller.md": "c19b53d598d50131e7b144da8a38f95c2b7f123dfec907f5962e543974e844af",
-        "docs/docs/using-hooks.md": "a3288875415d9e8cd4469febc743096a44ac3eda23a1ba08bbc79f102c728193",
-        "packages/base-ui/skills/modal-state-in-components/SKILL.md": "17bb9a2efc339a76d76a68767f3b5125d840820c7a9fb1f4b3e2ad955d17741c",
-        "packages/core/src/hooks/index.ts": "e54e29069d2e31f358ecc72b0159db0c91ffe4586c043b946c4410ea2cb0b857",
+        "docs/docs/using-hooks.md": "cf947661535ecd79d9361a4e3831e0cfb92cdbef1a7744ee03920ba9bb419b08",
+        "packages/base-ui/skills/modal-state-in-components/SKILL.md": "f534a12f0a6e86d6e47a726b3d67d3291d43d610599a61fce6b780f7542d07f7",
+        "packages/core/src/hooks/index.ts": "0ecd89e49244354682158a7f5cc83d8b9be5275a83c1d9cdd1628ef0b4d5d86e",
         "packages/core/src/hooks/types.ts": "e9ef53e653909bfa34b21b3cb1370d40a830dfb88a521a8b164033493bcc3fd4",
         "packages/core/src/modal-controller.ts": "668345888c40854b3d1d845bf7fbc111a76326d74f1d5fdbc324f2e00a95a7e5",
         "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946"
       },
-      "head": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
       "outcome": "updated",
-      "reason": "New skill authored in batch 1 from hiraku 0.0.6 source; package.json change is the skills files allowlist and tanstack-intent keyword added by maintainer sync.",
+      "reason": "useModal now closes on unmount only a modal opened through its own open(); the unmount pitfall was removed and the cleanup rule rewritten. docs/docs/using-hooks.md now matches.",
       "evidence": [
-        "npm exec --no -- intent validate packages/base-ui/skills: 3 skill files passed",
-        "examples/base-ui/src/__tests__/skills.test.browser.tsx: 16/16 passed in Chromium (vitest run)"
+        "packages/core/src/hooks/index.test.tsx: 2 new cases fail on the old hook and pass on the new one; 56/56 pass",
+        "examples/*/src/__tests__/skills.test.browser.tsx: 17/17 pass"
       ]
     },
     "skill:packages/base-ui/skills/open-and-await-result/SKILL.md": {
@@ -60,39 +61,40 @@
       ]
     },
     "skill:packages/radix-ui/skills/getting-started/SKILL.md": {
-      "fingerprint": "b01155ab44548cf7d2907deb133ba2ed1173f8cb8aebaa0c77e8aac0fe17e33e",
+      "fingerprint": "654f13d02365ef287d6e747ad32787cf4855518ab9cae7101f84a2b10b7e9c2e",
       "snapshot": {
         "docs/docs/getting-started.md": "9796b6b427a79a2079f9eb0aa3bdbf4057b5aa12e642869e18daed3ad2163da0",
         "examples/radix-ui/src/App.tsx": "bf70b7aafdb8df974b0771c971fff1b786fed6fed84b85391d985db7f93825de",
-        "packages/radix-ui/package.json": "aead5a1e78de71ae15767e5e6efa589bd06f46f90f4c11f009b2031ea5b8f23d",
-        "packages/radix-ui/skills/getting-started/SKILL.md": "71e4b429f0f89922893e99be7e0fad07e098a6547b094ec909db175108ff44d6",
-        "packages/radix-ui/src/provider.tsx": "de22f6c2703a6d35ae87100ea18a154f752a11fa7d6e2b3af3eb920e33aa6528"
+        "packages/radix-ui/package.json": "17e4024dc071c00c225b045e732c63ea055f68cdd95720b671a3834f527b63a1",
+        "packages/radix-ui/skills/getting-started/SKILL.md": "befab2a4667fe4542fe513aa4433ab0be00eeb95acb724e7bef1f1e8dee5b0d0",
+        "packages/radix-ui/src/provider.tsx": "de22f6c2703a6d35ae87100ea18a154f752a11fa7d6e2b3af3eb920e33aa6528",
+        "packages/radix-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b"
       },
-      "head": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
       "outcome": "updated",
-      "reason": "New skill authored in batch 1 from hiraku 0.0.6 source; package.json change is the skills files allowlist and tanstack-intent keyword added by maintainer sync.",
+      "reason": "Build now keeps \"use client\" on dist/provider.js (tsdown unbundle + assert script), so the Next.js wrapper workaround was replaced by rendering ModalProvider directly in app/layout.tsx.",
       "evidence": [
-        "npm exec --no -- intent validate packages/radix-ui/skills: 3 skill files passed",
-        "examples/radix-ui/src/__tests__/skills.test.browser.tsx: 16/16 passed in Chromium (vitest run)"
+        "head -1 packages/*/dist/provider.js prints \"use client\"",
+        "node scripts/assert-use-client.js packages/radix-ui/dist/index.js exits 1; provider.js exits 0"
       ]
     },
     "skill:packages/radix-ui/skills/modal-state-in-components/SKILL.md": {
-      "fingerprint": "10440068085351b02b8e3fa0399bda823b83d167df506cb47dd6a223dad2d59c",
+      "fingerprint": "3a133fa265606a514b67965f20605032148df6e4810fe7ffd51e7c9d1667c3c3",
       "snapshot": {
         "docs/docs/modal-controller.md": "c19b53d598d50131e7b144da8a38f95c2b7f123dfec907f5962e543974e844af",
-        "docs/docs/using-hooks.md": "a3288875415d9e8cd4469febc743096a44ac3eda23a1ba08bbc79f102c728193",
-        "packages/core/src/hooks/index.ts": "e54e29069d2e31f358ecc72b0159db0c91ffe4586c043b946c4410ea2cb0b857",
+        "docs/docs/using-hooks.md": "cf947661535ecd79d9361a4e3831e0cfb92cdbef1a7744ee03920ba9bb419b08",
+        "packages/core/src/hooks/index.ts": "0ecd89e49244354682158a7f5cc83d8b9be5275a83c1d9cdd1628ef0b4d5d86e",
         "packages/core/src/hooks/types.ts": "e9ef53e653909bfa34b21b3cb1370d40a830dfb88a521a8b164033493bcc3fd4",
         "packages/core/src/modal-controller.ts": "668345888c40854b3d1d845bf7fbc111a76326d74f1d5fdbc324f2e00a95a7e5",
         "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946",
-        "packages/radix-ui/skills/modal-state-in-components/SKILL.md": "c5d8c7e7cd0de36e644e5fed69ce841a8e56c93df00e47915826365200bd4a21"
+        "packages/radix-ui/skills/modal-state-in-components/SKILL.md": "819117a86d22f5deaf336b45f3e492ef36963d980ca7c7ae1f8f1460c17aa62b"
       },
-      "head": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
       "outcome": "updated",
-      "reason": "New skill authored in batch 1 from hiraku 0.0.6 source; package.json change is the skills files allowlist and tanstack-intent keyword added by maintainer sync.",
+      "reason": "useModal now closes on unmount only a modal opened through its own open(); the unmount pitfall was removed and the cleanup rule rewritten. docs/docs/using-hooks.md now matches.",
       "evidence": [
-        "npm exec --no -- intent validate packages/radix-ui/skills: 3 skill files passed",
-        "examples/radix-ui/src/__tests__/skills.test.browser.tsx: 16/16 passed in Chromium (vitest run)"
+        "packages/core/src/hooks/index.test.tsx: 2 new cases fail on the old hook and pass on the new one; 56/56 pass",
+        "examples/*/src/__tests__/skills.test.browser.tsx: 17/17 pass"
       ]
     },
     "skill:packages/radix-ui/skills/open-and-await-result/SKILL.md": {
@@ -116,67 +118,117 @@
       ]
     },
     "planning:_artifacts": {
-      "fingerprint": "5fdbb61fabb6fd715f991250c092008b8a3348491d849a0b4c6f11ae88115ba8",
+      "fingerprint": "a6734cc1c7c3192d036174d87a12a2fc8c4809a81ea77d8510a22761d849b512",
       "snapshot": {
-        "_artifacts/domain_map.yaml": "dee72152bdc668c54b59f746023d2f9a9303b0d7cf940e5b04d4ae7da7be854a",
-        "_artifacts/skill_spec.md": "27a9cadc4fbb22fcd301b2ae97957ad4701861ee59dc9e445e954af30d54bb8f",
-        "_artifacts/skill_tree.yaml": "6002ba30da35a2b5985702f779e0fef5dc17c0f10f7a87ccad3e31911e0e48a2",
+        "_artifacts/domain_map.yaml": "2fa81a89415f7274d4f5585403aa2daef77c1f55251c724163cdf960124bcf0a",
+        "_artifacts/skill_spec.md": "649b2d8a2def8660832b5787001b55ac191f18b603a33fb182debe32710cb3de",
+        "_artifacts/skill_tree.yaml": "0b924add11a8e8d2370ccf0653cc938858c9659dcc5ac339d3f883c19b69c080",
         "docs/docs/getting-started.md": "9796b6b427a79a2079f9eb0aa3bdbf4057b5aa12e642869e18daed3ad2163da0",
         "docs/docs/modal-controller.md": "c19b53d598d50131e7b144da8a38f95c2b7f123dfec907f5962e543974e844af",
         "docs/docs/opening-closing.md": "cf15bfeb5f5c346315b1beffea3842dc38648ff49ae88fb72dbd4c4c10286c69",
         "docs/docs/return-values.md": "6727f44b2269ecbb4a0b751b78825a2feb004683d2b51d8159ffa11f1f4cf36a",
-        "docs/docs/using-hooks.md": "a3288875415d9e8cd4469febc743096a44ac3eda23a1ba08bbc79f102c728193",
+        "docs/docs/using-hooks.md": "cf947661535ecd79d9361a4e3831e0cfb92cdbef1a7744ee03920ba9bb419b08",
         "examples/base-ui/src/App.tsx": "b904fc80a18579a8a5e2bb0c6afb8252a236a8fc9f8e39fffea00c595be1d083",
         "examples/base-ui/src/components/examples/sample-dialog.tsx": "b94521fe0cfdfa94deded2e9e83221ef4014595dbb1c15871e1fe9118e938b4f",
         "examples/radix-ui/src/App.tsx": "bf70b7aafdb8df974b0771c971fff1b786fed6fed84b85391d985db7f93825de",
-        "packages/base-ui/package.json": "7554471d86846b8f90026b8e0e4baa9fd552e88493c530a1c15cb888e7de899a",
-        "packages/base-ui/skills/getting-started/SKILL.md": "01166bb656d56299c1b550165cb636c0faead73d4b1f9b9eadc4089455e6b825",
-        "packages/base-ui/skills/modal-state-in-components/SKILL.md": "17bb9a2efc339a76d76a68767f3b5125d840820c7a9fb1f4b3e2ad955d17741c",
+        "packages/base-ui/package.json": "873e19fd95422805081a2b9b3633bc561d9bef33b2bbe804615b8259bbb07dd9",
+        "packages/base-ui/skills/getting-started/SKILL.md": "2ee3e04bf8e4b0514935f5c364e627d5bebbcd62e4ae980a5101737b9c62448b",
+        "packages/base-ui/skills/modal-state-in-components/SKILL.md": "f534a12f0a6e86d6e47a726b3d67d3291d43d610599a61fce6b780f7542d07f7",
         "packages/base-ui/skills/open-and-await-result/SKILL.md": "8a37917cb70a2b1d5544a5df37ec41e7461bd70f61c3f9a7c434f5c10840e267",
         "packages/base-ui/src/provider.tsx": "2169f659445688b689c61d357f41ce0927caac8e185b8bf5ab4ea209d98b2279",
+        "packages/base-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b",
         "packages/core/src/factory/index.ts": "71bfeee386f0adefefa570df6721cc0060577dcb921fdfdc1d30fbbe166fbfeb",
         "packages/core/src/factory/types.ts": "6df2365d65046a5e3e2a16bf1b914b7333417552cb0a253c129b1d926aaa179f",
-        "packages/core/src/hooks/index.ts": "e54e29069d2e31f358ecc72b0159db0c91ffe4586c043b946c4410ea2cb0b857",
+        "packages/core/src/hooks/index.ts": "0ecd89e49244354682158a7f5cc83d8b9be5275a83c1d9cdd1628ef0b4d5d86e",
         "packages/core/src/hooks/types.ts": "e9ef53e653909bfa34b21b3cb1370d40a830dfb88a521a8b164033493bcc3fd4",
         "packages/core/src/modal-controller.ts": "668345888c40854b3d1d845bf7fbc111a76326d74f1d5fdbc324f2e00a95a7e5",
         "packages/core/src/shared/types.ts": "981e55ea8028e0400104abbe944987b2421c26a1ff4529b89bbf2ddfd713fb43",
         "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946",
-        "packages/radix-ui/package.json": "aead5a1e78de71ae15767e5e6efa589bd06f46f90f4c11f009b2031ea5b8f23d",
-        "packages/radix-ui/skills/getting-started/SKILL.md": "71e4b429f0f89922893e99be7e0fad07e098a6547b094ec909db175108ff44d6",
-        "packages/radix-ui/skills/modal-state-in-components/SKILL.md": "c5d8c7e7cd0de36e644e5fed69ce841a8e56c93df00e47915826365200bd4a21",
+        "packages/radix-ui/package.json": "17e4024dc071c00c225b045e732c63ea055f68cdd95720b671a3834f527b63a1",
+        "packages/radix-ui/skills/getting-started/SKILL.md": "befab2a4667fe4542fe513aa4433ab0be00eeb95acb724e7bef1f1e8dee5b0d0",
+        "packages/radix-ui/skills/modal-state-in-components/SKILL.md": "819117a86d22f5deaf336b45f3e492ef36963d980ca7c7ae1f8f1460c17aa62b",
         "packages/radix-ui/skills/open-and-await-result/SKILL.md": "f9da16cbd2da65e38a7087e218f439ad3d13b24f3652f38bb5ae88be45cb1588",
-        "packages/radix-ui/src/provider.tsx": "de22f6c2703a6d35ae87100ea18a154f752a11fa7d6e2b3af3eb920e33aa6528"
+        "packages/radix-ui/src/provider.tsx": "de22f6c2703a6d35ae87100ea18a154f752a11fa7d6e2b3af3eb920e33aa6528",
+        "packages/radix-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b"
       },
-      "head": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
       "outcome": "updated",
-      "reason": "Created domain_map.yaml, skill_spec.md, and skill_tree.yaml for batch 1 (3 skills x 2 packages) with failure modes, decisions, gaps, and check results.",
+      "reason": "Recorded batch 2: two failure modes marked removed with version context, both gaps resolved, inventory counts and batch history updated.",
       "evidence": [
-        "_artifacts/domain_map.yaml and _artifacts/skill_tree.yaml parse as YAML",
-        "intent maintainer sync: nothing to synchronize"
+        "_artifacts YAML parses",
+        "intent maintainer sync run"
       ]
     },
     "source:examples/base-ui/src/__tests__/skills.test.browser.tsx": {
-      "fingerprint": "447d415e77aa389043934ac1247ad79cfa8508f76a79d02d892b0c4a796ef23f",
+      "fingerprint": "6e4875958800654587ca3ef07f892fdd963caa987d03b40392dd72359d041ba5",
       "snapshot": {
-        "examples/base-ui/src/__tests__/skills.test.browser.tsx": "b8594b0997e8dd7a6a924fa26ce850700507869b1e5d616e6c09ff472c783ea6"
+        "examples/base-ui/src/__tests__/skills.test.browser.tsx": "6b50e5cda56ceaa63c33d64a92b3a02f41894902f14ae171c41daba00c1533c4"
       },
-      "head": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
       "outcome": "no-change",
-      "reason": "This file is the executable task check for the batch 1 skills; it adds tests only and does not change library behavior described by any skill.",
+      "reason": "Task check updated for the new unmount behavior; covered by the modal-state-in-components update.",
       "evidence": [
-        "examples/base-ui/src/__tests__/skills.test.browser.tsx: 16/16 passed in Chromium"
+        "examples/base-ui/src/__tests__/skills.test.browser.tsx reviewed in this change"
       ]
     },
     "source:examples/radix-ui/src/__tests__/skills.test.browser.tsx": {
-      "fingerprint": "512c36d68a504fbeeddc3737368f03d6df295cbfe096347bba11237d6501e625",
+      "fingerprint": "202454edfb491b5e784e0b1f87126d92bbf11bf98ab0ffb8bf49823ebeafb615",
       "snapshot": {
-        "examples/radix-ui/src/__tests__/skills.test.browser.tsx": "d64d85ce0ae42eee420f909cb8acf6059c0a185caaaba068096d208da16ad6bb"
+        "examples/radix-ui/src/__tests__/skills.test.browser.tsx": "eb85e5fd1eb91e02bbab1ed4351938fa0955cd851efe51cf667fd87b54c1332f"
       },
-      "head": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
       "outcome": "no-change",
-      "reason": "This file is the executable task check for the batch 1 skills; it adds tests only and does not change library behavior described by any skill.",
+      "reason": "Task check updated for the new unmount behavior; covered by the modal-state-in-components update.",
       "evidence": [
-        "examples/radix-ui/src/__tests__/skills.test.browser.tsx: 16/16 passed in Chromium"
+        "examples/radix-ui/src/__tests__/skills.test.browser.tsx reviewed in this change"
+      ]
+    },
+    "source:biome.json": {
+      "fingerprint": "44741d740b113116d40ba2af575c521c49b6c971b047548e12ad7dea5dc99674",
+      "snapshot": {
+        "biome.json": "75222dc39ca0968dd73d9f7d40afa9ae1b607962abc1cabc51c62bffacb8dbd6"
+      },
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
+      "outcome": "no-change",
+      "reason": "Excludes skills/**/*.md from Biome so its Markdown formatter does not rewrite skill frontmatter; no skill guidance depends on it.",
+      "evidence": [
+        "biome.json reviewed in this change"
+      ]
+    },
+    "source:docs/docs/api/use-modal.md": {
+      "fingerprint": "d1a27de434652b5d314cb4cff08856f88e27bf8028646bc3f27c7730573cc038",
+      "snapshot": {
+        "docs/docs/api/use-modal.md": "3bf13567ad68b0ee34ee8dfe351040b358882ac382960af16c0b01000a147a3b"
+      },
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
+      "outcome": "no-change",
+      "reason": "API doc aligned with useModal behavior already described in modal-state-in-components; no skill change needed.",
+      "evidence": [
+        "docs/docs/api/use-modal.md reviewed in this change"
+      ]
+    },
+    "source:packages/core/src/hooks/index.test.tsx": {
+      "fingerprint": "7ea4398ec23e2bb44fe38730cf180a70ff21ab7723e409b57b3d39812f38c245",
+      "snapshot": {
+        "packages/core/src/hooks/index.test.tsx": "8cdedaa6875c5033bea28f1276c082abb7e4cd6aa0dc2ebd43dc2d5cc1307401"
+      },
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
+      "outcome": "no-change",
+      "reason": "Unit tests for the unmount change covered by the modal-state-in-components update.",
+      "evidence": [
+        "packages/core/src/hooks/index.test.tsx reviewed in this change"
+      ]
+    },
+    "source:scripts/assert-use-client.js": {
+      "fingerprint": "2da29ecbf6e0c0546c017b199adbc5e4d79b78755b07ce3ef32c68342c3c4494",
+      "snapshot": {
+        "scripts/assert-use-client.js": "84a9b0a7e7e499c91bc3b8f391c164d71dced33a2cfb9ec23ce2e212f52f5244"
+      },
+      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
+      "outcome": "no-change",
+      "reason": "Build guard for the \"use client\" directive; the getting-started update covers the behavior it protects.",
+      "evidence": [
+        "scripts/assert-use-client.js reviewed in this change"
       ]
     }
   }

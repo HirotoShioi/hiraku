@@ -4,6 +4,8 @@
  * Each test asserts a behavior that a skill recommends or warns about.
  */
 
+import { AlertDialog } from "@base-ui/react/alert-dialog";
+import { Dialog } from "@base-ui/react/dialog";
 import {
 	createAlertDialog,
 	createDialog,
@@ -12,8 +14,6 @@ import {
 	useModal,
 	useModalStore,
 } from "@hirotoshioi/hiraku-base-ui";
-import { AlertDialog } from "@base-ui/react/alert-dialog";
-import { Dialog } from "@base-ui/react/dialog";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
@@ -228,12 +228,16 @@ describe("skill: modal-state-in-components", () => {
 		await helloDialog.close();
 	});
 
-	it("closes the controller's modal when a hook user unmounts", async () => {
+	it("closes a modal opened through the hook when its component unmounts", async () => {
 		useModalStore.setState({ modals: [] });
 		const helloDialog = createDialog(HelloDialog);
 		function Owner() {
-			useModal(helloDialog);
-			return null;
+			const modal = useModal(helloDialog);
+			return (
+				<button type="button" onClick={() => modal.open({ name: "Owned" })}>
+					Open
+				</button>
+			);
 		}
 		function Page() {
 			const [show, setShow] = useState(true);
@@ -247,10 +251,37 @@ describe("skill: modal-state-in-components", () => {
 			);
 		}
 		await render(<Page />);
-		await helloDialog.open({ name: "Owned" });
+		await page.getByRole("button", { name: "Open" }).click();
+		expect(helloDialog.isOpen()).toBe(true);
 		const result = helloDialog.onDidClose();
 		await page.getByRole("button", { name: "Leave" }).click();
 		expect(await result).toEqual({ data: undefined, role: "dismiss" });
+	});
+
+	it("keeps a modal opened elsewhere open when a hook user unmounts", async () => {
+		useModalStore.setState({ modals: [] });
+		const helloDialog = createDialog(HelloDialog);
+		function Watcher() {
+			useModal(helloDialog);
+			return null;
+		}
+		function Page() {
+			const [show, setShow] = useState(true);
+			return (
+				<>
+					{show && <Watcher />}
+					<button type="button" onClick={() => setShow(false)}>
+						Leave
+					</button>
+				</>
+			);
+		}
+		await render(<Page />);
+		await helloDialog.open({ name: "Elsewhere" });
+		await page.getByRole("button", { name: "Leave" }).click();
+		await new Promise((r) => setTimeout(r, CLOSE_DELAY + 100));
+		expect(helloDialog.isOpen()).toBe(true);
+		await helloDialog.close();
 	});
 
 	it("getTop().close takes positional arguments", async () => {

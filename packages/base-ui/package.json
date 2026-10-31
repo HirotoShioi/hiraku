@@ -38,7 +38,7 @@
 		"access": "public"
 	},
 	"scripts": {
-		"build": "tsdown",
+		"build": "tsdown && node ../../scripts/assert-use-client.js dist/provider.js",
 		"dev": "tsdown --watch",
 		"typecheck": "tsc --noEmit",
 		"lint": "biome lint"

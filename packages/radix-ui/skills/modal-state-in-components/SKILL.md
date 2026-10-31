@@ -82,7 +82,7 @@ You can still call `useModal(confirmDelete)` in the same component for `isOpen`,
 
 ### Close the modal on unmount
 
-When a component that called `useModal(controller)` unmounts while that controller's modal is open, the hook closes it with role `"dismiss"`. Use this for modals that belong to one page or panel.
+When a component unmounts while a modal it opened through `useModal(...).open()` is still open, the hook closes that modal with role `"dismiss"`. A modal opened with `controller.open()` or by another component stays open. Use the hook's `open()` for modals that belong to one page or panel.
 
 ### Control every modal with modalController
 
@@ -142,12 +142,8 @@ Source: `ModalHandle` in `packages/core/src/factory/types.ts`.
 
 `closeAll()` resolves once every close has started. Modals stay in the store, marked as closing, for 300 ms, and `getTop()` can still return one. Use `isOpen()` or `getCount()`, which exclude closing modals, or await each controller's `onDidClose()`. Source: `close` and `closeAll` in `packages/core/src/store/index.ts`.
 
-### MEDIUM: Unexpected close when a component unmounts
-
-Unmount cleanup checks the controller, not the hook, so a component that only called `useModal(controller)` closes that modal on unmount even when another component opened it. Call `useModal` only in components whose lifetime should own the modal. Source: unmount effect in `packages/core/src/hooks/index.ts`.
-
 ## Completion
 
 - The component re-renders with `isOpen === true` after the hook's `open()`, and back to `false` with `role` set after the modal closes.
-- Unmounting the component closes its open modal.
+- Unmounting the component closes a modal opened through its hook, and leaves modals opened elsewhere open.
 - `modalController.isOpen()` returns `false` right after `closeAll()`.

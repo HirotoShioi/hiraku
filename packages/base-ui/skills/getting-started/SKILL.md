@@ -11,6 +11,7 @@ metadata:
 sources:
   - 'hirotoshioi/hiraku:packages/base-ui/src/provider.tsx'
   - 'hirotoshioi/hiraku:packages/base-ui/package.json'
+  - 'hirotoshioi/hiraku:packages/base-ui/tsdown.config.ts'
   - 'hirotoshioi/hiraku:docs/docs/getting-started.md'
   - 'hirotoshioi/hiraku:examples/base-ui/src/App.tsx'
   - 'hirotoshioi/hiraku:examples/base-ui/src/components/examples/sample-dialog.tsx'
@@ -46,6 +47,8 @@ hiraku keeps modal state in a global store. `ModalProvider` reads that store and
    	);
    }
    ```
+
+   With the Next.js App Router, render `<ModalProvider />` directly in `app/layout.tsx`; the provider module is a client component (`"use client"`), so a Server Component layout can render it.
 
    Result: the provider is mounted before any code calls `open()`. Modals opened while no provider is mounted stay in the store and appear only when a provider mounts.
 
@@ -116,22 +119,6 @@ Use `AlertDialog.*` parts with `createAlertDialog`, and `Dialog.*` parts with `c
 ### HIGH: No provider, or a provider that unmounts
 
 Calling `open()` without a mounted `ModalProvider` resolves normally but shows nothing until a provider mounts. Mounting the provider inside a route or conditional branch hides open modals while that branch is not rendered. Mount one provider at the root. Source: `packages/base-ui/src/provider.tsx`.
-
-### MEDIUM: Rendering ModalProvider from a Next.js Server Component
-
-The published `dist/index.js` (0.0.6) does not keep the source file's `"use client"` directive, and `ModalProvider` uses hooks. In the App Router, render it from your own client component:
-
-```tsx
-// app/modal-root.tsx
-"use client";
-import { ModalProvider } from "@hirotoshioi/hiraku-base-ui";
-
-export function ModalRoot() {
-	return <ModalProvider />;
-}
-```
-
-Then render `<ModalRoot />` in `app/layout.tsx`. Source: built `packages/base-ui/dist/index.js`.
 
 ## Completion
 

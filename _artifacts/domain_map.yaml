@@ -2,7 +2,7 @@
 # Library: hiraku (@hirotoshioi/hiraku-radix-ui, @hirotoshioi/hiraku-base-ui)
 # Version: 0.0.6
 # Date: 2026-11-01
-# Status: draft (first batch)
+# Status: draft (batch 2)
 
 library:
   name: "@hirotoshioi/hiraku-monorepo"
@@ -72,7 +72,8 @@ skills:
           "use client"; export function ModalRoot() { return <ModalProvider />; }
         source: built packages/*/dist/index.js (0.0.6)
         priority: MEDIUM
-        status: active
+        status: removed
+        version_context: "Fixed after 0.0.6: tsdown builds unbundled so dist/provider.js keeps \"use client\"; scripts/assert-use-client.js fails the build if it is lost. Removed from the skills."
 
   - name: open-and-await-result
     slug: open-and-await-result
@@ -191,7 +192,8 @@ skills:
           function Badge() { d.isOpen(); }
         source: packages/core/src/hooks/index.ts
         priority: MEDIUM
-        status: active
+        status: removed
+        version_context: "Fixed after 0.0.6: useModal closes on unmount only a modal opened through its own open(). Removed from the skills."
 
 tensions:
   - name: Hook state versus controller calls
@@ -210,9 +212,9 @@ cross_references:
 gaps:
   - skill: getting-started
     question: Should the published build keep "use client" so Next.js Server Components can render ModalProvider directly?
-    context: The skill currently documents a client-component wrapper as the workaround.
-    status: open
+    context: Resolved by the maintainer — yes. The build now keeps the directive on dist/provider.js, and the skill tells Next.js users to render ModalProvider directly in app/layout.tsx.
+    status: resolved
   - skill: modal-state-in-components
     question: Is closing a modal on unmount of any useModal caller (not only the opener) intended?
-    context: The skill documents current behavior; a library change would require updating the guidance.
-    status: open
+    context: Resolved by the maintainer — not intended. useModal now closes only a modal it opened, and the skill documents that.
+    status: resolved
