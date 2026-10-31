@@ -1,0 +1,218 @@
+# domain_map.yaml
+# Library: hiraku (@hirotoshioi/hiraku-radix-ui, @hirotoshioi/hiraku-base-ui)
+# Version: 0.0.6
+# Date: 2026-11-01
+# Status: draft (first batch)
+
+library:
+  name: "@hirotoshioi/hiraku-monorepo"
+  version: 0.0.6
+  repository: https://github.com/hirotoshioi/hiraku
+  description: Strongly typed modal state management for React on Radix UI or Base UI.
+  primary_framework: React
+
+domains:
+  - name: Setup
+    slug: setup
+    description: Installing an integration package and making hiraku modals render.
+  - name: Modals
+    slug: modals
+    description: Creating typed modal controllers, opening and closing them, and reading results and state.
+
+skills:
+  - name: getting-started
+    slug: getting-started
+    domain: setup
+    description: Install the integration, mount ModalProvider once, and write content-only modal components.
+    type: lifecycle
+    packages:
+      - "@hirotoshioi/hiraku-radix-ui"
+      - "@hirotoshioi/hiraku-base-ui"
+    covers:
+      - ModalProvider
+      - peer dependencies
+      - factory-to-primitive mapping
+    tasks:
+      - Install the package and mount ModalProvider
+    failure_modes:
+      - mistake: Wrapping the modal component in Dialog.Root
+        mechanism: The nested Root owns its own open state, so Escape and Close never reach hiraku and onDidClose never resolves.
+        wrong_pattern: |
+          <Dialog.Root open><Dialog.Content>…</Dialog.Content></Dialog.Root>
+        correct_pattern: |
+          <Dialog.Portal><Dialog.Content>…</Dialog.Content></Dialog.Portal>
+        source: packages/*/src/provider.tsx; docs/docs/getting-started.md
+        priority: HIGH
+        status: active
+      - mistake: Primitives that do not match the factory
+        mechanism: createAlertDialog renders AlertDialog.Root and createDialog/createSheet render Dialog.Root; Radix throws a missing-context error for mismatched parts.
+        wrong_pattern: |
+          createAlertDialog(() => <Dialog.Portal>…</Dialog.Portal>)
+        correct_pattern: |
+          createAlertDialog(() => <AlertDialog.Portal>…</AlertDialog.Portal>)
+        source: getWrapperComponent in packages/*/src/provider.tsx
+        priority: HIGH
+        status: active
+      - mistake: No mounted provider or a conditionally mounted provider
+        mechanism: open() only updates the store; nothing renders until a ModalProvider is mounted.
+        wrong_pattern: |
+          {isDashboard && <ModalProvider />}
+        correct_pattern: |
+          <><App /><ModalProvider /></>
+        source: packages/*/src/provider.tsx
+        priority: HIGH
+        status: active
+      - mistake: Rendering ModalProvider from a Next.js Server Component
+        mechanism: The built dist/index.js drops the "use client" directive while ModalProvider uses hooks.
+        wrong_pattern: |
+          // app/layout.tsx (server)
+          <ModalProvider />
+        correct_pattern: |
+          // app/modal-root.tsx
+          "use client"; export function ModalRoot() { return <ModalProvider />; }
+        source: built packages/*/dist/index.js (0.0.6)
+        priority: MEDIUM
+        status: active
+
+  - name: open-and-await-result
+    slug: open-and-await-result
+    domain: modals
+    description: Create a typed controller, open it from any code, close it with data and a role, and await the result.
+    type: core
+    packages:
+      - "@hirotoshioi/hiraku-radix-ui"
+      - "@hirotoshioi/hiraku-base-ui"
+    covers:
+      - createDialog
+      - createSheet
+      - createAlertDialog
+      - .returns<T>()
+      - open / close / onDidClose / isOpen
+      - ModalResult
+      - ModalRole
+    tasks:
+      - Create a typed dialog, sheet, or alert dialog and open it from anywhere
+      - Close a modal with data and a role and await the typed result
+    failure_modes:
+      - mistake: Calling onDidClose before open
+        mechanism: Without an instance, onDidClose resolves {} immediately.
+        wrong_pattern: |
+          const p = modal.onDidClose(); await modal.open();
+        correct_pattern: |
+          await modal.open(); const r = await modal.onDidClose();
+        source: packages/core/src/factory/index.ts
+        priority: HIGH
+        status: active
+      - mistake: Treating the resolved open() as the user's answer
+        mechanism: open() resolves once the instance is added to the store.
+        wrong_pattern: |
+          await confirm.open(); deleteItem();
+        correct_pattern: |
+          await confirm.open(); if ((await confirm.onDidClose()).role === "confirm") deleteItem();
+        source: packages/core/src/factory/index.ts
+        priority: HIGH
+        status: active
+      - mistake: Creating the controller inside a component
+        mechanism: Each controller tracks only its own instance, so a re-created controller cannot close or await the open modal.
+        wrong_pattern: |
+          function C() { const d = createDialog(D); }
+        correct_pattern: |
+          export const d = createDialog(D); // module level
+        source: packages/core/src/factory/index.ts
+        priority: HIGH
+        status: active
+      - mistake: Discarding the controller returned by .returns<T>()
+        mechanism: returns() creates a new controller rather than mutating the original.
+        wrong_pattern: |
+          const d = createDialog(D); d.returns<boolean>();
+        correct_pattern: |
+          const d = createDialog(D).returns<boolean>();
+        source: packages/core/src/factory/index.ts
+        priority: HIGH
+        status: active
+      - mistake: Expecting a second open() to replace props
+        mechanism: While open, open() is a no-op and later callers receive the first modal's result.
+        wrong_pattern: |
+          await d.open({ name: "A" }); await d.open({ name: "B" });
+        correct_pattern: |
+          await d.close(); await d.onDidClose(); await d.open({ name: "B" });
+        source: packages/core/src/factory/index.ts
+        priority: MEDIUM
+        status: active
+
+  - name: modal-state-in-components
+    slug: modal-state-in-components
+    domain: modals
+    description: Use useModal for reactive state and unmount cleanup, and modalController for app-wide control.
+    type: framework
+    packages:
+      - "@hirotoshioi/hiraku-radix-ui"
+      - "@hirotoshioi/hiraku-base-ui"
+    covers:
+      - useModal
+      - modalController
+      - useModalStore (test reset)
+    tasks:
+      - Track a modal's open state and result in a component with useModal
+      - Close or inspect every open modal with modalController
+    failure_modes:
+      - mistake: Expecting useModal state for opens made elsewhere
+        mechanism: The hook's isOpen/data/role are local state set only by its own open().
+        wrong_pattern: |
+          const m = useModal(d); d.open(); // m.isOpen stays false
+        correct_pattern: |
+          const m = useModal(d); m.open();
+        source: packages/core/src/hooks/index.ts
+        priority: HIGH
+        status: active
+      - mistake: Calling getTop().close with an options object
+        mechanism: ModalHandle.close takes (data, role) positionally, so the object becomes data and role defaults to dismiss.
+        wrong_pattern: |
+          modalController.getTop()?.close({ data: 1, role: "confirm" });
+        correct_pattern: |
+          modalController.getTop()?.close(1, "confirm");
+        source: packages/core/src/factory/types.ts
+        priority: HIGH
+        status: active
+      - mistake: Awaiting closeAll() as if modals were removed
+        mechanism: closeAll resolves when closes start; modals stay in the store for the 300 ms close delay.
+        wrong_pattern: |
+          await modalController.closeAll(); modalController.getTop(); // still defined
+        correct_pattern: |
+          await modalController.closeAll(); modalController.isOpen(); // false
+        source: packages/core/src/store/index.ts
+        priority: MEDIUM
+        status: active
+      - mistake: Unexpected close when a hook user unmounts
+        mechanism: The unmount cleanup checks controller.isOpen(), not whether this hook opened the modal.
+        wrong_pattern: |
+          function Badge() { useModal(d); /* unmounting closes d */ }
+        correct_pattern: |
+          function Badge() { d.isOpen(); }
+        source: packages/core/src/hooks/index.ts
+        priority: MEDIUM
+        status: active
+
+tensions:
+  - name: Hook state versus controller calls
+    skills: [open-and-await-result, modal-state-in-components]
+    description: Awaiting a result needs the controller, while reactive state needs the hook's own open().
+    implication: Mixing controller.open() with useModal state leaves the hook's isOpen false.
+
+cross_references:
+  - from: open-and-await-result
+    to: getting-started
+    reason: Modals render only with a mounted provider and content-only components.
+  - from: modal-state-in-components
+    to: open-and-await-result
+    reason: The hook and modalController operate on module-level controllers.
+
+gaps:
+  - skill: getting-started
+    question: Should the published build keep "use client" so Next.js Server Components can render ModalProvider directly?
+    context: The skill currently documents a client-component wrapper as the workaround.
+    status: open
+  - skill: modal-state-in-components
+    question: Is closing a modal on unmount of any useModal caller (not only the opener) intended?
+    context: The skill documents current behavior; a library change would require updating the guidance.
+    status: open

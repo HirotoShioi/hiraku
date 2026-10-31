@@ -15,13 +15,17 @@
 	},
 	"author": "Hiroto Shioi",
 	"files": [
-		"dist"
+		"dist",
+		"skills/getting-started",
+		"skills/open-and-await-result",
+		"skills/modal-state-in-components"
 	],
 	"keywords": [
 		"react",
 		"base-ui",
 		"mui",
-		"modal"
+		"modal",
+		"tanstack-intent"
 	],
 	"main": "./dist/index.js",
 	"module": "./dist/index.js",
