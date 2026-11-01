@@ -3,157 +3,156 @@
   "baseline": "fe4f0b3c011c6b27ffbd5ebd3ac4aa98f50bed4f",
   "items": {
     "skill:packages/base-ui/skills/getting-started/SKILL.md": {
-      "fingerprint": "96016ccbd9faa069dc616d77b237fb7a4ed7d1165e49c56e2ba4ff7661a644b1",
+      "fingerprint": "7a48f18be4c141239f0bc29fc66a43098042e9eb92b9115f10faa2a1856d78f9",
       "snapshot": {
-        "docs/docs/getting-started.md": "9796b6b427a79a2079f9eb0aa3bdbf4057b5aa12e642869e18daed3ad2163da0",
+        "docs/docs/getting-started.md": "55b0ba12a8adce219fefd8d049326b063a08d3ed76daffa483613bc276d4eea6",
         "examples/base-ui/src/App.tsx": "b904fc80a18579a8a5e2bb0c6afb8252a236a8fc9f8e39fffea00c595be1d083",
         "examples/base-ui/src/components/examples/sample-dialog.tsx": "b94521fe0cfdfa94deded2e9e83221ef4014595dbb1c15871e1fe9118e938b4f",
         "packages/base-ui/package.json": "873e19fd95422805081a2b9b3633bc561d9bef33b2bbe804615b8259bbb07dd9",
         "packages/base-ui/skills/getting-started/SKILL.md": "2ee3e04bf8e4b0514935f5c364e627d5bebbcd62e4ae980a5101737b9c62448b",
-        "packages/base-ui/src/provider.tsx": "2169f659445688b689c61d357f41ce0927caac8e185b8bf5ab4ea209d98b2279",
+        "packages/base-ui/src/provider.tsx": "016f2e7ffae1ea3c0247110922d2081c6742bf935b1e4ecfd73778128f3572d2",
         "packages/base-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b"
       },
-      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
-      "outcome": "updated",
-      "reason": "Build now keeps \"use client\" on dist/provider.js (tsdown unbundle + assert script), so the Next.js wrapper workaround was replaced by rendering ModalProvider directly in app/layout.tsx.",
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
       "evidence": [
-        "head -1 packages/*/dist/provider.js prints \"use client\"",
-        "node scripts/assert-use-client.js packages/radix-ui/dist/index.js exits 1; provider.js exits 0"
+        "Changed: packages/base-ui/src/provider.tsx at 4346ab7af447e608a055c46fad122ca52ffd7c87"
       ]
     },
     "skill:packages/base-ui/skills/modal-state-in-components/SKILL.md": {
-      "fingerprint": "70ba4c29629db5fb679c524ab8f3f2daf1c1ffd10cd5cd1992753679905df39a",
+      "fingerprint": "7804bcce3756f04d3593c4c4ba90aab68fb1e87293a93e6ab707cf37d055f3ed",
       "snapshot": {
         "docs/docs/modal-controller.md": "c19b53d598d50131e7b144da8a38f95c2b7f123dfec907f5962e543974e844af",
-        "docs/docs/using-hooks.md": "cf947661535ecd79d9361a4e3831e0cfb92cdbef1a7744ee03920ba9bb419b08",
-        "packages/base-ui/skills/modal-state-in-components/SKILL.md": "f534a12f0a6e86d6e47a726b3d67d3291d43d610599a61fce6b780f7542d07f7",
-        "packages/core/src/hooks/index.ts": "0ecd89e49244354682158a7f5cc83d8b9be5275a83c1d9cdd1628ef0b4d5d86e",
+        "docs/docs/using-hooks.md": "65f8b085ad2fd5d4d29b1e9f84c65f675b52e6362869705c18af05214bfc3c88",
+        "packages/base-ui/skills/modal-state-in-components/SKILL.md": "cfe64ba856629f789fa03839b43b28ad66ba1239eeebd870a46c312a30bf693c",
+        "packages/core/src/hooks/index.ts": "7e51bff0d751ae163325511c50d4fd51300346233fd9073754a3d5f3315a6dcb",
         "packages/core/src/hooks/types.ts": "e9ef53e653909bfa34b21b3cb1370d40a830dfb88a521a8b164033493bcc3fd4",
         "packages/core/src/modal-controller.ts": "668345888c40854b3d1d845bf7fbc111a76326d74f1d5fdbc324f2e00a95a7e5",
-        "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946"
+        "packages/core/src/store/index.ts": "94aeab8bf4735fccc1be886378a00f8b62989a89b25a56269a4b773b1ba3bbb7"
       },
-      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
-      "outcome": "updated",
-      "reason": "useModal now closes on unmount only a modal opened through its own open(); the unmount pitfall was removed and the cleanup rule rewritten. docs/docs/using-hooks.md now matches.",
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
       "evidence": [
-        "packages/core/src/hooks/index.test.tsx: 2 new cases fail on the old hook and pass on the new one; 56/56 pass",
-        "examples/*/src/__tests__/skills.test.browser.tsx: 17/17 pass"
+        "Changed: packages/core/src/store/index.ts at 4346ab7af447e608a055c46fad122ca52ffd7c87"
       ]
     },
     "skill:packages/base-ui/skills/open-and-await-result/SKILL.md": {
-      "fingerprint": "3eb0c022502bf845e94082528e46d9253ca6826fbb2b7a3029cb0fa1b32ff862",
+      "fingerprint": "3c691cfaf90451725405bdbfa947785861e9035dc0fa87f92835dc056e82d431",
       "snapshot": {
-        "docs/docs/opening-closing.md": "cf15bfeb5f5c346315b1beffea3842dc38648ff49ae88fb72dbd4c4c10286c69",
-        "docs/docs/return-values.md": "6727f44b2269ecbb4a0b751b78825a2feb004683d2b51d8159ffa11f1f4cf36a",
-        "packages/base-ui/skills/open-and-await-result/SKILL.md": "8a37917cb70a2b1d5544a5df37ec41e7461bd70f61c3f9a7c434f5c10840e267",
-        "packages/base-ui/src/provider.tsx": "2169f659445688b689c61d357f41ce0927caac8e185b8bf5ab4ea209d98b2279",
-        "packages/core/src/factory/index.ts": "f676bcd83ed0318d8e990157441b47a1b85dd559b32a93b00645e03e0516f948",
-        "packages/core/src/factory/types.ts": "6df2365d65046a5e3e2a16bf1b914b7333417552cb0a253c129b1d926aaa179f",
+        "docs/docs/opening-closing.md": "d5719e322de6f1278ac9fa79b12fba62d12559a532d9f05572f36d0988d040be",
+        "docs/docs/return-values.md": "38005fc9e00f2b24709e384157da71a7b652b93f1edbf5fe5d820088a72201ac",
+        "packages/base-ui/skills/open-and-await-result/SKILL.md": "126e74c609cd4c8f0cfb7c488ecfd7a3aa95b1f81a073b66d9cd27da80c0d1d6",
+        "packages/base-ui/src/provider.tsx": "016f2e7ffae1ea3c0247110922d2081c6742bf935b1e4ecfd73778128f3572d2",
+        "packages/core/src/context/index.ts": "9d8d2ae36ec58131893ec506bb91a99345aae6232787f079041e5a4608d875f1",
+        "packages/core/src/factory/index.ts": "4d7c10118c3d81a3e08926751cfc4b3c318d4bbea1ffbcb15fd275e0debd3e3b",
+        "packages/core/src/factory/types.ts": "1e63bc008f71970eea4bac16a70f3274db29262412bc285343cd61076de35028",
         "packages/core/src/shared/types.ts": "981e55ea8028e0400104abbe944987b2421c26a1ff4529b89bbf2ddfd713fb43",
-        "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946"
+        "packages/core/src/store/index.ts": "94aeab8bf4735fccc1be886378a00f8b62989a89b25a56269a4b773b1ba3bbb7"
       },
-      "head": "3dbc35b501bf06e62f10d3c5a4c85571e9347336",
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
       "outcome": "no-change",
-      "reason": "onDidClose が閉じている途中で開き直したモーダルの参照を消すバグの修正のみ。スキルの記述（300ms の間の open() は新しいインスタンスを作る等）は修正後もそのまま正しい",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
       "evidence": [
-        "Changed: packages/core/src/factory/index.ts at 3dbc35b501bf06e62f10d3c5a4c85571e9347336"
+        "Changed: packages/base-ui/src/provider.tsx, packages/core/src/store/index.ts at 4346ab7af447e608a055c46fad122ca52ffd7c87"
       ]
     },
     "skill:packages/radix-ui/skills/getting-started/SKILL.md": {
-      "fingerprint": "654f13d02365ef287d6e747ad32787cf4855518ab9cae7101f84a2b10b7e9c2e",
+      "fingerprint": "76b2bc606782646acc1589718118edb02b07b52125f9d17d30fe8d1181689bb5",
       "snapshot": {
-        "docs/docs/getting-started.md": "9796b6b427a79a2079f9eb0aa3bdbf4057b5aa12e642869e18daed3ad2163da0",
+        "docs/docs/getting-started.md": "55b0ba12a8adce219fefd8d049326b063a08d3ed76daffa483613bc276d4eea6",
         "examples/radix-ui/src/App.tsx": "bf70b7aafdb8df974b0771c971fff1b786fed6fed84b85391d985db7f93825de",
         "packages/radix-ui/package.json": "17e4024dc071c00c225b045e732c63ea055f68cdd95720b671a3834f527b63a1",
         "packages/radix-ui/skills/getting-started/SKILL.md": "befab2a4667fe4542fe513aa4433ab0be00eeb95acb724e7bef1f1e8dee5b0d0",
-        "packages/radix-ui/src/provider.tsx": "de22f6c2703a6d35ae87100ea18a154f752a11fa7d6e2b3af3eb920e33aa6528",
+        "packages/radix-ui/src/provider.tsx": "9b8702032367e0278f0ee2a0e3a4843e91531ec83338a9248a090fab95db1121",
         "packages/radix-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b"
       },
-      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
-      "outcome": "updated",
-      "reason": "Build now keeps \"use client\" on dist/provider.js (tsdown unbundle + assert script), so the Next.js wrapper workaround was replaced by rendering ModalProvider directly in app/layout.tsx.",
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
       "evidence": [
-        "head -1 packages/*/dist/provider.js prints \"use client\"",
-        "node scripts/assert-use-client.js packages/radix-ui/dist/index.js exits 1; provider.js exits 0"
+        "Changed: packages/radix-ui/src/provider.tsx at 4346ab7af447e608a055c46fad122ca52ffd7c87"
       ]
     },
     "skill:packages/radix-ui/skills/modal-state-in-components/SKILL.md": {
-      "fingerprint": "3a133fa265606a514b67965f20605032148df6e4810fe7ffd51e7c9d1667c3c3",
+      "fingerprint": "79693af52f672a390cafefe7469f357e88b461d315abb27546d54daeae920e66",
       "snapshot": {
         "docs/docs/modal-controller.md": "c19b53d598d50131e7b144da8a38f95c2b7f123dfec907f5962e543974e844af",
-        "docs/docs/using-hooks.md": "cf947661535ecd79d9361a4e3831e0cfb92cdbef1a7744ee03920ba9bb419b08",
-        "packages/core/src/hooks/index.ts": "0ecd89e49244354682158a7f5cc83d8b9be5275a83c1d9cdd1628ef0b4d5d86e",
+        "docs/docs/using-hooks.md": "65f8b085ad2fd5d4d29b1e9f84c65f675b52e6362869705c18af05214bfc3c88",
+        "packages/core/src/hooks/index.ts": "7e51bff0d751ae163325511c50d4fd51300346233fd9073754a3d5f3315a6dcb",
         "packages/core/src/hooks/types.ts": "e9ef53e653909bfa34b21b3cb1370d40a830dfb88a521a8b164033493bcc3fd4",
         "packages/core/src/modal-controller.ts": "668345888c40854b3d1d845bf7fbc111a76326d74f1d5fdbc324f2e00a95a7e5",
-        "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946",
-        "packages/radix-ui/skills/modal-state-in-components/SKILL.md": "819117a86d22f5deaf336b45f3e492ef36963d980ca7c7ae1f8f1460c17aa62b"
+        "packages/core/src/store/index.ts": "94aeab8bf4735fccc1be886378a00f8b62989a89b25a56269a4b773b1ba3bbb7",
+        "packages/radix-ui/skills/modal-state-in-components/SKILL.md": "cd5e08f33b651b8652078c0062c75b36faa2628ddf9b5c742b14dd41c17ae8ae"
       },
-      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
-      "outcome": "updated",
-      "reason": "useModal now closes on unmount only a modal opened through its own open(); the unmount pitfall was removed and the cleanup rule rewritten. docs/docs/using-hooks.md now matches.",
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
       "evidence": [
-        "packages/core/src/hooks/index.test.tsx: 2 new cases fail on the old hook and pass on the new one; 56/56 pass",
-        "examples/*/src/__tests__/skills.test.browser.tsx: 17/17 pass"
+        "Changed: packages/core/src/store/index.ts at 4346ab7af447e608a055c46fad122ca52ffd7c87"
       ]
     },
     "skill:packages/radix-ui/skills/open-and-await-result/SKILL.md": {
-      "fingerprint": "e2af9a70f9f620cdd36ee46178faaa96d58adf56a45377ae48b97b48db63cba2",
+      "fingerprint": "f002c15cf172575a3703c9ce69afb4375b0dfe10da744fa462c9a65891c1d8eb",
       "snapshot": {
-        "docs/docs/opening-closing.md": "cf15bfeb5f5c346315b1beffea3842dc38648ff49ae88fb72dbd4c4c10286c69",
-        "docs/docs/return-values.md": "6727f44b2269ecbb4a0b751b78825a2feb004683d2b51d8159ffa11f1f4cf36a",
-        "packages/core/src/factory/index.ts": "f676bcd83ed0318d8e990157441b47a1b85dd559b32a93b00645e03e0516f948",
-        "packages/core/src/factory/types.ts": "6df2365d65046a5e3e2a16bf1b914b7333417552cb0a253c129b1d926aaa179f",
+        "docs/docs/opening-closing.md": "d5719e322de6f1278ac9fa79b12fba62d12559a532d9f05572f36d0988d040be",
+        "docs/docs/return-values.md": "38005fc9e00f2b24709e384157da71a7b652b93f1edbf5fe5d820088a72201ac",
+        "packages/core/src/context/index.ts": "9d8d2ae36ec58131893ec506bb91a99345aae6232787f079041e5a4608d875f1",
+        "packages/core/src/factory/index.ts": "4d7c10118c3d81a3e08926751cfc4b3c318d4bbea1ffbcb15fd275e0debd3e3b",
+        "packages/core/src/factory/types.ts": "1e63bc008f71970eea4bac16a70f3274db29262412bc285343cd61076de35028",
         "packages/core/src/shared/types.ts": "981e55ea8028e0400104abbe944987b2421c26a1ff4529b89bbf2ddfd713fb43",
-        "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946",
-        "packages/radix-ui/skills/open-and-await-result/SKILL.md": "f9da16cbd2da65e38a7087e218f439ad3d13b24f3652f38bb5ae88be45cb1588",
-        "packages/radix-ui/src/provider.tsx": "de22f6c2703a6d35ae87100ea18a154f752a11fa7d6e2b3af3eb920e33aa6528"
+        "packages/core/src/store/index.ts": "94aeab8bf4735fccc1be886378a00f8b62989a89b25a56269a4b773b1ba3bbb7",
+        "packages/radix-ui/skills/open-and-await-result/SKILL.md": "13e28684ea5582008dc827bd6d0cd0d54fcaad4d0512f613d844f08929b82c2b",
+        "packages/radix-ui/src/provider.tsx": "9b8702032367e0278f0ee2a0e3a4843e91531ec83338a9248a090fab95db1121"
       },
-      "head": "3dbc35b501bf06e62f10d3c5a4c85571e9347336",
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
       "outcome": "no-change",
-      "reason": "onDidClose が閉じている途中で開き直したモーダルの参照を消すバグの修正のみ。スキルの記述（300ms の間の open() は新しいインスタンスを作る等）は修正後もそのまま正しい",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
       "evidence": [
-        "Changed: packages/core/src/factory/index.ts at 3dbc35b501bf06e62f10d3c5a4c85571e9347336"
+        "Changed: packages/core/src/store/index.ts, packages/radix-ui/src/provider.tsx at 4346ab7af447e608a055c46fad122ca52ffd7c87"
       ]
     },
     "planning:_artifacts": {
-      "fingerprint": "90757327cec76334c913bb431a2cdc0a5e9d0264eb39579d2ef062611f4fd8cc",
+      "fingerprint": "8849de30b4c390db87a46c547bfe8508c6c3fed37578f9e1371e62149bc48472",
       "snapshot": {
         "_artifacts/domain_map.yaml": "2fa81a89415f7274d4f5585403aa2daef77c1f55251c724163cdf960124bcf0a",
         "_artifacts/skill_spec.md": "649b2d8a2def8660832b5787001b55ac191f18b603a33fb182debe32710cb3de",
-        "_artifacts/skill_tree.yaml": "0b924add11a8e8d2370ccf0653cc938858c9659dcc5ac339d3f883c19b69c080",
-        "docs/docs/getting-started.md": "9796b6b427a79a2079f9eb0aa3bdbf4057b5aa12e642869e18daed3ad2163da0",
+        "_artifacts/skill_tree.yaml": "fe205ac68500af7a99adee88eb32ed3a56ac960260f6dec551b1a762a58fd0c7",
+        "docs/docs/getting-started.md": "55b0ba12a8adce219fefd8d049326b063a08d3ed76daffa483613bc276d4eea6",
         "docs/docs/modal-controller.md": "c19b53d598d50131e7b144da8a38f95c2b7f123dfec907f5962e543974e844af",
-        "docs/docs/opening-closing.md": "cf15bfeb5f5c346315b1beffea3842dc38648ff49ae88fb72dbd4c4c10286c69",
-        "docs/docs/return-values.md": "6727f44b2269ecbb4a0b751b78825a2feb004683d2b51d8159ffa11f1f4cf36a",
-        "docs/docs/using-hooks.md": "cf947661535ecd79d9361a4e3831e0cfb92cdbef1a7744ee03920ba9bb419b08",
+        "docs/docs/opening-closing.md": "d5719e322de6f1278ac9fa79b12fba62d12559a532d9f05572f36d0988d040be",
+        "docs/docs/return-values.md": "38005fc9e00f2b24709e384157da71a7b652b93f1edbf5fe5d820088a72201ac",
+        "docs/docs/using-hooks.md": "65f8b085ad2fd5d4d29b1e9f84c65f675b52e6362869705c18af05214bfc3c88",
         "examples/base-ui/src/App.tsx": "b904fc80a18579a8a5e2bb0c6afb8252a236a8fc9f8e39fffea00c595be1d083",
         "examples/base-ui/src/components/examples/sample-dialog.tsx": "b94521fe0cfdfa94deded2e9e83221ef4014595dbb1c15871e1fe9118e938b4f",
         "examples/radix-ui/src/App.tsx": "bf70b7aafdb8df974b0771c971fff1b786fed6fed84b85391d985db7f93825de",
         "packages/base-ui/package.json": "873e19fd95422805081a2b9b3633bc561d9bef33b2bbe804615b8259bbb07dd9",
         "packages/base-ui/skills/getting-started/SKILL.md": "2ee3e04bf8e4b0514935f5c364e627d5bebbcd62e4ae980a5101737b9c62448b",
-        "packages/base-ui/skills/modal-state-in-components/SKILL.md": "f534a12f0a6e86d6e47a726b3d67d3291d43d610599a61fce6b780f7542d07f7",
-        "packages/base-ui/skills/open-and-await-result/SKILL.md": "8a37917cb70a2b1d5544a5df37ec41e7461bd70f61c3f9a7c434f5c10840e267",
-        "packages/base-ui/src/provider.tsx": "2169f659445688b689c61d357f41ce0927caac8e185b8bf5ab4ea209d98b2279",
+        "packages/base-ui/skills/modal-state-in-components/SKILL.md": "cfe64ba856629f789fa03839b43b28ad66ba1239eeebd870a46c312a30bf693c",
+        "packages/base-ui/skills/open-and-await-result/SKILL.md": "126e74c609cd4c8f0cfb7c488ecfd7a3aa95b1f81a073b66d9cd27da80c0d1d6",
+        "packages/base-ui/src/provider.tsx": "016f2e7ffae1ea3c0247110922d2081c6742bf935b1e4ecfd73778128f3572d2",
         "packages/base-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b",
-        "packages/core/src/factory/index.ts": "f676bcd83ed0318d8e990157441b47a1b85dd559b32a93b00645e03e0516f948",
-        "packages/core/src/factory/types.ts": "6df2365d65046a5e3e2a16bf1b914b7333417552cb0a253c129b1d926aaa179f",
-        "packages/core/src/hooks/index.ts": "0ecd89e49244354682158a7f5cc83d8b9be5275a83c1d9cdd1628ef0b4d5d86e",
+        "packages/core/src/context/index.ts": "9d8d2ae36ec58131893ec506bb91a99345aae6232787f079041e5a4608d875f1",
+        "packages/core/src/factory/index.ts": "4d7c10118c3d81a3e08926751cfc4b3c318d4bbea1ffbcb15fd275e0debd3e3b",
+        "packages/core/src/factory/types.ts": "1e63bc008f71970eea4bac16a70f3274db29262412bc285343cd61076de35028",
+        "packages/core/src/hooks/index.ts": "7e51bff0d751ae163325511c50d4fd51300346233fd9073754a3d5f3315a6dcb",
         "packages/core/src/hooks/types.ts": "e9ef53e653909bfa34b21b3cb1370d40a830dfb88a521a8b164033493bcc3fd4",
         "packages/core/src/modal-controller.ts": "668345888c40854b3d1d845bf7fbc111a76326d74f1d5fdbc324f2e00a95a7e5",
         "packages/core/src/shared/types.ts": "981e55ea8028e0400104abbe944987b2421c26a1ff4529b89bbf2ddfd713fb43",
-        "packages/core/src/store/index.ts": "bba167de5e4f09f8b1f1c9fb304b1e1095815148aaa907566974f0fbc72fb946",
+        "packages/core/src/store/index.ts": "94aeab8bf4735fccc1be886378a00f8b62989a89b25a56269a4b773b1ba3bbb7",
         "packages/radix-ui/package.json": "17e4024dc071c00c225b045e732c63ea055f68cdd95720b671a3834f527b63a1",
         "packages/radix-ui/skills/getting-started/SKILL.md": "befab2a4667fe4542fe513aa4433ab0be00eeb95acb724e7bef1f1e8dee5b0d0",
-        "packages/radix-ui/skills/modal-state-in-components/SKILL.md": "819117a86d22f5deaf336b45f3e492ef36963d980ca7c7ae1f8f1460c17aa62b",
-        "packages/radix-ui/skills/open-and-await-result/SKILL.md": "f9da16cbd2da65e38a7087e218f439ad3d13b24f3652f38bb5ae88be45cb1588",
-        "packages/radix-ui/src/provider.tsx": "de22f6c2703a6d35ae87100ea18a154f752a11fa7d6e2b3af3eb920e33aa6528",
+        "packages/radix-ui/skills/modal-state-in-components/SKILL.md": "cd5e08f33b651b8652078c0062c75b36faa2628ddf9b5c742b14dd41c17ae8ae",
+        "packages/radix-ui/skills/open-and-await-result/SKILL.md": "13e28684ea5582008dc827bd6d0cd0d54fcaad4d0512f613d844f08929b82c2b",
+        "packages/radix-ui/src/provider.tsx": "9b8702032367e0278f0ee2a0e3a4843e91531ec83338a9248a090fab95db1121",
         "packages/radix-ui/tsdown.config.ts": "9a93b5af0652802b5b6fa02b0990b1103ebc7f1e39370ff20704be982d2df82b"
       },
-      "head": "3dbc35b501bf06e62f10d3c5a4c85571e9347336",
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
       "outcome": "no-change",
-      "reason": "onDidClose が閉じている途中で開き直したモーダルの参照を消すバグの修正のみ。スキルの記述（300ms の間の open() は新しいインスタンスを作る等）は修正後もそのまま正しい",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
       "evidence": [
-        "Changed: packages/core/src/factory/index.ts at 3dbc35b501bf06e62f10d3c5a4c85571e9347336"
+        "Changed: packages/base-ui/src/provider.tsx, packages/core/src/store/index.ts, packages/radix-ui/src/provider.tsx at 4346ab7af447e608a055c46fad122ca52ffd7c87"
       ]
     },
     "source:examples/base-ui/src/__tests__/skills.test.browser.tsx": {
@@ -193,13 +192,13 @@
       ]
     },
     "source:docs/docs/api/use-modal.md": {
-      "fingerprint": "d1a27de434652b5d314cb4cff08856f88e27bf8028646bc3f27c7730573cc038",
+      "fingerprint": "01ce0255c6ed74d26f542900cd52b1e6e4f1c76db3547da977fe1dfa5286b98c",
       "snapshot": {
-        "docs/docs/api/use-modal.md": "3bf13567ad68b0ee34ee8dfe351040b358882ac382960af16c0b01000a147a3b"
+        "docs/docs/api/use-modal.md": "42a434246341a6005063ad02a6372f6aa725b50feea2d54b2b6776a040929f30"
       },
-      "head": "babd0b51a099e9772afab39ea97394b546805f7f",
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
       "outcome": "no-change",
-      "reason": "API doc aligned with useModal behavior already described in modal-state-in-components; no skill change needed.",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
       "evidence": [
         "docs/docs/api/use-modal.md reviewed in this change"
       ]
@@ -253,15 +252,267 @@
       ]
     },
     "source:packages/core/src/factory/index.test.ts": {
-      "fingerprint": "59630b1bb24e41234d8c9fa6dda008eba0e21c80c6d302fcaefe5fd896071cee",
+      "fingerprint": "c8b71d2ef7d0a896aa73a3f90ce5c3997729f3e72200116cb9aa3e5c174744f9",
       "snapshot": {
-        "packages/core/src/factory/index.test.ts": "24f025e79302f7263e53e8667016f1e4df1f955e1b0ca88781a46c25ab0502fc"
+        "packages/core/src/factory/index.test.ts": "914cec91779cae84fa875011e40a4dbe6b15ed478386b7e9275b515398fb1f6f"
       },
-      "head": "3dbc35b501bf06e62f10d3c5a4c85571e9347336",
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
       "outcome": "no-change",
-      "reason": "onDidClose が閉じている途中で開き直したモーダルの参照を消すバグの修正のみ。スキルの記述（300ms の間の open() は新しいインスタンスを作る等）は修正後もそのまま正しい",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
       "evidence": [
-        "Changed: packages/core/src/factory/index.test.ts at 3dbc35b501bf06e62f10d3c5a4c85571e9347336"
+        "packages/core/src/factory/index.test.ts reviewed in this change"
+      ]
+    },
+    "source:README.md": {
+      "fingerprint": "ceffd33e1846b9f27e6a391815d7b1fd1922211220f63edd14ddf069b848993e",
+      "snapshot": {
+        "README.md": "aecd6c88f2f4370408f75e9c955bc2807abdcb1933e0180b7e536530f8f891b5"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "README.md reviewed in this change"
+      ]
+    },
+    "source:docs/.vitepress/config.ts": {
+      "fingerprint": "876765b0174278e92e39cfee0c2767bc61d840871909e5aa1503a85655d8f1c4",
+      "snapshot": {
+        "docs/.vitepress/config.ts": "f7a60af1db1e79e34bc5ed03cb5a3494b2bd80bcfd5f69ef177eefb6098e304d"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "docs/.vitepress/config.ts reviewed in this change"
+      ]
+    },
+    "source:docs/docs/api/create-alert-dialog.md": {
+      "fingerprint": "fbbb9952696358a5f14236d2493cc53219e9498fe372ad2b6b5bde9300336bf2",
+      "snapshot": {
+        "docs/docs/api/create-alert-dialog.md": "2d18d380d5755d10ea25cd1950980d8f233e8e6d6032651fdc4391e998b4c4c5"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "docs/docs/api/create-alert-dialog.md reviewed in this change"
+      ]
+    },
+    "source:docs/docs/api/create-dialog.md": {
+      "fingerprint": "9194f22f74d23f0155555201b0a4e255107201b18f0cfcfcdd3ad4895be96573",
+      "snapshot": {
+        "docs/docs/api/create-dialog.md": "8ce615d23087efd9914206f74c8fc6859e9e2125da0d1c40b2c803bf8ad5fe12"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "docs/docs/api/create-dialog.md reviewed in this change"
+      ]
+    },
+    "source:docs/docs/api/create-sheet.md": {
+      "fingerprint": "1e8e83aff24d502c94f43e85474954b8090eaceae3dabbc686a8d7a55eabb621",
+      "snapshot": {
+        "docs/docs/api/create-sheet.md": "cf28c4c56cc95df43f7ca09a380e0b6567226affbaeee58acf5ec98ad1e473fa"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "docs/docs/api/create-sheet.md reviewed in this change"
+      ]
+    },
+    "source:docs/docs/api/modal-provider.md": {
+      "fingerprint": "49c83682047f8799da6e91928b11c956a6fd3ac88ce17991b20e43bbd48283fe",
+      "snapshot": {
+        "docs/docs/api/modal-provider.md": "99c4d0b593d4cc21fa7b804a5531468c9677ada0536d0b1c37f5554e5b9f4740"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "docs/docs/api/modal-provider.md reviewed in this change"
+      ]
+    },
+    "source:docs/docs/api/use-modal-context.md": {
+      "fingerprint": "0a12722bc944618064361eab60da1e7f879917158252b77a562443b2b658ad1f",
+      "snapshot": {
+        "docs/docs/api/use-modal-context.md": "7623f7d3a9683932917a13479c4497f2b4cf6b4169e76742d686f0bb3f440ae2"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "docs/docs/api/use-modal-context.md reviewed in this change"
+      ]
+    },
+    "source:docs/docs/migration.md": {
+      "fingerprint": "68b901d491ac85d9230bf4acbd9b8d34b012840f3e9a718df67c1873267a25b6",
+      "snapshot": {
+        "docs/docs/migration.md": "f7216ceaf252f8b4ee5d57245b3abbd8de135b99d1efe2264be3aace493dd353"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "docs/docs/migration.md reviewed in this change"
+      ]
+    },
+    "source:examples/base-ui/src/__tests__/features.test.browser.tsx": {
+      "fingerprint": "fae379ba6a310c158017f1b99c0ac4f41548eba4dc9f01b13c6b5fe790641ee0",
+      "snapshot": {
+        "examples/base-ui/src/__tests__/features.test.browser.tsx": "88a485d59c1cd16847c9b319b7431d089b44ea975dfec84d8ea46408111f3bd4"
+      },
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
+      "evidence": [
+        "Changed: examples/base-ui/src/__tests__/features.test.browser.tsx at 4346ab7af447e608a055c46fad122ca52ffd7c87"
+      ]
+    },
+    "source:examples/radix-ui/src/__tests__/features.test.browser.tsx": {
+      "fingerprint": "a160b91b2d5d2233eb2f158ff15445a446c3eaab1a7fbd43fc1faf93f444de23",
+      "snapshot": {
+        "examples/radix-ui/src/__tests__/features.test.browser.tsx": "1589300ba786a378a8f4d6a96bcf98a95b26a6badd8c6b0fb2a49957fcd4eb48"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "examples/radix-ui/src/__tests__/features.test.browser.tsx reviewed in this change"
+      ]
+    },
+    "source:packages/base-ui/README.md": {
+      "fingerprint": "04dd9e7a01ad4075087039779e5a3639d956c616ff190143239a6e187998e3f9",
+      "snapshot": {
+        "packages/base-ui/README.md": "d16d809ef5e56b282b4074442fa996acabd35c405260fdb3306e1fdc23098a1d"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "packages/base-ui/README.md reviewed in this change"
+      ]
+    },
+    "source:packages/base-ui/src/index.ts": {
+      "fingerprint": "beb2e882cacc2fa03152faf4a01f538442950b1f6b28e8d813c2467975505a12",
+      "snapshot": {
+        "packages/base-ui/src/index.ts": "0f22a6dada73db015ebb56152121f7c2ee140bb6b8af2ce228549778a33ccb2b"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "packages/base-ui/src/index.ts reviewed in this change"
+      ]
+    },
+    "source:packages/core/src/context/index.test.tsx": {
+      "fingerprint": "8b030df1d41032c869dbb97a0b1e822084ed7e95de78340d94666cbe31dad718",
+      "snapshot": {
+        "packages/core/src/context/index.test.tsx": "ddfe6289acc1b2b1072e923db82c7ec2724d926dbc02dc737c8917ffead10527"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "packages/core/src/context/index.test.tsx reviewed in this change"
+      ]
+    },
+    "source:packages/core/src/context/types.ts": {
+      "fingerprint": "71426987095873745d45affbb7bcf48464a75798fc94613494380778b1311ecb",
+      "snapshot": {
+        "packages/core/src/context/types.ts": "12ae06bb5dc94dd9ec880537284f5705d8e69f345560970f1c347202a7db2750"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "packages/core/src/context/types.ts reviewed in this change"
+      ]
+    },
+    "source:packages/core/src/index.ts": {
+      "fingerprint": "34b29a0c3a3a34d01e02e26c695d931179938a7323d77999c1bfb5aa75d323a5",
+      "snapshot": {
+        "packages/core/src/index.ts": "4e8babb9e0fdd92c52b46389b9c21ca6112ae239ee4c11f57917dff39b8eaa00"
+      },
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
+      "evidence": [
+        "Changed: packages/core/src/index.ts at 4346ab7af447e608a055c46fad122ca52ffd7c87"
+      ]
+    },
+    "source:packages/core/src/store/index.test.ts": {
+      "fingerprint": "0801797ef5e66b3dadd4cd6b2e7ad487ab498bcdb1f21915a7f0ba1920b199f3",
+      "snapshot": {
+        "packages/core/src/store/index.test.ts": "a75e47c5c4106f69615d295b94731ba774fa74a41ae5152acc9613936af6e0f4"
+      },
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
+      "evidence": [
+        "Changed: packages/core/src/store/index.test.ts at 4346ab7af447e608a055c46fad122ca52ffd7c87"
+      ]
+    },
+    "source:packages/core/src/store/types.ts": {
+      "fingerprint": "cd90c0cff344f00b4e2aff7a7177512a0e8d8270de1663eebb1eb27d7307f68b",
+      "snapshot": {
+        "packages/core/src/store/types.ts": "830acf1c3ccd055d5952e136b018ce8397fc99068cd1aa690f591cdc8ed07701"
+      },
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
+      "evidence": [
+        "Changed: packages/core/src/store/types.ts at 4346ab7af447e608a055c46fad122ca52ffd7c87"
+      ]
+    },
+    "source:packages/radix-ui/README.md": {
+      "fingerprint": "de36bcde39f89a7a1e8d4ff719cd0207c2c69911d8970fbe79f324c057f0a8d4",
+      "snapshot": {
+        "packages/radix-ui/README.md": "48fa1d55f1957a6f0992ed2b1c5d4f4d7092b70b2b4bb5d39edc03239f37efc2"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "packages/radix-ui/README.md reviewed in this change"
+      ]
+    },
+    "source:packages/radix-ui/src/index.ts": {
+      "fingerprint": "673d8bdb310798244612ebf1e02bea30bc3ff8e6f8487ec4551b669310d621cc",
+      "snapshot": {
+        "packages/radix-ui/src/index.ts": "5bfa9b5b23ab014e5b9911999537791329c251cafcbb6788662e4d6558b468c5"
+      },
+      "head": "380e25886f9c6b842cf3e64600669d1d4e0e1bb1",
+      "outcome": "no-change",
+      "reason": "Implementation, tests, or user docs for openAsync / ModalRef / useModalContext / exitDuration; the skill updates in this change cover the behavior.",
+      "evidence": [
+        "packages/radix-ui/src/index.ts reviewed in this change"
+      ]
+    },
+    "source:packages/core/src/provider-utils.test.tsx": {
+      "fingerprint": "59a8c459369b4fa95037667574196020ac9c66665cb482309bfec0b8856e3a7e",
+      "snapshot": {
+        "packages/core/src/provider-utils.test.tsx": "c2c0e749ac2763cfa30d187cea318bc1349a977e00b0b5ff02a3d76e9a071e22"
+      },
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
+      "evidence": [
+        "Changed: packages/core/src/provider-utils.test.tsx at 4346ab7af447e608a055c46fad122ca52ffd7c87"
+      ]
+    },
+    "source:packages/core/src/provider-utils.ts": {
+      "fingerprint": "e2c2aa2130bad165913054a33cc2223ad0d17f8cd8dfef9bd80b923a1e12083a",
+      "snapshot": {
+        "packages/core/src/provider-utils.ts": "b01cc69def279729f12929cbb5a980bdcf5b9ef7b4070931fa12ba78f18c664d"
+      },
+      "head": "4346ab7af447e608a055c46fad122ca52ffd7c87",
+      "outcome": "no-change",
+      "reason": "Review fixes only: providers fall back to the close timer after unmounting, a running timer is cancelled when the provider takes over, memo/forwardRef wrappers count as custom, and provider exitDuration no longer restores stale values. Skill guidance on close timing and provider setup is unchanged and still correct.",
+      "evidence": [
+        "Changed: packages/core/src/provider-utils.ts at 4346ab7af447e608a055c46fad122ca52ffd7c87"
       ]
     }
   }

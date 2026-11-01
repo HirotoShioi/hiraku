@@ -53,7 +53,7 @@ return (
 
 ### open(props)
 
-Opens the modal with the given props and tracks it in this hook's state. It does nothing while the modal is open and does not return a promise; use `controller.onDidClose()` to await the result.
+Opens the modal with the given props and tracks it in this hook's state. It does nothing while the modal is open and does not return a promise; to await the result, open with `controller.openAsync()` instead, or call `controller.onDidClose()` after this `open()`.
 
 ```tsx
 const { open } = useModal(myDialog);

@@ -88,8 +88,10 @@ The hook's `open()` does not return a promise. To await the result in the same h
 
 ```tsx
 const handleDelete = async () => {
-  await confirmDialog.open({ title: "Delete Item", message: "Are you sure?" });
-  const result = await confirmDialog.onDidClose();
+  const result = await confirmDialog.openAsync({
+    title: "Delete Item",
+    message: "Are you sure?",
+  });
 
   if (result.role === "confirm") {
     await deleteItem(itemId);
@@ -140,6 +142,36 @@ function Dashboard() {
 }
 ```
 
+## Inside a Modal: useModalContext
+
+`useModal` is for components that open a modal. Inside the modal component itself, use [`useModalContext()`](/docs/api/use-modal-context) to close the modal it is rendered in, without importing its controller:
+
+```tsx
+import { useModalContext } from "@hirotoshioi/hiraku-radix-ui";
+
+function ConfirmDialog({ message }: { message: string }) {
+  const modal = useModalContext<boolean>();
+
+  return (
+    <DialogContent>
+      <p>{message}</p>
+      <Button
+        onClick={() => modal.close({ data: true, role: "confirm" })}
+        disabled={modal.isClosing}
+      >
+        OK
+      </Button>
+    </DialogContent>
+  );
+}
+
+// The same component can back several controllers
+export const deleteConfirm = createDialog(ConfirmDialog).returns<boolean>();
+export const leaveConfirm = createDialog(ConfirmDialog).returns<boolean>();
+```
+
+It returns `{ id, isClosing, close }` and throws when called outside a modal rendered by `ModalProvider`.
+
 ## When to Use the Hook vs Direct Controller
 
 | Use Case                        | Recommendation          |
@@ -149,3 +181,4 @@ function Dashboard() {
 | Opening from utilities/services | Use controller directly |
 | Auto-close on unmount           | Use `useModal` hook     |
 | Opening from event handlers     | Controller is simpler   |
+| Closing from inside the modal   | Use `useModalContext`   |

@@ -136,19 +136,19 @@ export const confirmDialog = createDialog(ConfirmDialog).returns<boolean>();
 import { confirmDialog } from "./modals/confirm-dialog";
 
 async function handleDelete() {
-  // Open the modal and wait for it
-  await confirmDialog.open({
+  // Open the modal and wait for the result
+  const { data, role } = await confirmDialog.openAsync({
     title: "Delete item?",
     message: "This action cannot be undone.",
   });
-
-  const { data, role } = await confirmDialog.onDidClose();
 
   if (role === "confirm" && data) {
     // Perform delete
   }
 }
 ```
+
+`open()` instead returns a reference to the opened modal (`ref.update(props)`, `ref.result`), and `open()` + `onDidClose()` still works. Inside a modal, `useModalContext()` lets the component close itself without importing its controller.
 
 ## Examples
 

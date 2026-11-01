@@ -81,14 +81,15 @@ skills:
             hirotoshioi/hiraku:packages/core/src/factory/types.ts,
             hirotoshioi/hiraku:packages/core/src/store/index.ts,
             hirotoshioi/hiraku:packages/core/src/shared/types.ts,
+            hirotoshioi/hiraku:packages/core/src/context/index.ts,
             hirotoshioi/hiraku:packages/radix-ui/src/provider.tsx,
             hirotoshioi/hiraku:docs/docs/opening-closing.md,
             hirotoshioi/hiraku:docs/docs/return-values.md
           ],
         requires: [ getting-started ],
         purpose: "Create typed hiraku modal controllers and use their promise-based
-          open, close, and onDidClose API to get a typed result and close reason
-          back from a modal."
+          openAsync, open, close, and onDidClose API to get a typed result and
+          close reason back from a modal."
       },
     {
         name: modal-state-in-components,
@@ -140,14 +141,15 @@ skills:
             hirotoshioi/hiraku:packages/core/src/factory/types.ts,
             hirotoshioi/hiraku:packages/core/src/store/index.ts,
             hirotoshioi/hiraku:packages/core/src/shared/types.ts,
+            hirotoshioi/hiraku:packages/core/src/context/index.ts,
             hirotoshioi/hiraku:packages/base-ui/src/provider.tsx,
             hirotoshioi/hiraku:docs/docs/opening-closing.md,
             hirotoshioi/hiraku:docs/docs/return-values.md
           ],
         requires: [ getting-started ],
         purpose: "Create typed hiraku modal controllers and use their promise-based
-          open, close, and onDidClose API to get a typed result and close reason
-          back from a modal."
+          openAsync, open, close, and onDidClose API to get a typed result and
+          close reason back from a modal."
       },
     {
         name: modal-state-in-components,

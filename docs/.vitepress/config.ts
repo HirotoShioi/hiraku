@@ -61,7 +61,13 @@ export default defineConfig({
 						{
 							text: "Hooks",
 							collapsed: true,
-							items: [{ text: "useModal", link: "/docs/api/use-modal" }],
+							items: [
+								{ text: "useModal", link: "/docs/api/use-modal" },
+								{
+									text: "useModalContext",
+									link: "/docs/api/use-modal-context",
+								},
+							],
 						},
 						{
 							text: "Components",

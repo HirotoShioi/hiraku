@@ -52,15 +52,15 @@ export function useModal<TComponent, TResult = unknown>(
 		setResult(null);
 		setIsOpen(true);
 		openedHereRef.current = true;
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(controllerRef.current.open as (...args: any[]) => Promise<void>)(...args);
-
-		// Fetch close result asynchronously (do not await open)
-		void controllerRef.current.onDidClose().then((closeResult) => {
-			openedHereRef.current = false;
-			setResult(closeResult);
-			setIsOpen(false);
-		});
+		// Wait for this modal's own result (do not block the caller)
+		void controllerRef.current
+			.open(...args)
+			.then((ref) => ref.result)
+			.then((closeResult) => {
+				openedHereRef.current = false;
+				setResult(closeResult);
+				setIsOpen(false);
+			});
 	}, []);
 
 	const close = useCallback(

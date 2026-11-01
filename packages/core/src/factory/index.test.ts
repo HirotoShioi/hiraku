@@ -184,6 +184,116 @@ describe("Factory", () => {
 		});
 	});
 
+	describe("open() ref", () => {
+		it("returns a ref whose result resolves with this modal's close result", async () => {
+			const dialog = createDialog(TestComponent).returns<number>();
+
+			const ref = await dialog.open({ title: "Test" });
+			expect(ref.isOpen()).toBe(true);
+
+			await ref.close({ data: 1, role: "confirm" });
+			expect(ref.isOpen()).toBe(false);
+			vi.advanceTimersByTime(300);
+
+			await expect(ref.result).resolves.toEqual({ data: 1, role: "confirm" });
+		});
+
+		it("returns the open modal's ref when already open", async () => {
+			const dialog = createDialog(TestComponent);
+
+			const first = await dialog.open({ title: "First" });
+			const second = await dialog.open({ title: "Second" });
+
+			expect(second).toBe(first);
+			expect(useModalStore.getState().modals).toHaveLength(1);
+		});
+
+		it("update() merges props", async () => {
+			const dialog = createDialog(TestComponent);
+
+			const ref = await dialog.open({ title: "Test", description: "Old" });
+			ref.update({ description: "New" });
+
+			expect(useModalStore.getState().modals[0]?.props).toEqual({
+				title: "Test",
+				description: "New",
+			});
+		});
+
+		it("keeps each ref bound to its own modal after reopening", async () => {
+			const dialog = createDialog(TestComponent).returns<string>();
+
+			const first = await dialog.open({ title: "First" });
+			await first.close({ data: "first" });
+			vi.advanceTimersByTime(100);
+			const second = await dialog.open({ title: "Second" });
+
+			vi.advanceTimersByTime(200);
+			await expect(first.result).resolves.toMatchObject({ data: "first" });
+			expect(second.isOpen()).toBe(true);
+		});
+	});
+
+	describe("openAsync", () => {
+		it("resolves with the result once the modal closes", async () => {
+			const dialog = createDialog(TestComponent).returns<{ value: number }>();
+
+			const resultPromise = dialog.openAsync({ title: "Test" });
+			await vi.waitFor(() => expect(dialog.isOpen()).toBe(true));
+
+			await dialog.close({ data: { value: 42 }, role: "confirm" });
+			vi.advanceTimersByTime(300);
+
+			await expect(resultPromise).resolves.toEqual({
+				data: { value: 42 },
+				role: "confirm",
+			});
+		});
+	});
+
+	describe("exitDuration", () => {
+		afterEach(() => {
+			useModalStore.getState().setExitDuration(300);
+		});
+
+		it("removes the modal after the controller's exitDuration", async () => {
+			const dialog = createDialog(TestComponent, { exitDuration: 50 });
+
+			const ref = await dialog.open({ title: "Test" });
+			await ref.close();
+
+			vi.advanceTimersByTime(49);
+			expect(useModalStore.getState().modals).toHaveLength(1);
+			vi.advanceTimersByTime(1);
+			expect(useModalStore.getState().modals).toHaveLength(0);
+		});
+
+		it("keeps exitDuration after returns()", async () => {
+			const dialog = createDialog(TestComponent, {
+				exitDuration: 50,
+			}).returns<string>();
+
+			const ref = await dialog.open({ title: "Test" });
+			await ref.close();
+			vi.advanceTimersByTime(50);
+
+			expect(useModalStore.getState().modals).toHaveLength(0);
+		});
+
+		it("falls back to the store's exitDuration", async () => {
+			useModalStore.getState().setExitDuration(1000);
+			const dialog = createDialog(TestComponent);
+
+			const ref = await dialog.open({ title: "Test" });
+			await ref.close();
+
+			vi.advanceTimersByTime(999);
+			expect(useModalStore.getState().modals).toHaveLength(1);
+			vi.advanceTimersByTime(1);
+			expect(useModalStore.getState().modals).toHaveLength(0);
+		});
+	});
+
 	describe("edge cases", () => {
 		it("can open again after close", async () => {
 			const dialog = createDialog(TestComponent);

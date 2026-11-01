@@ -6,7 +6,8 @@ Creates a sheet (slide-out panel) modal controller.
 
 ```tsx
 function createSheet<T extends ComponentType<any>>(
-  component: T
+  component: T,
+  options?: ModalOptions
 ): ModalController<T>;
 ```
 
@@ -24,11 +25,20 @@ const mySheet = createSheet(MySheetComponent);
 const mySheet = createSheet(MySheetComponent).returns<ResultType>();
 ```
 
+## With Options
+
+`options` is the same as for [createDialog](/docs/api/create-dialog#with-options):
+
+```tsx
+const mySheet = createSheet(MySheetComponent, { exitDuration: 200 });
+```
+
 ## Controller Methods
 
 Same as [createDialog](/docs/api/create-dialog):
 
-- `open(props)` - Opens the sheet
+- `openAsync(props)` - Opens the sheet and resolves with `{ data, role }` when it closes
+- `open(props)` - Opens the sheet and returns a `ModalRef`
 - `close(result?)` - Closes the sheet
 - `onDidClose()` - Promise that resolves on close
 - `isOpen()` - Check if sheet is open
@@ -83,8 +93,9 @@ function FilterSheet({ categories }: FilterProps) {
 export const filterSheet = createSheet(FilterSheet).returns<string[]>();
 
 // Usage
-await filterSheet.open({ categories: ["Electronics", "Books", "Clothing"] });
-const result = await filterSheet.onDidClose();
+const result = await filterSheet.openAsync({
+  categories: ["Electronics", "Books", "Clothing"],
+});
 
 if (result.data) {
   applyFilters(result.data);
