@@ -36,8 +36,11 @@ export interface ModalState {
 	getTop: () => ModalInstance | undefined;
 	/** Set the default close animation duration in ms */
 	setExitDuration: (ms: number) => void;
-	/** Mark a modal whose close completion is reported by the provider via completeClose */
-	manageExit: (id: string) => void;
+	/**
+	 * Mark (or unmark) a modal whose close completion is reported by the provider via completeClose.
+	 * Marking cancels a close timer that is already running.
+	 */
+	manageExit: (id: string, managed?: boolean) => void;
 	/** Finish closing a modal: resolve its result and remove it from the store */
 	completeClose: (id: string) => void;
 }

@@ -10,6 +10,7 @@ export type {
 export { useModal } from "./hooks";
 export type { UseModalReturn } from "./hooks/types";
 export { modalController } from "./modal-controller";
+export { isBuiltInWrapper, useProviderExitDuration } from "./provider-utils";
 export type {
 	GetComponentProps,
 	ModalResult,

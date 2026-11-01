@@ -5,10 +5,15 @@ import type {
 	ModalWrapperComponent,
 	ModalWrapperType,
 } from "@hirotoshioi/hiraku-core";
-import { ModalContextProvider, useModalStore } from "@hirotoshioi/hiraku-core";
+import {
+	isBuiltInWrapper,
+	ModalContextProvider,
+	useModalStore,
+	useProviderExitDuration,
+} from "@hirotoshioi/hiraku-core";
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 
 /**
  * Resolve a wrapper type to the corresponding Radix UI Root component.
@@ -16,7 +21,7 @@ import { Suspense, useEffect } from "react";
 function getWrapperComponent(
 	wrapper: ModalWrapperType | undefined,
 ): ModalWrapperComponent {
-	if (typeof wrapper === "function") {
+	if (!isBuiltInWrapper(wrapper)) {
 		return wrapper;
 	}
 	switch (wrapper) {
@@ -71,13 +76,7 @@ function ModalItem({ modal }: { modal: ModalInstance }) {
 export function ModalProvider({ exitDuration }: ModalProviderProps = {}) {
 	const modals = useModalStore((state) => state.modals);
 
-	useEffect(() => {
-		if (exitDuration === undefined) return;
-		const { exitDuration: previous, setExitDuration } =
-			useModalStore.getState();
-		setExitDuration(exitDuration);
-		return () => setExitDuration(previous);
-	}, [exitDuration]);
+	useProviderExitDuration(exitDuration);
 
 	return (
 		<>

@@ -3,8 +3,13 @@
 import { AlertDialog } from "@base-ui/react";
 import { Dialog } from "@base-ui/react/dialog";
 import type { ModalInstance } from "@hirotoshioi/hiraku-core";
-import { ModalContextProvider, useModalStore } from "@hirotoshioi/hiraku-core";
-import { Suspense, useEffect } from "react";
+import {
+	isBuiltInWrapper,
+	ModalContextProvider,
+	useModalStore,
+	useProviderExitDuration,
+} from "@hirotoshioi/hiraku-core";
+import { Suspense, useEffect, useState } from "react";
 
 /**
  * Resolve a built-in wrapper type to the corresponding Base UI Root component.
@@ -32,18 +37,26 @@ function ModalItem({ modal }: { modal: ModalInstance }) {
 	const ModalComponent = modal.component;
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const props = modal.props ?? {};
-	const isBuiltIn = typeof modal.wrapper !== "function";
+	const { wrapper } = modal;
+	const isBuiltIn = isBuiltInWrapper(wrapper);
+	// Base UI reports the end of a close only for a Root that was mounted open
+	const [firstRenderedOpen] = useState(modal.open);
 
 	// Built-in Roots report when the close animation ends, so the store skips its timer
 	useEffect(() => {
-		if (!isBuiltIn) return;
-		const store = useModalStore.getState();
-		store.manageExit(modal.id);
+		if (!isBuiltIn || !firstRenderedOpen) return;
+		useModalStore.getState().manageExit(modal.id);
 		return () => {
-			// Unmounted mid-close (e.g. the provider itself unmounted): finish now
-			useModalStore.getState().completeClose(modal.id);
+			const store = useModalStore.getState();
+			if (store.modals.find((m) => m.id === modal.id)?.closing) {
+				// Unmounted mid-close (e.g. the provider itself unmounted): finish now
+				store.completeClose(modal.id);
+			} else {
+				// No one will report the close anymore, so fall back to the timer
+				store.manageExit(modal.id, false);
+			}
 		};
-	}, [modal.id, isBuiltIn]);
+	}, [modal.id, isBuiltIn, firstRenderedOpen]);
 
 	const onOpenChange = (open: boolean) => {
 		if (!open) {
@@ -59,8 +72,8 @@ function ModalItem({ modal }: { modal: ModalInstance }) {
 		</ModalContextProvider>
 	);
 
-	if (typeof modal.wrapper === "function") {
-		const Wrapper = modal.wrapper;
+	if (!isBuiltInWrapper(wrapper)) {
+		const Wrapper = wrapper;
 		return (
 			<Wrapper open={modal.open} onOpenChange={onOpenChange}>
 				{content}
@@ -68,7 +81,7 @@ function ModalItem({ modal }: { modal: ModalInstance }) {
 		);
 	}
 
-	const Root = getRootComponent(modal.wrapper);
+	const Root = getRootComponent(wrapper);
 	return (
 		<Root
 			open={modal.open}
@@ -93,13 +106,7 @@ function ModalItem({ modal }: { modal: ModalInstance }) {
 export function ModalProvider({ exitDuration }: ModalProviderProps = {}) {
 	const modals = useModalStore((state) => state.modals);
 
-	useEffect(() => {
-		if (exitDuration === undefined) return;
-		const { exitDuration: previous, setExitDuration } =
-			useModalStore.getState();
-		setExitDuration(exitDuration);
-		return () => setExitDuration(previous);
-	}, [exitDuration]);
+	useProviderExitDuration(exitDuration);
 
 	return (
 		<>

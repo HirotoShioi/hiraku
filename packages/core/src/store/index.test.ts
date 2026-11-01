@@ -188,6 +188,32 @@ describe("useModalStore", () => {
 			expect(modal.resolveDid).not.toHaveBeenCalled();
 		});
 
+		it("cancels a close timer that started before the modal was marked", async () => {
+			const modal = createMockModalInstance({ open: true });
+			useModalStore.getState().add(modal);
+
+			await useModalStore.getState().close(modal.id);
+			useModalStore.getState().manageExit(modal.id);
+			vi.advanceTimersByTime(10_000);
+
+			expect(useModalStore.getState().modals).toHaveLength(1);
+			useModalStore.getState().completeClose(modal.id);
+			expect(modal.resolveDid).toHaveBeenCalledTimes(1);
+		});
+
+		it("uses the timer again after the mark is removed", async () => {
+			const modal = createMockModalInstance({ open: true });
+			useModalStore.getState().add(modal);
+			useModalStore.getState().manageExit(modal.id);
+			useModalStore.getState().manageExit(modal.id, false);
+
+			await useModalStore.getState().close(modal.id);
+			vi.advanceTimersByTime(300);
+
+			expect(useModalStore.getState().modals).toHaveLength(0);
+			expect(modal.resolveDid).toHaveBeenCalledTimes(1);
+		});
+
 		it("resolves only once when completeClose runs before the timer", async () => {
 			const modal = createMockModalInstance({ open: true });
 			useModalStore.getState().add(modal);

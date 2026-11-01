@@ -130,3 +130,34 @@ describe("close timing (Base UI)", () => {
 		expect(performance.now() - start).toBeGreaterThanOrEqual(450);
 	});
 });
+
+describe("provider lifecycle (Base UI)", () => {
+	beforeEach(() => {
+		useModalStore.setState({ modals: [], exitDuration: 300 });
+	});
+
+	it("still resolves close() after the provider unmounts while the modal is open", async () => {
+		const { unmount } = await render(<ModalProvider />);
+		const dialog = createDialog(SelfClosingDialog).returns<string>();
+		const ref = await dialog.open({ label: "orphan" });
+		await expect.element(page.getByTestId("self-closing")).toBeVisible();
+
+		unmount();
+		await ref.close({ data: "closed", role: "confirm" });
+
+		await expect(ref.result).resolves.toEqual({
+			data: "closed",
+			role: "confirm",
+		});
+		expect(useModalStore.getState().modals).toHaveLength(0);
+	});
+
+	it("resolves a modal closed right after open()", async () => {
+		render(<ModalProvider />);
+		const dialog = createDialog(SlowExitDialog);
+		const ref = await dialog.open();
+		await ref.close();
+
+		await expect(ref.result).resolves.toMatchObject({ role: "dismiss" });
+	});
+});

@@ -10,6 +10,14 @@ const updateModal = (
 
 export const DEFAULT_EXIT_DURATION = 300;
 
+// Pending close timers by modal ID, so a provider can take over or cancel them
+const exitTimers = new Map<string, ReturnType<typeof setTimeout>>();
+
+const clearExitTimer = (id: string) => {
+	clearTimeout(exitTimers.get(id));
+	exitTimers.delete(id);
+};
+
 export const useModalStore = create<ModalState>((set, get) => ({
 	modals: [],
 	exitDuration: DEFAULT_EXIT_DURATION,
@@ -42,9 +50,12 @@ export const useModalStore = create<ModalState>((set, get) => ({
 
 		// Providers that can detect the end of the close animation call completeClose themselves
 		if (!target.exitManaged) {
-			setTimeout(
-				() => get().completeClose(target.id),
-				target.exitDuration ?? get().exitDuration,
+			exitTimers.set(
+				target.id,
+				setTimeout(
+					() => get().completeClose(target.id),
+					target.exitDuration ?? get().exitDuration,
+				),
 			);
 		}
 
@@ -62,15 +73,19 @@ export const useModalStore = create<ModalState>((set, get) => ({
 
 	setExitDuration: (ms) => set({ exitDuration: ms }),
 
-	manageExit: (id) =>
+	manageExit: (id, managed = true) => {
+		// The provider now reports completion, so a timer started earlier must not cut the animation
+		if (managed) clearExitTimer(id);
 		set((s) => ({
-			modals: updateModal(s.modals, id, { exitManaged: true }),
-		})),
+			modals: updateModal(s.modals, id, { exitManaged: managed }),
+		}));
+	},
 
 	completeClose: (id) => {
 		const target = get().modals.find((m) => m.id === id);
 		if (!target?.closing) return;
 
+		clearExitTimer(id);
 		target.resolveDid(target.result ?? { role: "dismiss" });
 		set((s) => ({
 			modals: s.modals.filter((m) => m.id !== id),
